@@ -29,7 +29,7 @@ stylized survival game from a female perspective.
 
 | Feature            | MVP | Future |
 | ------------------ | --- | ------ |
-| Map view           | –   | ✓      |
+| Map view           | ✓  | ✓      |
 | List view          | ✓   | ✓      |
 | City filter        | ✓   | ✓      |
 | Accessibility filter | ✓ | ✓      |
