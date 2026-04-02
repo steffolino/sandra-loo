@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Build output
+.output/
+.nuxt/
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Imported data (run import scripts to populate)
+data/imports/*.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+
+# TypeScript build info
+*.tsbuildinfo
