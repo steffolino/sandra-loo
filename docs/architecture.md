@@ -1,5 +1,8 @@
 # Architecture – Sandra Loo
 
+> 🤖 This document, like the rest of the project, was primarily authored through
+> AI coding agents. It reflects the current state of the MVP implementation.
+
 ## Overview
 
 ```
@@ -38,9 +41,9 @@
 
 - **Pages**: Route-level components under `app/pages/`
 - **Layouts**: `default.vue` wraps all pages with nav + footer
-- **Components**: organized by domain (`toilet/`, `game/`, `ui/`)
+- **Components**: organized by domain (`toilet/`, `game/`); a `ui/` component library is planned
 - **Composables**: `useGame.ts` encapsulates all game state logic
-- **Stores**: Pinia stores for cross-component state (future auth, preferences)
+- **Stores**: Pinia stores are a planned future addition for cross-component state (auth, preferences); not yet implemented in MVP
 
 ### API (`server/api/`)
 
@@ -84,3 +87,40 @@ The app can be deployed as:
 1. **Node.js server**: `npm run build && node .output/server/index.mjs`
 2. **Static site**: `npm run generate` (limited server features)
 3. **Edge / Vercel / Netlify**: Nitro adapters available
+
+---
+
+## Optional Extensions / Upgrade Paths
+
+The architecture is intentionally layered so each concern can be upgraded
+independently:
+
+### Data store
+Replace the JSON-file store in `server/utils/store.ts` with a DB adapter:
+- `getToilets()` → Drizzle ORM query against SQLite or Postgres
+- In-memory arrays for reviews/reports → DB tables with the same schemas
+- Configure the DB path via `DATABASE_PATH` in `.env`
+
+### Authentication
+- Add `@sidebase/nuxt-auth` or `@auth.js/nuxt` as a module
+- Replace `user_id: 'anonymous'` in route handlers with a real session user
+- Enable trust-weighted reviews for verified accounts
+
+### Input validation
+- Replace inline `if (!body.x)` guards with [Zod](https://zod.dev) schemas
+- Place schemas in `shared/types/` alongside TypeScript types for co-location
+
+### Map view
+- Add `nuxt-leaflet` or render Leaflet directly via a Vue component in `app/components/`
+- The `lat` / `lng` fields already exist on every `Toilet` record
+
+### Internationalisation
+- Add `@nuxtjs/i18n` and move all user-visible strings to locale files in `i18n/`
+
+### Component library
+- Create `app/components/ui/` (Button, Card, Badge, etc.) to replace
+  ad-hoc Tailwind class repetition throughout page components
+
+### Scheduled data import
+- Add a GitHub Actions workflow (`.github/workflows/import.yml`) that runs
+  `npm run import:osm` on a cron schedule and commits the resulting JSON
