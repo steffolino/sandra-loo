@@ -2,6 +2,11 @@
 
 **Civic Toilet Finder + Awareness Game** — Nuxt 4 PWA for Germany (MVP)
 
+> 🤖 **This project was primarily built using AI coding agents** (GitHub Copilot Agent).
+> All code, architecture, and documentation were generated and refined through
+> AI-assisted development. Human review and civic-data quality principles are applied
+> throughout.
+
 ---
 
 ## What is Sandra Loo?
@@ -108,15 +113,13 @@ npm test
 │  ├─ assets/css/
 │  ├─ components/
 │  │  ├─ game/
-│  │  ├─ toilet/
-│  │  └─ ui/
+│  │  └─ toilet/
 │  ├─ composables/
 │  ├─ layouts/
-│  ├─ pages/
-│  │  ├─ admin/
-│  │  ├─ game/
-│  │  └─ toilets/
-│  └─ stores/
+│  └─ pages/
+│     ├─ admin/
+│     ├─ game/
+│     └─ toilets/
 ├─ server/                 # API routes (Nitro)
 │  ├─ api/
 │  │  ├─ confirmations/
@@ -170,6 +173,28 @@ npm test
 | `docs/api.md`                     | API reference                  |
 | `docs/import-strategy.md`         | Data import instructions       |
 | `docs/backlog.md`                 | Development backlog            |
+
+---
+
+## Optional Extensions
+
+The project is designed with clear upgrade paths for production use:
+
+| Extension                      | Current (MVP)                           | Upgrade path                                   |
+| ------------------------------ | --------------------------------------- | ---------------------------------------------- |
+| **Database**                   | JSON files in `data/imports/`           | SQLite via Drizzle ORM; then Postgres           |
+| **Auth**                       | Anonymous use                           | Auth.js or Supabase (post-MVP)                  |
+| **Map view**                   | List view only                          | Leaflet + OSM tiles (post-MVP)                  |
+| **Input validation**           | Inline checks in route handlers         | Zod schema validation                           |
+| **Rate limiting**              | None                                    | Nitro rate-limit middleware                     |
+| **Scheduled data import**      | Manual `npm run import:*`               | GitHub Actions scheduled workflow               |
+| **Admin moderation**           | Stub admin pages                        | Full workflow with DB-backed status transitions |
+| **i18n**                       | English only                            | `@nuxtjs/i18n` module                           |
+| **Component library**          | Ad-hoc Tailwind classes                 | Design-token–based `ui/` component set          |
+| **Pinia stores**               | Local component state                   | Shared Pinia stores for auth/preferences        |
+
+See [`docs/backlog.md`](docs/backlog.md) for the full feature backlog and
+[`docs/architecture.md`](docs/architecture.md) for architectural decision rationale.
 
 ---
 
