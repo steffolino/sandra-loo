@@ -1,0 +1,91 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Only one deployment runs at a time; newer runs cancel older ones.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────────────
+  # 1. Import data & build the static site
+  # ─────────────────────────────────────────────────────────────────────────
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ── Data imports ────────────────────────────────────────────────────
+      # OSM import always runs; Leipzig and Frankfurt are best-effort.
+      - name: Import OpenStreetMap data
+        run: npm run import:osm
+        env:
+          CITIES: Leipzig,Frankfurt am Main
+
+      - name: Import Leipzig Open Data
+        run: npm run import:leipzig
+        # Auto-discovers the CSV resource from the CKAN portal.
+        # Set LEIPZIG_RESOURCE_ID as a repository variable if you have a
+        # specific resource ID; otherwise auto-discovery is used.
+        env:
+          LEIPZIG_RESOURCE_ID: ${{ vars.LEIPZIG_RESOURCE_ID }}
+          LEIPZIG_DATASET_ID: offentliche-toiletten-stadt-leipzig1
+        continue-on-error: true
+
+      - name: Import Frankfurt Open Data
+        run: npm run import:frankfurt
+        # Set FRANKFURT_WFS_URL as a repository variable with the GeoJSON
+        # endpoint from https://www.offenedaten.frankfurt.de
+        env:
+          FRANKFURT_WFS_URL: ${{ vars.FRANKFURT_WFS_URL }}
+          FRANKFURT_DATASET_ID: oeffentliche-wc-anlagen
+        continue-on-error: true
+
+      # ── Static generation ────────────────────────────────────────────────
+      - name: Generate static site
+        run: npm run generate
+        env:
+          # Sub-path for GitHub Pages: /<repo-name>/
+          NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
+
+      # ── Upload artifact for Pages deployment ─────────────────────────────
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .output/public
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 2. Deploy the artifact to GitHub Pages
+  # ─────────────────────────────────────────────────────────────────────────
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
