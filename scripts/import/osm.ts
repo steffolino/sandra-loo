@@ -9,7 +9,7 @@
  *
  * Output: data/imports/osm.json
  *
- * Data source: © OpenStreetMap contributors – ODbL license
+ * Data source: OpenStreetMap contributors (ODbL)
  * https://www.openstreetmap.org/copyright
  */
 
@@ -25,7 +25,12 @@ const CITIES = (process.env.CITIES ?? 'Leipzig,Frankfurt am Main')
   .split(',')
   .map(c => c.trim())
 
-const OVERPASS_API = process.env.OVERPASS_API ?? 'https://overpass-api.de/api/interpreter'
+const OVERPASS_APIS = (process.env.OVERPASS_APIS
+  ?? process.env.OVERPASS_API
+  ?? 'https://overpass-api.de/api/interpreter,https://overpass.kumi.systems/api/interpreter')
+  .split(',')
+  .map(url => url.trim())
+  .filter(Boolean)
 
 const OUTPUT_FILE = join(process.cwd(), 'data', 'imports', 'osm.json')
 
@@ -105,26 +110,44 @@ function buildAddress(tags: Record<string, string>): string | null {
 // ---------------------------------------------------------------------------
 
 async function fetchCity(city: string): Promise<Toilet[]> {
-  console.log(`  Fetching OSM toilets for: ${city}…`)
+  console.log(`  Fetching OSM toilets for: ${city}...`)
 
   const query = buildQuery(city)
-  const response = await fetch(OVERPASS_API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `data=${encodeURIComponent(query)}`,
-  })
+  let lastError: unknown
 
-  if (!response.ok) {
-    throw new Error(`Overpass API error: ${response.status} ${response.statusText}`)
+  for (const apiUrl of OVERPASS_APIS) {
+    const host = (() => {
+      try { return new URL(apiUrl).hostname } catch { return apiUrl }
+    })()
+
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `data=${encodeURIComponent(query)}`,
+        })
+
+        if (!response.ok) {
+          throw new Error(`Overpass API error: ${response.status} ${response.statusText}`)
+        }
+
+        const json = (await response.json()) as OverpassResponse
+        const records = json.elements
+          .map(el => normalizeElement(el, city))
+          .filter((t): t is Toilet => t !== null)
+
+        console.log(`  [${host} attempt ${attempt}/2] -> ${records.length} records for ${city}`)
+        return records
+      }
+      catch (err) {
+        lastError = err
+        console.warn(`  [${host} attempt ${attempt}/2] failed: ${err}`)
+      }
+    }
   }
 
-  const json = (await response.json()) as OverpassResponse
-  const records = json.elements
-    .map(el => normalizeElement(el, city))
-    .filter((t): t is Toilet => t !== null)
-
-  console.log(`  → ${records.length} records for ${city}`)
-  return records
+  throw new Error(`All Overpass endpoints failed for ${city}: ${String(lastError)}`)
 }
 
 // ---------------------------------------------------------------------------
@@ -132,9 +155,9 @@ async function fetchCity(city: string): Promise<Toilet[]> {
 // ---------------------------------------------------------------------------
 
 async function main() {
-  console.log('🚻 Sandra Loo – OSM Import')
+  console.log('Sandra Loo - OSM Import')
   console.log(`Cities: ${CITIES.join(', ')}`)
-  console.log(`Overpass API: ${OVERPASS_API}\n`)
+  console.log(`Overpass APIs: ${OVERPASS_APIS.join(', ')}\n`)
 
   const all: Toilet[] = []
   for (const city of CITIES) {
@@ -142,16 +165,16 @@ async function main() {
     all.push(...records)
   }
 
-  // Deduplicate by id
+  // Deduplicate by id.
   const deduped = [...new Map(all.map(t => [t.id, t])).values()]
-  console.log(`\n✅ Total records: ${deduped.length} (after deduplication)`)
+  console.log(`\nTotal records: ${deduped.length} (after deduplication)`)
 
   await mkdir(join(process.cwd(), 'data', 'imports'), { recursive: true })
   await writeFile(OUTPUT_FILE, JSON.stringify(deduped, null, 2), 'utf-8')
-  console.log(`✅ Written to: ${OUTPUT_FILE}`)
+  console.log(`Written to: ${OUTPUT_FILE}`)
 }
 
 main().catch((err) => {
-  console.error('❌ Import failed:', err)
+  console.error('Import failed:', err)
   process.exit(1)
 })

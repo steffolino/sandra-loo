@@ -35,7 +35,7 @@ jobs:
         run: npm ci
 
       # ── Data imports ────────────────────────────────────────────────────
-      # OSM import always runs; Leipzig and Frankfurt are best-effort.
+      # OSM import always runs and provides fallback city coverage.
       - name: Import OpenStreetMap data
         run: npm run import:osm
         env:
@@ -49,7 +49,6 @@ jobs:
         env:
           LEIPZIG_RESOURCE_ID: ${{ vars.LEIPZIG_RESOURCE_ID }}
           LEIPZIG_DATASET_ID: offentliche-toiletten-stadt-leipzig1
-        continue-on-error: true
 
       - name: Import Frankfurt Open Data
         run: npm run import:frankfurt
@@ -59,7 +58,24 @@ jobs:
         env:
           FRANKFURT_WFS_URL: ${{ vars.FRANKFURT_WFS_URL }}
           FRANKFURT_DATASET_ID: oeffentliche-wc-anlagen
-        continue-on-error: true
+
+      - name: Verify Leipzig + Frankfurt imports
+        run: |
+          node <<'NODE'
+          const fs = require('fs')
+          const base = 'data/imports'
+          const read = (file) => JSON.parse(fs.readFileSync(`${base}/${file}`, 'utf8'))
+
+          const leipzig = read('leipzig.json').length
+          const frankfurt = read('frankfurt.json').length
+
+          if (leipzig <= 0 || frankfurt <= 0) {
+            console.error(`Import check failed: leipzig=${leipzig}, frankfurt=${frankfurt}`)
+            process.exit(1)
+          }
+
+          console.log(`Import check passed: leipzig=${leipzig}, frankfurt=${frankfurt}`)
+          NODE
 
       # ── Static generation ────────────────────────────────────────────────
       - name: Generate static site

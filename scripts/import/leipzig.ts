@@ -156,7 +156,7 @@ function parseCsv(text: string): CKANRow[] {
  */
 function normalizeRow(row: CKANRow, index: number): Toilet | null {
   const lat = parseFloat(String(row.lat ?? row.latitude ?? row.y ?? ''))
-  const lng = parseFloat(String(row.lon ?? row.lng ?? row.longitude ?? row.x ?? ''))
+  const lng = parseFloat(String(row.lon ?? row.lng ?? row.long ?? row.longitude ?? row.x ?? ''))
 
   if (Number.isNaN(lat) || Number.isNaN(lng)) {
     console.warn(`  Skipping row ${index}: missing coordinates`)
@@ -167,7 +167,7 @@ function normalizeRow(row: CKANRow, index: number): Toilet | null {
 
   return {
     id: `leipzig-${row._id ?? index}`,
-    name: String(row.name ?? row.bezeichnung ?? row.Name ?? 'Öffentliche Toilette'),
+    name: String(row.name ?? row.bezeichnung ?? row.ort ?? row.Name ?? 'Öffentliche Toilette'),
     type: 'public',
     address: buildAddress(row),
     city: CITY,
@@ -175,10 +175,10 @@ function normalizeRow(row: CKANRow, index: number): Toilet | null {
     lng,
     source: `${BASE_URL}/datastore_search?resource_id=${RESOURCE_ID || '(auto)'}&filters={"_id":${row._id ?? index}}`,
     source_name: 'Leipzig Open Data',
-    is_accessible: Boolean(row.rollstuhl ?? row.wheelchair ?? row.barrierefrei ?? false),
-    is_free: !(row.gebuehrenpflichtig ?? row.kostenpflichtig ?? false),
+    is_accessible: parseLeipzigAccessibility(row),
+    is_free: parseLeipzigIsFree(row),
     opening_hours: String(row.oeffnungszeiten ?? row.opening_hours ?? '') || null,
-    notes: String(row.hinweise ?? row.notes ?? '') || null,
+    notes: String(row.hinweise ?? row.notes ?? row.ausstattung ?? '') || null,
     created_at: now,
     last_updated_at: now,
   }
@@ -186,7 +186,7 @@ function normalizeRow(row: CKANRow, index: number): Toilet | null {
 
 function buildAddress(row: CKANRow): string | null {
   const parts: string[] = []
-  const street = row.strasse ?? row.street ?? row.adresse ?? row.Strasse
+  const street = row.strasse ?? row.street ?? row.adresse ?? row.Strasse ?? row.ort
   const number = row.hausnummer ?? row.house_number
   if (street) {
     parts.push(number ? `${street} ${number}` : String(street))
@@ -195,6 +195,39 @@ function buildAddress(row: CKANRow): string | null {
   if (postcode) parts.push(String(postcode))
   parts.push(CITY)
   return parts.join(', ')
+}
+
+function asText(value: unknown): string {
+  return String(value ?? '').trim().toLowerCase()
+}
+
+function parseLeipzigAccessibility(row: CKANRow): boolean {
+  const direct = row.rollstuhl ?? row.wheelchair ?? row.barrierefrei
+  if (direct !== undefined && direct !== null && String(direct).trim() !== '') {
+    const value = asText(direct)
+    return value === 'true'
+      || value === '1'
+      || value === 'ja'
+      || value === 'yes'
+      || value === 'barrierefrei'
+      || value === 'barrierearm'
+  }
+
+  const equipment = asText(row.ausstattung)
+  return equipment.includes('barrierefrei') || equipment.includes('barrierearm')
+}
+
+function parseLeipzigIsFree(row: CKANRow): boolean {
+  const feeRaw = row.entgelt ?? row.gebuehrenpflichtig ?? row.kostenpflichtig
+  const fee = asText(feeRaw)
+
+  if (!fee) return true
+  if (fee.includes('kostenfrei') || fee.includes('free')) return true
+  if (fee === 'false' || fee === '0' || fee === 'nein' || fee === 'no') return true
+  if (fee.includes('cent') || fee.includes('euro') || fee.includes('kostenpflichtig')) return false
+  if (fee === 'true' || fee === '1' || fee === 'ja' || fee === 'yes') return false
+
+  return true
 }
 
 // ---------------------------------------------------------------------------
@@ -377,3 +410,5 @@ main().catch((err) => {
   console.error('❌ Import failed:', err)
   process.exit(1)
 })
+
+
