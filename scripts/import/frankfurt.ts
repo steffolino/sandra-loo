@@ -3,18 +3,23 @@
  * Import public toilet data from Frankfurt am Main Open Data portal.
  *
  * Data source: Frankfurt am Main Open Data – dl-de/by-2-0
- * https://www.offenedaten.frankfurt.de
+ * https://offenedaten.frankfurt.de
  *
  * Dataset: "Öffentliche Toiletten Frankfurt am Main"
- * Dataset page: https://www.offenedaten.frankfurt.de/dataset/oeffentliche-wc-anlagen
+ * Dataset page: https://offenedaten.frankfurt.de
  *
- * Discovery: if FRANKFURT_WFS_URL is not set the script calls the DKAN /api/3
- * (CKAN-compatible) package_show endpoint to locate the first GeoJSON or CSV
- * resource automatically.  Set FRANKFURT_DATASET_ID to override the dataset
- * slug used for discovery.
+ * The Frankfurt portal (offenedaten.frankfurt.de) is a custom InformationPortal
+ * application (not CKAN/DKAN). It exposes a REST API at /service/ but the
+ * search backend (/service/app/search/all) may be temporarily unavailable.
+ *
+ * Automatic import: set FRANKFURT_WFS_URL to a direct GeoJSON, WFS, or CSV
+ * download URL and the script will fetch and parse it automatically.
+ *
+ * To find the download URL: browse https://offenedaten.frankfurt.de, search
+ * for "öffentliche Toiletten" and copy the direct file download link.
  *
  * Usage:
- *   npm run import:frankfurt
+ *   FRANKFURT_WFS_URL=https://... npm run import:frankfurt
  *
  * Output: data/imports/frankfurt.json
  */
@@ -28,9 +33,11 @@ import type { Toilet } from '../../shared/types/index'
 // ---------------------------------------------------------------------------
 
 // GeoJSON or WFS URL for Frankfurt public toilets.
-// Leave unset to auto-discover via the DKAN/CKAN package_show endpoint.
+// Set this env var to a direct download URL to enable the Frankfurt import.
+// Find the download URL at: https://offenedaten.frankfurt.de (search for Toiletten)
 const WFS_URL = process.env.FRANKFURT_WFS_URL ?? ''
-const BASE_URL = process.env.FRANKFURT_API_URL ?? 'https://www.offenedaten.frankfurt.de/api/3/action'
+// InformationPortal REST API base (no trailing slash, no /api/3/action suffix)
+const PORTAL_BASE = process.env.FRANKFURT_API_URL ?? 'https://offenedaten.frankfurt.de'
 const DATASET_ID = process.env.FRANKFURT_DATASET_ID ?? 'oeffentliche-wc-anlagen'
 const OUTPUT_FILE = join(process.cwd(), 'data', 'imports', 'frankfurt.json')
 const CITY = 'Frankfurt am Main'
@@ -57,7 +64,7 @@ interface GeoJSONCollection {
 }
 
 // ---------------------------------------------------------------------------
-// DKAN/CKAN discovery types
+// InformationPortal discovery types
 // ---------------------------------------------------------------------------
 
 interface DKANResource {
@@ -65,13 +72,6 @@ interface DKANResource {
   url: string
   format: string
   datastore_active?: boolean
-}
-
-interface DKANPackageResponse {
-  success?: boolean
-  result?: {
-    resources?: DKANResource[]
-  }
 }
 
 // ---------------------------------------------------------------------------
@@ -164,7 +164,7 @@ function normalizeFeature(feature: GeoJSONFeature, index: number): Toilet | null
     city: CITY,
     lat,
     lng,
-    source: WFS_URL || `${BASE_URL}/package_show?id=${DATASET_ID}`,
+    source: WFS_URL || `${PORTAL_BASE}/dataset/${DATASET_ID}`,
     source_name: 'Frankfurt am Main Open Data',
     is_accessible: Boolean(props.rollstuhl ?? props.wheelchair ?? props.barrierefrei ?? false),
     is_free: !(props.kostenpflichtig ?? props.gebuehr ?? false),
@@ -187,45 +187,73 @@ function buildAddress(props: Record<string, unknown>): string | null {
 }
 
 // ---------------------------------------------------------------------------
-// Auto-discovery via DKAN/CKAN package_show
+// Auto-discovery via the InformationPortal REST search API
 // ---------------------------------------------------------------------------
 
+/**
+ * Try to find the Frankfurt toilet dataset via the InformationPortal REST API.
+ * The portal exposes a search endpoint at /service/app/search/all (POST).
+ * If the search backend is unavailable (HTTP 500) the function returns null.
+ */
 async function discoverResource(): Promise<DKANResource | null> {
-  const url = `${BASE_URL}/package_show?id=${encodeURIComponent(DATASET_ID)}`
-  console.log(`  Discovering dataset resources from: ${url}`)
+  const searchUrl = `${PORTAL_BASE}/service/app/search/all`
+  console.log(`  Querying InformationPortal search at: ${searchUrl}`)
 
   let response: Response
   try {
-    response = await fetch(url)
+    response = await fetch(searchUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        textSearch: 'Toiletten',
+        pagingStart: 0,
+        numOfResults: 30,
+      }),
+    })
   }
   catch (err) {
-    console.warn(`  Could not reach Frankfurt Open Data portal: ${err}`)
+    console.warn(`  Could not reach Frankfurt portal: ${err}`)
     return null
   }
 
   if (!response.ok) {
-    console.warn(`  package_show returned ${response.status} – skipping auto-discovery`)
+    console.warn(`  InformationPortal search returned HTTP ${response.status} – auto-discovery unavailable`)
     return null
   }
 
-  const json = (await response.json()) as DKANPackageResponse
-  const resources = json.result?.resources
-  if (!Array.isArray(resources)) {
-    console.warn('  Unexpected package_show response shape')
+  // The InformationPortal returns a custom JSON structure, not CKAN/DKAN.
+  // Parse each result entry to locate a GeoJSON or CSV resource URL.
+  let results: unknown
+  try {
+    results = await response.json()
+  }
+  catch {
+    console.warn('  Could not parse search response JSON')
     return null
   }
 
-  // Prefer GeoJSON, then JSON, then CSV
-  const formats = ['GEOJSON', 'JSON', 'CSV']
-  for (const fmt of formats) {
-    const r = resources.find(res => res.format?.toUpperCase() === fmt)
-    if (r) {
-      console.log(`  Found ${fmt} resource: ${r.id} → ${r.url}`)
-      return r
+  // Walk the result tree looking for a download link for the WC dataset.
+  // Entries typically have a 'dcat_download' or 'url' field.
+  const entries = Array.isArray(results)
+    ? results
+    : (results as Record<string, unknown[]>)?.results ?? []
+
+  for (const entry of entries as Record<string, unknown>[]) {
+    const title = String(entry.title ?? entry.ergebnis_bezeichnung ?? '').toLowerCase()
+    if (!title.includes('toilet') && !title.includes('wc')) continue
+
+    const downloads = (entry.downloads ?? entry.dcat_files_and_resources ?? []) as Array<Record<string, string>>
+    for (const dl of downloads) {
+      const fmt = (dl.format ?? dl.type ?? '').toUpperCase()
+      const dlUrl = dl.url ?? dl.link ?? ''
+      if (dlUrl && (fmt === 'GEOJSON' || fmt === 'JSON' || fmt === 'CSV')) {
+        console.log(`  Found ${fmt} download: ${dlUrl}`)
+        return { id: String(entry.id ?? 'frankfurt'), url: dlUrl, format: fmt, datastore_active: false }
+      }
     }
   }
 
-  console.warn('  No usable GeoJSON, JSON or CSV resource found in package')
+  console.warn('  No GeoJSON/CSV resource found in search results')
   return null
 }
 
@@ -268,9 +296,11 @@ async function fetchAll(): Promise<Toilet[]> {
   if (!targetUrl) {
     const resource = await discoverResource()
     if (!resource) {
-      console.warn('⚠️  FRANKFURT_WFS_URL is not set and auto-discovery failed.')
-      console.warn('   Find the dataset at: https://www.offenedaten.frankfurt.de')
-      console.warn('   Set the FRANKFURT_WFS_URL env var and re-run: npm run import:frankfurt')
+      console.warn('⚠️  Frankfurt toilet data could not be fetched automatically.')
+      console.warn('   The Frankfurt portal (offenedaten.frankfurt.de) uses a custom')
+      console.warn('   InformationPortal system. If auto-discovery fails, set the')
+      console.warn('   FRANKFURT_WFS_URL env var to a direct GeoJSON/CSV download URL.')
+      console.warn(`   Browse https://${PORTAL_BASE.replace('https://', '')} and search for "Toiletten" to find it.`)
       return []
     }
     targetUrl = resource.url
@@ -293,7 +323,7 @@ async function fetchAll(): Promise<Toilet[]> {
 
 async function main() {
   console.log('🚻 Sandra Loo – Frankfurt am Main Open Data Import')
-  console.log(`URL: ${WFS_URL || '(auto-discover)'}`)
+  console.log(`Portal: ${PORTAL_BASE}`)
   console.log(`Dataset: ${DATASET_ID}\n`)
 
   const records = await fetchAll()

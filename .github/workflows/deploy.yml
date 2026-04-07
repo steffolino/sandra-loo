@@ -53,8 +53,9 @@ jobs:
 
       - name: Import Frankfurt Open Data
         run: npm run import:frankfurt
-        # Set FRANKFURT_WFS_URL as a repository variable with the GeoJSON
-        # endpoint from https://www.offenedaten.frankfurt.de
+        # Frankfurt uses a custom InformationPortal (not CKAN).
+        # Set FRANKFURT_WFS_URL as a repository variable with a direct GeoJSON/CSV URL
+        # from https://offenedaten.frankfurt.de (search for "Toiletten").
         env:
           FRANKFURT_WFS_URL: ${{ vars.FRANKFURT_WFS_URL }}
           FRANKFURT_DATASET_ID: oeffentliche-wc-anlagen
