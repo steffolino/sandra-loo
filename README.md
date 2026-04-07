@@ -184,7 +184,8 @@ The project is designed with clear upgrade paths for production use:
 | ------------------------------ | --------------------------------------- | ---------------------------------------------- |
 | **Database**                   | JSON files in `data/imports/`           | SQLite via Drizzle ORM; then Postgres           |
 | **Auth**                       | Anonymous use                           | Auth.js or Supabase (post-MVP)                  |
-| **Map view**                   | List view only                          | Leaflet + OSM tiles (post-MVP)                  |
+| **Map view**                   | Required in MVP (map-first UX)          | Marker clustering + advanced layers             |
+| **Navigation UX**              | Required in MVP (nearest + route guide) | Turn-by-turn and accessibility-aware routing    |
 | **Input validation**           | Inline checks in route handlers         | Zod schema validation                           |
 | **Rate limiting**              | None                                    | Nitro rate-limit middleware                     |
 | **Scheduled data import**      | Manual `npm run import:*`               | GitHub Actions scheduled workflow               |
@@ -209,3 +210,18 @@ MIT — see [LICENSE](LICENSE)
 - Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright) – ODbL
 - Leipzig data: [Leipzig Open Data](https://opendata.leipzig.de) – CC BY 4.0
 - Frankfurt data: [Frankfurt am Main Open Data](https://offenedaten.frankfurt.de) – dl-de/by-2-0
+---
+
+## Deployment Notes (GitHub Pages)
+
+- This project is deployed as a static site on GitHub Pages via GitHub Actions.
+- GitHub Pages does not run a live Nuxt server, so API routes must be prerendered during `npm run generate`.
+- Required behavior for releases:
+  - No `/api/toilets` or `/api/toilets/:id` 404 on production Pages.
+  - No fallback to Nuxt default placeholder view.
+  - Imported city data must be present before static generation.
+
+## MVP UX Requirement
+
+- MVP must include a proper map-first toilet discovery experience and basic navigation support.
+- List view is a secondary fallback, not the primary/final MVP experience.

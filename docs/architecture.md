@@ -110,8 +110,9 @@ Replace the JSON-file store in `server/utils/store.ts` with a DB adapter:
 - Replace inline `if (!body.x)` guards with [Zod](https://zod.dev) schemas
 - Place schemas in `shared/types/` alongside TypeScript types for co-location
 
-### Map view
-- Add `nuxt-leaflet` or render Leaflet directly via a Vue component in `app/components/`
+### Map enhancements
+- Refine marker rendering, popups, and map/list synchronization for better mobile UX
+- Add clustering and proximity interactions while keeping static-hosting compatibility
 - The `lat` / `lng` fields already exist on every `Toilet` record
 
 ### Internationalisation
