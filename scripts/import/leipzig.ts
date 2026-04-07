@@ -306,7 +306,8 @@ async function fetchAllFromCsv(csvUrl: string): Promise<Toilet[]> {
   }
   catch (err) {
     console.warn(`  Could not reach CSV server: ${err}`)
-    console.warn(`  Leipzig CSV is hosted at ${new URL(csvUrl).hostname}.`)
+    const host = (() => { try { return new URL(csvUrl).hostname } catch { return csvUrl } })()
+    console.warn(`  Leipzig CSV is hosted at ${host}.`)
     console.warn('  The import will be skipped this run; the site will show no Leipzig data.')
     return []
   }

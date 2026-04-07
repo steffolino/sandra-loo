@@ -300,7 +300,7 @@ async function fetchAll(): Promise<Toilet[]> {
       console.warn('   The Frankfurt portal (offenedaten.frankfurt.de) uses a custom')
       console.warn('   InformationPortal system. If auto-discovery fails, set the')
       console.warn('   FRANKFURT_WFS_URL env var to a direct GeoJSON/CSV download URL.')
-      console.warn(`   Browse https://${PORTAL_BASE.replace('https://', '')} and search for "Toiletten" to find it.`)
+      console.warn(`   Browse ${PORTAL_BASE} and search for "Toiletten" to find it.`)
       return []
     }
     targetUrl = resource.url
