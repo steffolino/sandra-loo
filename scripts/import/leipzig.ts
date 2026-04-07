@@ -258,14 +258,24 @@ async function fetchAllFromDatastore(resourceId: string): Promise<Toilet[]> {
     const url = `${BASE_URL}/datastore_search?resource_id=${resourceId}&limit=${limit}&offset=${offset}`
     console.log(`  Fetching ${url}…`)
 
-    const response = await fetch(url)
+    let response: Response
+    try {
+      response = await fetch(url)
+    }
+    catch (err) {
+      console.warn(`  Could not reach Leipzig datastore: ${err}`)
+      return all
+    }
+
     if (!response.ok) {
-      throw new Error(`Leipzig API error: ${response.status} ${response.statusText}`)
+      console.warn(`  Leipzig datastore API returned HTTP ${response.status} – stopping pagination`)
+      return all
     }
 
     const json = (await response.json()) as CKANResponse
     if (!json.success || !json.result?.records) {
-      throw new Error('Unexpected API response shape')
+      console.warn('  Unexpected datastore response shape – stopping pagination')
+      return all
     }
 
     const records = json.result.records
@@ -290,9 +300,20 @@ async function fetchAllFromDatastore(resourceId: string): Promise<Toilet[]> {
 
 async function fetchAllFromCsv(csvUrl: string): Promise<Toilet[]> {
   console.log(`  Downloading CSV from: ${csvUrl}…`)
-  const response = await fetch(csvUrl)
+  let response: Response
+  try {
+    response = await fetch(csvUrl)
+  }
+  catch (err) {
+    console.warn(`  Could not reach CSV server: ${err}`)
+    console.warn(`  Leipzig CSV is hosted at ${new URL(csvUrl).hostname}.`)
+    console.warn('  The import will be skipped this run; the site will show no Leipzig data.')
+    return []
+  }
+
   if (!response.ok) {
-    throw new Error(`CSV download error: ${response.status} ${response.statusText}`)
+    console.warn(`  CSV download returned HTTP ${response.status} – skipping import`)
+    return []
   }
 
   const text = await response.text()
