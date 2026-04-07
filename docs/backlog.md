@@ -1,4 +1,13 @@
-# Backlog – Sandra Loo
+# Backlog - Sandra Loo
+
+## P0 Stability / Release Blockers
+
+- [ ] Ensure local setup is reproducible on a clean machine (`npm ci`, imports, `npm run dev`, `npm run generate`).
+- [ ] Eliminate GitHub Pages API 404s by prerendering all required read endpoints for static hosting.
+- [ ] Add a deployment smoke check to verify toilet data loads on Pages after each release.
+- [ ] Prevent fallback to Nuxt default placeholder view on production Pages deployment.
+- [ ] Ship map-first toilet discovery in MVP (list-only is not acceptable as final MVP UX).
+- [ ] Ship basic navigation support (nearest toilet and route guidance link-out/in-app path).
 
 ## Data
 
@@ -11,7 +20,7 @@
 
 ## Mapping
 
-- [ ] Implement map view (Leaflet + OpenStreetMap tiles)
+- [ ] Refine map UX (marker interaction, details-on-map, mobile ergonomics)
 - [ ] Cluster markers for dense areas
 - [ ] "Near me" proximity search using device geolocation
 - [ ] Offline map tile caching (PWA)
