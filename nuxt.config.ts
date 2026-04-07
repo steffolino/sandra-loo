@@ -1,10 +1,19 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+// Allow GitHub Pages (or any sub-path deployment) via NUXT_APP_BASE_URL.
+// e.g.  NUXT_APP_BASE_URL=/sandra-loo/  npm run generate
+const baseURL = process.env.NUXT_APP_BASE_URL || '/'
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   future: {
     compatibilityVersion: 4,
   },
   devtools: { enabled: true },
+
+  app: {
+    baseURL,
+  },
 
   modules: [
     '@nuxtjs/tailwindcss',
@@ -23,6 +32,14 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    // Pre-render the app shell and all crawled links for static hosting.
+    prerender: {
+      crawlLinks: true,
+      routes: ['/'],
+    },
+  },
+
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
@@ -33,8 +50,8 @@ export default defineNuxtConfig({
       background_color: '#ffffff',
       display: 'standalone',
       orientation: 'portrait',
-      scope: '/',
-      start_url: '/',
+      scope: baseURL,
+      start_url: baseURL,
       icons: [
         {
           src: 'icons/icon-192.png',
