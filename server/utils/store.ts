@@ -76,6 +76,10 @@ export function getReviewsForToilet(toiletId: string): Review[] {
   return reviews.filter(r => r.toilet_id === toiletId)
 }
 
+export function getAllReviews(): Review[] {
+  return [...reviews]
+}
+
 // --- Reports ---
 
 export function addReport(report: Report) {

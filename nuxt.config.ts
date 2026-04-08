@@ -25,8 +25,8 @@ function getPrerenderApiRoutes(): string[] {
     }
   }
 
-  const detailRoutes = [...ids].map(id => `/api/toilets/${encodeURIComponent(id)}`)
-  return ['/api/toilets', ...detailRoutes]
+  const detailRoutes = [...ids].map(id => `/api/toilets/${encodeURIComponent(id)}/`)
+  return ['/api/toilets/', ...detailRoutes]
 }
 
 const prerenderApiRoutes = getPrerenderApiRoutes()
@@ -62,6 +62,7 @@ export default defineNuxtConfig({
   nitro: {
     // Pre-render the app shell and all crawled links for static hosting.
     prerender: {
+      autoSubfolderIndex: true,
       crawlLinks: true,
       routes: ['/', ...prerenderApiRoutes],
     },

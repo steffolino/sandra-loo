@@ -33,6 +33,14 @@ export interface Toilet {
   last_updated_at: string
 }
 
+export interface ToiletListItem extends Toilet {
+  avg_rating: number | null
+  review_count: number
+  report_count: number
+  has_reports: boolean
+  distance_km?: number
+}
+
 export interface Review {
   id: string
   toilet_id: string
@@ -157,6 +165,9 @@ export interface ToiletFilters {
   is_accessible?: boolean
   is_free?: boolean
   type?: ToiletType
+  reported?: boolean
+  min_rating?: number
+  sort?: 'nearest' | 'rating' | 'updated'
   lat?: number
   lng?: number
   radius?: number
