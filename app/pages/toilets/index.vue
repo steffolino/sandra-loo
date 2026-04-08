@@ -449,6 +449,7 @@ type ReportedFilter = 'any' | 'true' | 'false'
 
 const route = useRoute()
 const router = useRouter()
+const runtimeConfig = useRuntimeConfig()
 
 const toiletTypes: ToiletType[] = ['public', 'cafe', 'restaurant', 'shopping_mall', 'park', 'petrol_station', 'other']
 
@@ -489,12 +490,73 @@ const queryParams = computed(() => {
   return p
 })
 
-const { data, pending, error, refresh } = await useFetch<ToiletsResponse>('/api/toilets', {
-  query: queryParams,
+const useStaticApiMode = computed(() => runtimeConfig.app.baseURL !== '/')
+const requestQuery = computed<Record<string, string> | undefined>(() => (
+  useStaticApiMode.value ? undefined : queryParams.value
+))
+const toiletsApiPath = computed(() => (
+  useStaticApiMode.value ? '/api/toilets/index' : '/api/toilets'
+))
+
+const { data, pending, error, refresh } = await useFetch<ToiletsResponse>(toiletsApiPath, {
+  query: requestQuery,
+  server: !useStaticApiMode.value,
   watch: false,
 })
 
-const toilets = computed(() => data.value?.data ?? [])
+const apiToilets = computed(() => data.value?.data ?? [])
+const toilets = computed(() => {
+  if (!useStaticApiMode.value) {
+    return apiToilets.value
+  }
+
+  let list = apiToilets.value.map((toilet) => {
+    const distance = userLocation.value
+      ? haversineKm(userLocation.value.lat, userLocation.value.lng, toilet.lat, toilet.lng)
+      : undefined
+
+    return {
+      ...toilet,
+      distance_km: distance !== undefined ? Number(distance.toFixed(2)) : toilet.distance_km,
+    }
+  })
+
+  if (filters.value.city) {
+    const city = filters.value.city.toLowerCase()
+    list = list.filter(t => t.city.toLowerCase() === city)
+  }
+  if (filters.value.type) {
+    list = list.filter(t => t.type === filters.value.type)
+  }
+  if (filters.value.is_free) {
+    list = list.filter(t => t.is_free)
+  }
+  if (filters.value.is_accessible) {
+    list = list.filter(t => t.is_accessible)
+  }
+  if (filters.value.reported !== 'any') {
+    const wantReported = filters.value.reported === 'true'
+    list = list.filter(t => t.has_reports === wantReported)
+  }
+  if (filters.value.min_rating > 0) {
+    list = list.filter(t => (t.avg_rating ?? 0) >= filters.value.min_rating)
+  }
+  if (filters.value.radius > 0 && userLocation.value) {
+    list = list.filter(t => (t.distance_km ?? Number.POSITIVE_INFINITY) <= filters.value.radius)
+  }
+
+  if (filters.value.sort === 'nearest' && userLocation.value) {
+    list = list.sort((a, b) => (a.distance_km ?? Number.POSITIVE_INFINITY) - (b.distance_km ?? Number.POSITIVE_INFINITY))
+  }
+  else if (filters.value.sort === 'rating') {
+    list = list.sort((a, b) => (b.avg_rating ?? -1) - (a.avg_rating ?? -1))
+  }
+  else {
+    list = list.sort((a, b) => Date.parse(b.last_updated_at) - Date.parse(a.last_updated_at))
+  }
+
+  return list
+})
 const viewMode = ref<'map' | 'list'>('map')
 const isMobile = ref(false)
 const showFilters = ref(false)
@@ -661,7 +723,9 @@ function renderUserLocationMarker() {
 
 function applyFilters() {
   router.replace({ query: buildRouteQuery() })
-  refresh()
+  if (!useStaticApiMode.value) {
+    refresh()
+  }
   if (isMobile.value) {
     showFilters.value = false
   }
@@ -679,7 +743,9 @@ function resetFilters() {
     sort: userLocation.value ? 'nearest' : 'updated',
   }
   router.replace({ query: buildRouteQuery() })
-  refresh()
+  if (!useStaticApiMode.value) {
+    refresh()
+  }
 }
 
 function buildRouteQuery(): Record<string, string | undefined> {
@@ -728,7 +794,9 @@ async function locateUser() {
     }
 
     router.replace({ query: buildRouteQuery() })
-    await refresh()
+    if (!useStaticApiMode.value) {
+      await refresh()
+    }
   }
   catch {
     locationError.value = 'Could not access your location. Please allow location permission and try again.'
@@ -848,5 +916,24 @@ function formatDistance(km: number): string {
     return `${Math.round(km * 1000)} m`
   }
   return `${km.toFixed(1)} km`
+}
+
+function haversineKm(
+  lat1: number,
+  lng1: number,
+  lat2: number,
+  lng2: number,
+): number {
+  const R = 6371
+  const dLat = toRad(lat2 - lat1)
+  const dLng = toRad(lng2 - lng1)
+  const a
+    = Math.sin(dLat / 2) ** 2
+    + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+function toRad(deg: number): number {
+  return (deg * Math.PI) / 180
 }
 </script>
