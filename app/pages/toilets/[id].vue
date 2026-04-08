@@ -155,10 +155,16 @@ type ToiletDetail = Toilet & {
 
 const route = useRoute()
 const id = route.params.id as string
+const runtimeConfig = useRuntimeConfig()
+const useStaticApiMode = runtimeConfig.app.baseURL !== '/'
 
-const { data, pending, refresh } = await useFetch<{ data: ToiletDetail }>(
-  `/api/toilets/${id}`,
-)
+const endpoint = useStaticApiMode
+  ? `/api/toilets/${id}/index`
+  : `/api/toilets/${id}`
+
+const { data, pending, refresh } = await useFetch<{ data: ToiletDetail }>(endpoint, {
+  server: !useStaticApiMode,
+})
 
 const toilet = computed(() => data.value?.data ?? null)
 
