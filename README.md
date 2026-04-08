@@ -137,7 +137,7 @@ npm test
 │     ├─ leipzig.ts
 │     └─ frankfurt.ts
 ├─ data/
-│  └─ imports/             # Imported JSON data (gitignored)
+│  └─ imports/             # Imported JSON data snapshots (committed for Pages deploy)
 ├─ docs/                   # Documentation
 ├─ .github/                # Issue templates, PR template
 ├─ public/                 # Static assets
@@ -232,4 +232,24 @@ MIT — see [LICENSE](LICENSE)
 - Mobile/desktop filters disable options with no matching data in the current dataset context.
 - Empty states distinguish between `no imported data` and `no results for current filters`.
 - Canonical app links use `/toilets/` to avoid extra redirect hops on Pages.
+
+## Next Steps (Highest User Value)
+
+1. Add a "trust layer" per toilet:
+   - data freshness label
+   - recent confirmation count
+   - source confidence score
+2. Add deduplication across OSM + city imports:
+   - merge overlapping records into one canonical toilet entry
+   - prevent duplicate markers and confusing reviews
+3. Add a post-deploy smoke test:
+   - verify `/toilets/` loads
+   - verify `/api/toilets/index` is non-empty
+   - fail deployment automatically if data is broken
+4. Improve nearest-toilet speed and reliability:
+   - lightweight marker clustering for dense zones
+   - precomputed nearest subsets for mobile performance
+5. Add basic reliability protections:
+   - POST endpoint rate limiting
+   - abuse throttling for reports/reviews
 
