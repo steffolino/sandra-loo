@@ -164,6 +164,12 @@ const endpoint = useStaticApiMode
 
 const { data, pending, refresh } = await useFetch<{ data: ToiletDetail }>(endpoint, {
   server: !useStaticApiMode,
+  transform: (input: { data: ToiletDetail } | string) => {
+    if (typeof input === 'string') {
+      return JSON.parse(input) as { data: ToiletDetail }
+    }
+    return input
+  },
 })
 
 const toilet = computed(() => data.value?.data ?? null)
