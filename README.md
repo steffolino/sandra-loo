@@ -216,6 +216,7 @@ MIT — see [LICENSE](LICENSE)
 
 - This project is deployed as a static site on GitHub Pages via GitHub Actions.
 - Deployment is handled by `.github/workflows/deploy.yml`.
+- CI currently uses `npm install` in the deploy workflow to avoid lockfile strictness failures during Pages builds.
 - GitHub Pages does not run a live Nuxt server, so API routes must be prerendered during `npm run generate`.
 - Required behavior for releases:
   - No `/api/toilets` or `/api/toilets/:id` 404 on production Pages.
@@ -228,4 +229,7 @@ MIT — see [LICENSE](LICENSE)
 - MVP must include a proper map-first toilet discovery experience and basic navigation support.
 - List view is a secondary fallback, not the primary/final MVP experience.
 - Mobile UX is priority one: filters can be shown/hidden to keep map view near fullscreen.
+- Mobile/desktop filters disable options with no matching data in the current dataset context.
+- Empty states distinguish between `no imported data` and `no results for current filters`.
+- Canonical app links use `/toilets/` to avoid extra redirect hops on Pages.
 

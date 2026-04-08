@@ -74,3 +74,4 @@ stylized survival game from a female perspective.
 - GitHub Pages deployment must not show Nuxt default placeholder or API 404 for toilet list/detail pages.
 - Static deployment must pre-render required API JSON payloads used by the frontend.
 - MVP civic utility must include a usable map-first experience and basic user navigation support, not list-only browsing.
+- Filter UX must disable unavailable options and show an explicit "no filter matches" message when data exists but current filters return zero results.

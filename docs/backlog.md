@@ -3,11 +3,11 @@
 ## P0 Stability / Release Blockers
 
 - [ ] Ensure local setup is reproducible on a clean machine (`npm ci`, imports, `npm run dev`, `npm run generate`).
-- [ ] Eliminate GitHub Pages API 404s by prerendering all required read endpoints for static hosting.
+- [x] Eliminate GitHub Pages API 404s by prerendering all required read endpoints for static hosting.
 - [ ] Add a deployment smoke check to verify toilet data loads on Pages after each release.
-- [ ] Prevent fallback to Nuxt default placeholder view on production Pages deployment.
-- [ ] Ship map-first toilet discovery in MVP (list-only is not acceptable as final MVP UX).
-- [ ] Ship basic navigation support (nearest toilet and route guidance link-out/in-app path).
+- [x] Prevent fallback to Nuxt default placeholder view on production Pages deployment.
+- [x] Ship map-first toilet discovery in MVP (list-only is not acceptable as final MVP UX).
+- [x] Ship basic navigation support (nearest toilet and route guidance link-out/in-app path).
 
 ## Data
 
