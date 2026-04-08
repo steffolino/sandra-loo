@@ -48,6 +48,13 @@ export default defineNuxtConfig({
     baseURL,
   },
 
+  routeRules: {
+    // Admin screens are non-MVP and currently rely on runtime-only data paths.
+    // Skip static prerender to keep Pages generation stable.
+    '/admin': { prerender: false },
+    '/admin/**': { prerender: false },
+  },
+
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
