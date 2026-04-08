@@ -25,6 +25,9 @@ List and filter toilets.
 | `is_free`       | boolean | `true` to show only free toilets           |
 | `is_accessible` | boolean | `true` to show only accessible toilets     |
 | `type`          | string  | Toilet type (e.g. `public`, `cafe`)        |
+| `reported`      | boolean | `true` only with reports, `false` without  |
+| `min_rating`    | number  | Minimum average rating (1-5)               |
+| `sort`          | string  | `nearest`, `rating`, or `updated`          |
 | `lat`           | number  | Latitude for proximity search              |
 | `lng`           | number  | Longitude for proximity search             |
 | `radius`        | number  | Radius in km for proximity search          |
@@ -33,7 +36,16 @@ List and filter toilets.
 
 ```json
 {
-  "data": [ /* Toilet[] */ ],
+  "data": [
+    {
+      "id": "osm-node-123",
+      "avg_rating": 4.2,
+      "review_count": 8,
+      "report_count": 1,
+      "has_reports": true,
+      "distance_km": 0.6
+    }
+  ],
   "meta": { "total": 42, "hasData": true }
 }
 ```
