@@ -450,6 +450,9 @@ type ReportedFilter = 'any' | 'true' | 'false'
 const route = useRoute()
 const router = useRouter()
 const runtimeConfig = useRuntimeConfig()
+const appBase = runtimeConfig.app.baseURL.endsWith('/')
+  ? runtimeConfig.app.baseURL
+  : `${runtimeConfig.app.baseURL}/`
 
 const toiletTypes: ToiletType[] = ['public', 'cafe', 'restaurant', 'shopping_mall', 'park', 'petrol_station', 'other']
 
@@ -495,7 +498,7 @@ const requestQuery = computed<Record<string, string> | undefined>(() => (
   useStaticApiMode.value ? undefined : queryParams.value
 ))
 const toiletsApiPath = computed(() => (
-  useStaticApiMode.value ? '/api/toilets/index' : '/api/toilets'
+  useStaticApiMode.value ? `${appBase}api/toilets/index` : '/api/toilets'
 ))
 
 const { data, pending, error, refresh } = await useFetch<ToiletsResponse>(toiletsApiPath, {
