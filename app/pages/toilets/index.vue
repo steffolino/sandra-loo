@@ -20,8 +20,13 @@
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
           <option value="">All cities</option>
-          <option value="Leipzig">Leipzig</option>
-          <option value="Frankfurt am Main">Frankfurt am Main</option>
+          <option
+            v-for="city in availableCities"
+            :key="`city-${city}`"
+            :value="city"
+          >
+            {{ city }}
+          </option>
         </select>
 
         <select
@@ -33,6 +38,7 @@
             v-for="type in toiletTypes"
             :key="type"
             :value="type"
+            :disabled="isTypeDisabled(type)"
           >
             {{ type }}
           </option>
@@ -43,8 +49,8 @@
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
           <option value="any">All report states</option>
-          <option value="true">Reported only</option>
-          <option value="false">No reports</option>
+          <option value="true" :disabled="!canFilterReportedTrue">Reported only</option>
+          <option value="false" :disabled="!canFilterReportedFalse">No reports</option>
         </select>
 
         <select
@@ -52,9 +58,9 @@
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
           <option :value="0">Any rating</option>
-          <option :value="4">4.0 and up</option>
-          <option :value="3">3.0 and up</option>
-          <option :value="2">2.0 and up</option>
+          <option :value="4" :disabled="!canFilterMinRating(4)">4.0 and up</option>
+          <option :value="3" :disabled="!canFilterMinRating(3)">3.0 and up</option>
+          <option :value="2" :disabled="!canFilterMinRating(2)">2.0 and up</option>
         </select>
 
         <select
@@ -73,17 +79,17 @@
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
           <option value="updated">Latest updates</option>
-          <option value="nearest">Nearest</option>
+          <option value="nearest" :disabled="!userLocation">Nearest</option>
           <option value="rating">Top rated</option>
         </select>
 
-        <label class="flex items-center gap-2 text-sm cursor-pointer">
-          <input v-model="filters.is_free" type="checkbox" class="rounded">
+        <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterFree ? 'opacity-60' : ''">
+          <input v-model="filters.is_free" type="checkbox" class="rounded" :disabled="!canFilterFree">
           Free only
         </label>
 
-        <label class="flex items-center gap-2 text-sm cursor-pointer">
-          <input v-model="filters.is_accessible" type="checkbox" class="rounded">
+        <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterAccessible ? 'opacity-60' : ''">
+          <input v-model="filters.is_accessible" type="checkbox" class="rounded" :disabled="!canFilterAccessible">
           Accessible only
         </label>
       </div>
@@ -126,9 +132,14 @@
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
             <option value="">All cities</option>
-            <option value="Leipzig">Leipzig</option>
-            <option value="Frankfurt am Main">Frankfurt am Main</option>
-          </select>
+          <option
+            v-for="city in availableCities"
+            :key="`mobile-city-${city}`"
+            :value="city"
+          >
+            {{ city }}
+          </option>
+        </select>
 
           <select
             v-model="filters.type"
@@ -139,6 +150,7 @@
               v-for="type in toiletTypes"
               :key="`mobile-${type}`"
               :value="type"
+              :disabled="isTypeDisabled(type)"
             >
               {{ type }}
             </option>
@@ -149,8 +161,8 @@
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
             <option value="any">All report states</option>
-            <option value="true">Reported only</option>
-            <option value="false">No reports</option>
+            <option value="true" :disabled="!canFilterReportedTrue">Reported only</option>
+            <option value="false" :disabled="!canFilterReportedFalse">No reports</option>
           </select>
 
           <select
@@ -158,9 +170,9 @@
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
             <option :value="0">Any rating</option>
-            <option :value="4">4.0 and up</option>
-            <option :value="3">3.0 and up</option>
-            <option :value="2">2.0 and up</option>
+            <option :value="4" :disabled="!canFilterMinRating(4)">4.0 and up</option>
+            <option :value="3" :disabled="!canFilterMinRating(3)">3.0 and up</option>
+            <option :value="2" :disabled="!canFilterMinRating(2)">2.0 and up</option>
           </select>
 
           <select
@@ -179,19 +191,19 @@
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
             <option value="updated">Latest updates</option>
-            <option value="nearest">Nearest</option>
+            <option value="nearest" :disabled="!userLocation">Nearest</option>
             <option value="rating">Top rated</option>
           </select>
         </div>
 
         <div class="grid grid-cols-2 gap-3 mt-3">
-          <label class="flex items-center gap-2 text-sm cursor-pointer">
-            <input v-model="filters.is_free" type="checkbox" class="rounded">
+          <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterFree ? 'opacity-60' : ''">
+            <input v-model="filters.is_free" type="checkbox" class="rounded" :disabled="!canFilterFree">
             Free only
           </label>
 
-          <label class="flex items-center gap-2 text-sm cursor-pointer">
-            <input v-model="filters.is_accessible" type="checkbox" class="rounded">
+          <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterAccessible ? 'opacity-60' : ''">
+            <input v-model="filters.is_accessible" type="checkbox" class="rounded" :disabled="!canFilterAccessible">
             Accessible only
           </label>
         </div>
@@ -244,11 +256,15 @@
       <h2 class="text-xl font-semibold text-brand mb-2">
         No toilets found yet
       </h2>
-      <p class="text-gray-500 mb-4 max-w-md mx-auto">
+      <p v-if="hasImportedData" class="text-gray-500 mb-4 max-w-md mx-auto">
+        No toilets match your current filters. Try resetting filters or adjusting
+        city/type/rating.
+      </p>
+      <p v-else class="text-gray-500 mb-4 max-w-md mx-auto">
         No data has been imported for this area yet. Run the import scripts to
         populate the database with real OpenStreetMap and city open-data.
       </p>
-      <div class="bg-gray-50 rounded-lg p-4 text-left text-sm font-mono text-gray-700 inline-block">
+      <div v-if="!hasImportedData" class="bg-gray-50 rounded-lg p-4 text-left text-sm font-mono text-gray-700 inline-block">
         <p>npm run import:osm</p>
         <p>npm run import:leipzig</p>
         <p>npm run import:frankfurt</p>
@@ -446,6 +462,7 @@ interface OsrmResponse {
 
 type SortMode = 'nearest' | 'rating' | 'updated'
 type ReportedFilter = 'any' | 'true' | 'false'
+type FilterKey = 'city' | 'type' | 'is_free' | 'is_accessible' | 'reported' | 'min_rating' | 'radius'
 
 const route = useRoute()
 const router = useRouter()
@@ -564,6 +581,60 @@ const apiToilets = computed(() => (
     ? staticData.value?.data ?? []
     : data.value?.data ?? []
 ))
+const hasImportedData = computed(() => apiToilets.value.length > 0)
+
+function withAppliedFilters(source: ToiletListItem[], ignore: FilterKey[] = []): ToiletListItem[] {
+  let list = [...source]
+
+  if (!ignore.includes('city') && filters.value.city) {
+    const city = filters.value.city.toLowerCase()
+    list = list.filter(t => t.city.toLowerCase() === city)
+  }
+  if (!ignore.includes('type') && filters.value.type) {
+    list = list.filter(t => t.type === filters.value.type)
+  }
+  if (!ignore.includes('is_free') && filters.value.is_free) {
+    list = list.filter(t => t.is_free)
+  }
+  if (!ignore.includes('is_accessible') && filters.value.is_accessible) {
+    list = list.filter(t => t.is_accessible)
+  }
+  if (!ignore.includes('reported') && filters.value.reported !== 'any') {
+    const wantReported = filters.value.reported === 'true'
+    list = list.filter(t => t.has_reports === wantReported)
+  }
+  if (!ignore.includes('min_rating') && filters.value.min_rating > 0) {
+    list = list.filter(t => (t.avg_rating ?? 0) >= filters.value.min_rating)
+  }
+  if (!ignore.includes('radius') && filters.value.radius > 0 && userLocation.value) {
+    list = list.filter(t => (t.distance_km ?? Number.POSITIVE_INFINITY) <= filters.value.radius)
+  }
+
+  return list
+}
+
+const availableCities = computed(() => {
+  const cities = withAppliedFilters(apiToilets.value, ['city'])
+    .map(t => t.city)
+    .filter(Boolean)
+  return [...new Set(cities)].sort((a, b) => a.localeCompare(b))
+})
+
+const availableTypes = computed(() => new Set(withAppliedFilters(apiToilets.value, ['type']).map(t => t.type)))
+const canFilterReportedTrue = computed(() => withAppliedFilters(apiToilets.value, ['reported']).some(t => t.has_reports))
+const canFilterReportedFalse = computed(() => withAppliedFilters(apiToilets.value, ['reported']).some(t => !t.has_reports))
+const canFilterFree = computed(() => withAppliedFilters(apiToilets.value, ['is_free']).some(t => t.is_free))
+const canFilterAccessible = computed(() => withAppliedFilters(apiToilets.value, ['is_accessible']).some(t => t.is_accessible))
+
+function isTypeDisabled(type: ToiletType): boolean {
+  return !availableTypes.value.has(type) && filters.value.type !== type
+}
+
+function canFilterMinRating(threshold: number): boolean {
+  if (filters.value.min_rating === threshold) return true
+  return withAppliedFilters(apiToilets.value, ['min_rating']).some(t => (t.avg_rating ?? 0) >= threshold)
+}
+
 const toilets = computed(() => {
   if (!useStaticApiMode.value) {
     return apiToilets.value
@@ -616,6 +687,34 @@ const toilets = computed(() => {
 
   return list
 })
+
+watch(
+  [availableCities, availableTypes, canFilterReportedTrue, canFilterReportedFalse, canFilterFree, canFilterAccessible],
+  () => {
+    if (filters.value.city && !availableCities.value.includes(filters.value.city)) {
+      filters.value.city = ''
+    }
+    if (filters.value.type && isTypeDisabled(filters.value.type as ToiletType)) {
+      filters.value.type = ''
+    }
+    if (filters.value.reported === 'true' && !canFilterReportedTrue.value) {
+      filters.value.reported = 'any'
+    }
+    if (filters.value.reported === 'false' && !canFilterReportedFalse.value) {
+      filters.value.reported = 'any'
+    }
+    if (filters.value.is_free && !canFilterFree.value) {
+      filters.value.is_free = false
+    }
+    if (filters.value.is_accessible && !canFilterAccessible.value) {
+      filters.value.is_accessible = false
+    }
+    if (filters.value.min_rating > 0 && !canFilterMinRating(filters.value.min_rating)) {
+      filters.value.min_rating = 0
+    }
+  },
+)
+
 const viewMode = ref<'map' | 'list'>('map')
 const isMobile = ref(false)
 const showFilters = ref(false)
