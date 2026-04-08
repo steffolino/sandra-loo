@@ -229,11 +229,11 @@
       </p>
     </div>
 
-    <div v-if="pending" class="text-center py-16 text-gray-400">
+    <div v-if="activePending" class="text-center py-16 text-gray-400">
       Loading toilets...
     </div>
 
-    <div v-else-if="error" class="card p-8 text-center text-red-500">
+    <div v-else-if="activeError" class="card p-8 text-center text-red-500">
       <p>Could not load toilet data.</p>
     </div>
 
@@ -501,7 +501,7 @@ const toiletsApiPath = computed(() => (
   useStaticApiMode.value ? `${appBase}api/toilets/index` : '/api/toilets'
 ))
 
-const { data, pending, error, refresh, execute } = await useFetch<ToiletsResponse>(toiletsApiPath, {
+const { data, pending, error, refresh } = await useFetch<ToiletsResponse>(toiletsApiPath, {
   query: requestQuery,
   server: !useStaticApiMode.value,
   immediate: !useStaticApiMode.value,
@@ -514,13 +514,56 @@ const { data, pending, error, refresh, execute } = await useFetch<ToiletsRespons
   },
 })
 
+const staticData = ref<ToiletsResponse | null>(null)
+const staticPending = ref(false)
+const staticError = ref<Error | null>(null)
+
+async function loadStaticToilets() {
+  if (!useStaticApiMode.value) return
+
+  staticPending.value = true
+  staticError.value = null
+
+  try {
+    const response = await fetch(toiletsApiPath.value, {
+      cache: 'no-store',
+      headers: {
+        accept: 'application/json, text/plain;q=0.9, */*;q=0.8',
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to load toilets (${response.status})`)
+    }
+
+    const contentType = response.headers.get('content-type') ?? ''
+    const payload = contentType.includes('application/json')
+      ? await response.json() as ToiletsResponse
+      : JSON.parse(await response.text()) as ToiletsResponse
+
+    staticData.value = payload
+  }
+  catch (err) {
+    staticError.value = err instanceof Error ? err : new Error('Failed to load toilets')
+  }
+  finally {
+    staticPending.value = false
+  }
+}
+
 onMounted(async () => {
   if (useStaticApiMode.value) {
-    await execute()
+    await loadStaticToilets()
   }
 })
 
-const apiToilets = computed(() => data.value?.data ?? [])
+const activePending = computed(() => useStaticApiMode.value ? staticPending.value : pending.value)
+const activeError = computed(() => useStaticApiMode.value ? staticError.value : error.value)
+const apiToilets = computed(() => (
+  useStaticApiMode.value
+    ? staticData.value?.data ?? []
+    : data.value?.data ?? []
+))
 const toilets = computed(() => {
   if (!useStaticApiMode.value) {
     return apiToilets.value
@@ -634,7 +677,7 @@ onBeforeUnmount(() => {
 })
 
 watch(
-  [pending, mapContainer, viewMode],
+  [activePending, mapContainer, viewMode],
   async ([isPending, container, mode]) => {
     if (isPending || !container || mode !== 'map') return
 
