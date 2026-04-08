@@ -42,7 +42,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  devtools: { enabled: true },
+  devtools: { enabled: false },
 
   app: {
     baseURL,
@@ -84,7 +84,7 @@ export default defineNuxtConfig({
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
-      name: 'Sandra Loo – Civic Toilet Finder',
+      name: 'Sandra Loo - Civic Toilet Finder',
       short_name: 'Sandra Loo',
       description: 'Find public toilets. Play the awareness game.',
       theme_color: '#1a1a2e',
