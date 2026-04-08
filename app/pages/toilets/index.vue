@@ -502,6 +502,12 @@ const { data, pending, error, refresh } = await useFetch<ToiletsResponse>(toilet
   query: requestQuery,
   server: !useStaticApiMode.value,
   watch: false,
+  transform: (input: ToiletsResponse | string) => {
+    if (typeof input === 'string') {
+      return JSON.parse(input) as ToiletsResponse
+    }
+    return input
+  },
 })
 
 const apiToilets = computed(() => data.value?.data ?? [])
