@@ -501,9 +501,10 @@ const toiletsApiPath = computed(() => (
   useStaticApiMode.value ? `${appBase}api/toilets/index` : '/api/toilets'
 ))
 
-const { data, pending, error, refresh } = await useFetch<ToiletsResponse>(toiletsApiPath, {
+const { data, pending, error, refresh, execute } = await useFetch<ToiletsResponse>(toiletsApiPath, {
   query: requestQuery,
   server: !useStaticApiMode.value,
+  immediate: !useStaticApiMode.value,
   watch: false,
   transform: (input: ToiletsResponse | string) => {
     if (typeof input === 'string') {
@@ -511,6 +512,12 @@ const { data, pending, error, refresh } = await useFetch<ToiletsResponse>(toilet
     }
     return input
   },
+})
+
+onMounted(async () => {
+  if (useStaticApiMode.value) {
+    await execute()
+  }
 })
 
 const apiToilets = computed(() => data.value?.data ?? [])
