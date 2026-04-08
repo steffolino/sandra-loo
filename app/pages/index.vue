@@ -10,7 +10,7 @@
         in our awareness game.
       </p>
       <div class="flex flex-wrap justify-center gap-3">
-        <NuxtLink to="/toilets" class="btn-primary text-base px-6 py-3">
+        <NuxtLink to="/toilets/" class="btn-primary text-base px-6 py-3">
           Find a Toilet
         </NuxtLink>
         <NuxtLink to="/game" class="btn-secondary text-base px-6 py-3">
@@ -60,7 +60,7 @@
       </h2>
       <div class="grid sm:grid-cols-2 gap-4">
         <NuxtLink
-          to="/toilets?city=Leipzig"
+          to="/toilets/?city=Leipzig"
           class="card p-5 flex items-center gap-4 hover:shadow-md transition-shadow"
         >
           <span class="text-2xl">🏙️</span>
@@ -74,7 +74,7 @@
           </div>
         </NuxtLink>
         <NuxtLink
-          to="/toilets?city=Frankfurt+am+Main"
+          to="/toilets/?city=Frankfurt+am+Main"
           class="card p-5 flex items-center gap-4 hover:shadow-md transition-shadow"
         >
           <span class="text-2xl">🏙️</span>

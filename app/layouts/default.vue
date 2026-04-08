@@ -9,7 +9,7 @@
 
         <nav class="flex items-center gap-2 text-sm font-medium">
           <NuxtLink
-            to="/toilets"
+            to="/toilets/"
             class="px-3 py-2 rounded-lg transition-colors border"
             :class="isToiletsRoute ? 'bg-brand-accent text-white border-brand-accent' : 'border-brand-accent/30 text-brand-accent hover:bg-brand-accent/10'"
           >

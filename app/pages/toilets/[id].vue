@@ -11,14 +11,14 @@
       <h2 class="text-xl font-semibold text-brand mb-2">
         Toilet not found
       </h2>
-      <NuxtLink to="/toilets" class="btn-primary mt-4">
+      <NuxtLink to="/toilets/" class="btn-primary mt-4">
         Back to list
       </NuxtLink>
     </div>
 
     <!-- Detail view -->
     <div v-else>
-      <NuxtLink to="/toilets" class="text-sm text-brand-accent hover:underline mb-4 inline-block">
+      <NuxtLink to="/toilets/" class="text-sm text-brand-accent hover:underline mb-4 inline-block">
         ← Back
       </NuxtLink>
 
