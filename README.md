@@ -207,9 +207,9 @@ MIT — see [LICENSE](LICENSE)
 
 ## Data Attribution
 
-- Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright) – ODbL
-- Leipzig data: [Leipzig Open Data](https://opendata.leipzig.de) – CC BY 4.0
-- Frankfurt data: [Frankfurt am Main Open Data](https://offenedaten.frankfurt.de) – dl-de/by-2-0
+- Map data (c) [OpenStreetMap contributors](https://www.openstreetmap.org/copyright) - ODbL
+- Leipzig data: [Leipzig Open Data](https://opendata.leipzig.de) - CC BY 4.0
+- Frankfurt data: [Frankfurt am Main Open Data](https://offenedaten.frankfurt.de) - dl-de/by-2-0
 ---
 
 ## Deployment Notes (GitHub Pages)
@@ -221,9 +221,11 @@ MIT — see [LICENSE](LICENSE)
   - No `/api/toilets` or `/api/toilets/:id` 404 on production Pages.
   - No fallback to Nuxt default placeholder view.
   - Imported city data must be present before static generation.
+  - `data/imports/*.json` snapshots are committed so Pages deploys always ship non-empty toilet data.
 
 ## MVP UX Requirement
 
 - MVP must include a proper map-first toilet discovery experience and basic navigation support.
 - List view is a secondary fallback, not the primary/final MVP experience.
 - Mobile UX is priority one: filters can be shown/hidden to keep map view near fullscreen.
+
