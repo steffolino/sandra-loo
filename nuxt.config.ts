@@ -107,7 +107,7 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      navigateFallback: '/',
+      navigateFallback: baseURL,
       globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
     },
     devOptions: {
