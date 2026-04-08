@@ -165,14 +165,21 @@ const endpoint = useStaticApiMode
   ? `${appBase}api/toilets/${id}/index`
   : `/api/toilets/${id}`
 
-const { data, pending, refresh } = await useFetch<{ data: ToiletDetail }>(endpoint, {
+const { data, pending, refresh, execute } = await useFetch<{ data: ToiletDetail }>(endpoint, {
   server: !useStaticApiMode,
+  immediate: !useStaticApiMode,
   transform: (input: { data: ToiletDetail } | string) => {
     if (typeof input === 'string') {
       return JSON.parse(input) as { data: ToiletDetail }
     }
     return input
   },
+})
+
+onMounted(async () => {
+  if (useStaticApiMode) {
+    await execute()
+  }
 })
 
 const toilet = computed(() => data.value?.data ?? null)
