@@ -157,9 +157,12 @@ const route = useRoute()
 const id = route.params.id as string
 const runtimeConfig = useRuntimeConfig()
 const useStaticApiMode = runtimeConfig.app.baseURL !== '/'
+const appBase = runtimeConfig.app.baseURL.endsWith('/')
+  ? runtimeConfig.app.baseURL
+  : `${runtimeConfig.app.baseURL}/`
 
 const endpoint = useStaticApiMode
-  ? `/api/toilets/${id}/index`
+  ? `${appBase}api/toilets/${id}/index`
   : `/api/toilets/${id}`
 
 const { data, pending, refresh } = await useFetch<{ data: ToiletDetail }>(endpoint, {
