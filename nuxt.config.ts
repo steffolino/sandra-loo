@@ -26,7 +26,13 @@ function getPrerenderApiRoutes(): string[] {
   }
 
   const detailRoutes = [...ids].map(id => `/api/toilets/${encodeURIComponent(id)}/`)
-  return ['/api/toilets/', ...detailRoutes]
+  const apiRoutes = ['/api/toilets/', ...detailRoutes]
+  const prefixedRoutes
+    = baseURL !== '/'
+      ? apiRoutes.map(route => `${baseURL}${route.replace(/^\//, '')}`)
+      : []
+
+  return [...new Set([...apiRoutes, ...prefixedRoutes])]
 }
 
 const prerenderApiRoutes = getPrerenderApiRoutes()
