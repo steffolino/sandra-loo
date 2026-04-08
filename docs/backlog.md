@@ -1,5 +1,13 @@
 # Backlog - Sandra Loo
 
+## Next Steps (Top Value)
+
+- [ ] Add toilet trust indicators (freshness, confirmations, source confidence) in map/list cards.
+- [ ] Implement cross-source deduplication before API serving.
+- [ ] Add CI smoke check: `/toilets/` renders and `/api/toilets/index` contains data.
+- [ ] Add map clustering + nearest-performance optimizations for dense mobile usage.
+- [ ] Add POST endpoint throttling/rate-limits for report/review abuse prevention.
+
 ## P0 Stability / Release Blockers
 
 - [ ] Ensure local setup is reproducible on a clean machine (`npm ci`, imports, `npm run dev`, `npm run generate`).

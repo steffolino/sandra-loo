@@ -75,3 +75,13 @@ stylized survival game from a female perspective.
 - Static deployment must pre-render required API JSON payloads used by the frontend.
 - MVP civic utility must include a usable map-first experience and basic user navigation support, not list-only browsing.
 - Filter UX must disable unavailable options and show an explicit "no filter matches" message when data exists but current filters return zero results.
+
+---
+
+## Next Steps With Highest Civic Value
+
+1. Add toilet trust indicators (freshness + confirmations + source confidence) directly in list/map cards.
+2. Merge duplicate toilets across OSM and city datasets before serving API payloads.
+3. Add release smoke tests that fail CI when `/toilets/` renders but API data is empty.
+4. Improve mobile map performance for dense city centers (clustering + faster nearest handling).
+5. Add anti-abuse controls for reports/reviews to protect data quality.
