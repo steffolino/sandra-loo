@@ -354,17 +354,24 @@
               <NuxtLink :to="toiletDetailHref(selectedToilet.id)" class="btn-secondary text-sm">
                 Open details
               </NuxtLink>
-              <button
-                v-if="isMobile"
-                class="btn-secondary text-sm"
-                @click="showSelectedToiletDetails = !showSelectedToiletDetails"
-              >
-                {{ showSelectedToiletDetails ? 'Hide details' : 'Show details' }}
-              </button>
             </div>
           </div>
 
-          <div v-show="!isMobile || showSelectedToiletDetails" class="flex flex-wrap gap-2 mb-3 text-xs">
+          <button
+            v-if="isMobile"
+            type="button"
+            class="w-full mb-2 rounded-lg border border-gray-200 bg-[var(--cube-base-card)] px-3 py-2 text-sm font-medium text-brand flex items-center justify-between"
+            @click="showSelectedToiletDetails = !showSelectedToiletDetails"
+          >
+            <span>Toilet details</span>
+            <span aria-hidden="true">{{ showSelectedToiletDetails ? '▴' : '▾' }}</span>
+          </button>
+
+          <div
+            class="overflow-hidden transition-[max-height,opacity,margin] duration-200"
+            :class="!isMobile || showSelectedToiletDetails ? 'max-h-[60svh] opacity-100 mt-0' : 'max-h-0 opacity-0 mt-0'"
+          >
+            <div class="flex flex-wrap gap-2 mb-3 text-xs">
             <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">{{ selectedToilet.type }}</span>
             <span class="px-2 py-1 rounded-full" :class="selectedToilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
               {{ selectedToilet.is_free ? 'Free' : 'Paid' }}
@@ -398,29 +405,30 @@
             >
               Source {{ formatProvenanceLabel(selectedToilet.source, selectedToilet.source_name) }}
             </button>
-          </div>
+            </div>
 
-          <div v-show="!isMobile || showSelectedToiletDetails" class="flex flex-wrap gap-2">
-            <button class="btn-primary text-sm min-h-11" :disabled="routing" @click="startNavigation(selectedToilet)">
-              {{ routing ? 'Building route...' : 'Navigate' }}
-            </button>
-            <button class="btn-secondary text-sm min-h-11" @click="clearRoute">
-              Clear route
-            </button>
-            <a
-              v-if="userLocation"
-              class="btn-secondary text-sm min-h-11"
-              :href="externalRouteUrl(selectedToilet)"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open in OSM directions
-            </a>
-          </div>
+            <div class="flex flex-wrap gap-2">
+              <button class="btn-primary text-sm min-h-11" :disabled="routing" @click="startNavigation(selectedToilet)">
+                {{ routing ? 'Building route...' : 'Navigate' }}
+              </button>
+              <button class="btn-secondary text-sm min-h-11" @click="clearRoute">
+                Clear route
+              </button>
+              <a
+                v-if="userLocation"
+                class="btn-secondary text-sm min-h-11"
+                :href="externalRouteUrl(selectedToilet)"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open in OSM directions
+              </a>
+            </div>
 
-          <p v-if="routingError && (!isMobile || showSelectedToiletDetails)" class="text-sm text-red-600 mt-2">
-            {{ routingError }}
-          </p>
+            <p v-if="routingError" class="text-sm text-red-600 mt-2">
+              {{ routingError }}
+            </p>
+          </div>
         </div>
 
         <div v-if="routeInfo" class="card p-4">
@@ -1104,6 +1112,14 @@ function refreshMapMarkers() {
 
     marker.on('click', () => {
       selectedToilet.value = toilet
+      if (isMobile.value) {
+        showSelectedToiletDetails.value = true
+        showMobileToiletList.value = false
+      }
+      if (map) {
+        const targetZoom = Math.max(map.getZoom(), 16)
+        map.flyTo([toilet.lat, toilet.lng], targetZoom, { animate: true, duration: 0.35 })
+      }
     })
 
     if (!isMobile.value) {
