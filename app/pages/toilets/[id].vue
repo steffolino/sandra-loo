@@ -1,8 +1,15 @@
 <template>
   <div>
     <!-- Loading -->
-    <div v-if="pending" class="text-center py-16 text-gray-400">
+    <div v-if="activePending" class="text-center py-16 text-gray-400">
       Loading…
+    </div>
+
+    <div v-else-if="activeError" class="card p-8 text-center text-red-500">
+      <p>Could not load toilet details.</p>
+      <NuxtLink to="/toilets/" class="btn-primary mt-4">
+        Back to list
+      </NuxtLink>
     </div>
 
     <!-- Not found -->
@@ -179,14 +186,18 @@ const useStaticApiMode = runtimeConfig.app.baseURL !== '/'
 const appBase = runtimeConfig.app.baseURL.endsWith('/')
   ? runtimeConfig.app.baseURL
   : `${runtimeConfig.app.baseURL}/`
+const encodedId = encodeURIComponent(id)
 
-const endpoint = useStaticApiMode
-  ? `${appBase}api/toilets/${id}/index`
-  : `/api/toilets/${id}`
+const liveEndpoint = `/api/toilets/${encodedId}`
+const staticEndpoints = [
+  `${appBase}api/toilets/${encodedId}`,
+  `${appBase}api/toilets/${encodedId}/index`,
+]
 
-const { data, pending, refresh, execute } = await useFetch<{ data: ToiletDetail }>(endpoint, {
+const { data, pending, error, refresh } = await useFetch<{ data: ToiletDetail }>(liveEndpoint, {
   server: !useStaticApiMode,
   immediate: !useStaticApiMode,
+  watch: false,
   transform: (input: { data: ToiletDetail } | string) => {
     if (typeof input === 'string') {
       return JSON.parse(input) as { data: ToiletDetail }
@@ -195,13 +206,62 @@ const { data, pending, refresh, execute } = await useFetch<{ data: ToiletDetail 
   },
 })
 
+const staticData = ref<{ data: ToiletDetail } | null>(null)
+const staticPending = ref(useStaticApiMode)
+const staticError = ref<Error | null>(null)
+
+async function loadStaticToilet() {
+  if (!useStaticApiMode) return
+
+  staticPending.value = true
+  staticError.value = null
+
+  try {
+    let lastError: Error | null = null
+
+    for (const endpoint of staticEndpoints) {
+      try {
+        const response = await fetch(endpoint, {
+          cache: 'no-store',
+          headers: {
+            accept: 'application/json, text/plain;q=0.9, */*;q=0.8',
+          },
+        })
+
+        if (!response.ok) {
+          lastError = new Error(`Failed to load toilet (${response.status})`)
+          continue
+        }
+
+        const contentType = response.headers.get('content-type') ?? ''
+        const payload = contentType.includes('application/json')
+          ? await response.json() as { data: ToiletDetail }
+          : JSON.parse(await response.text()) as { data: ToiletDetail }
+
+        staticData.value = payload
+        return
+      }
+      catch (err) {
+        lastError = err instanceof Error ? err : new Error('Failed to load toilet')
+      }
+    }
+
+    staticError.value = lastError ?? new Error('Failed to load toilet')
+  }
+  finally {
+    staticPending.value = false
+  }
+}
+
 onMounted(async () => {
   if (useStaticApiMode) {
-    await execute()
+    await loadStaticToilet()
   }
 })
 
-const toilet = computed(() => data.value?.data ?? null)
+const activePending = computed(() => (useStaticApiMode ? staticPending.value : pending.value))
+const activeError = computed(() => (useStaticApiMode ? staticError.value : error.value))
+const toilet = computed(() => (useStaticApiMode ? staticData.value?.data : data.value?.data) ?? null)
 
 const confirmationTypes = [
   { value: 'open', label: '✓ Open' },
@@ -237,6 +297,10 @@ async function confirm(type: string) {
 }
 
 async function refreshData() {
+  if (useStaticApiMode) {
+    await loadStaticToilet()
+    return
+  }
   await refresh()
 }
 

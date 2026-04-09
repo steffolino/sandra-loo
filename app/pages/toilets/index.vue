@@ -350,12 +350,21 @@
                 {{ selectedToilet.address ?? selectedToilet.city }}
               </p>
             </div>
-            <NuxtLink :to="`/toilets/${selectedToilet.id}`" class="btn-secondary text-sm">
-              Open details
-            </NuxtLink>
+            <div class="flex items-center gap-2">
+              <NuxtLink :to="toiletDetailHref(selectedToilet.id)" class="btn-secondary text-sm">
+                Open details
+              </NuxtLink>
+              <button
+                v-if="isMobile"
+                class="btn-secondary text-sm"
+                @click="showSelectedToiletDetails = !showSelectedToiletDetails"
+              >
+                {{ showSelectedToiletDetails ? 'Hide details' : 'Show details' }}
+              </button>
+            </div>
           </div>
 
-          <div class="flex flex-wrap gap-2 mb-3 text-xs">
+          <div v-show="!isMobile || showSelectedToiletDetails" class="flex flex-wrap gap-2 mb-3 text-xs">
             <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">{{ selectedToilet.type }}</span>
             <span class="px-2 py-1 rounded-full" :class="selectedToilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
               {{ selectedToilet.is_free ? 'Free' : 'Paid' }}
@@ -391,7 +400,7 @@
             </button>
           </div>
 
-          <div class="flex flex-wrap gap-2">
+          <div v-show="!isMobile || showSelectedToiletDetails" class="flex flex-wrap gap-2">
             <button class="btn-primary text-sm min-h-11" :disabled="routing" @click="startNavigation(selectedToilet)">
               {{ routing ? 'Building route...' : 'Navigate' }}
             </button>
@@ -409,7 +418,7 @@
             </a>
           </div>
 
-          <p v-if="routingError" class="text-sm text-red-600 mt-2">
+          <p v-if="routingError && (!isMobile || showSelectedToiletDetails)" class="text-sm text-red-600 mt-2">
             {{ routingError }}
           </p>
         </div>
@@ -637,7 +646,7 @@ const { data, pending, error, refresh } = await useFetch<ToiletsResponse>(toilet
 })
 
 const staticData = ref<ToiletsResponse | null>(null)
-const staticPending = ref(false)
+const staticPending = ref(useStaticApiMode.value)
 const staticError = ref<Error | null>(null)
 
 async function loadStaticToilets() {
@@ -859,6 +868,7 @@ const isMobile = ref(false)
 const showFilters = ref(false)
 const showMobileToiletList = ref(false)
 const showTrustInfo = ref(false)
+const showSelectedToiletDetails = ref(true)
 
 const locating = ref(false)
 const locationError = ref('')
@@ -903,6 +913,9 @@ watch(activePending, (isPending) => {
 }, { immediate: true })
 
 watch(selectedToilet, () => {
+  if (isMobile.value) {
+    showSelectedToiletDetails.value = true
+  }
   refreshMapMarkers()
 })
 
@@ -951,6 +964,9 @@ watch(
     await initMap()
     refreshMapMarkers()
     renderUserLocationMarker()
+    if (userLocation.value) {
+      focusMapOnUserLocation()
+    }
 
     if (map) {
       map.invalidateSize()
@@ -974,6 +990,10 @@ function updateMobileMode() {
   if (!isMobile.value) {
     showFilters.value = true
     showMobileToiletList.value = false
+    showSelectedToiletDetails.value = true
+  }
+  else {
+    showSelectedToiletDetails.value = false
   }
 }
 
@@ -1011,9 +1031,9 @@ function refreshMapMarkers() {
     const isSelected = selectedToilet.value?.id === toilet.id
     const marker = leaflet.circleMarker([toilet.lat, toilet.lng], {
       radius: isSelected ? 8 : 6,
-      color: isSelected ? '#be123c' : '#0284c7',
+      color: isSelected ? '#845ec2' : '#4e8397',
       weight: 2,
-      fillColor: isSelected ? '#f43f5e' : '#0ea5e9',
+      fillColor: isSelected ? '#9a79cd' : '#6f9dac',
       fillOpacity: 0.9,
     })
 
@@ -1048,11 +1068,20 @@ function renderUserLocationMarker() {
 
   userMarker = leaflet.circleMarker([userLocation.value.lat, userLocation.value.lng], {
     radius: 7,
-    color: '#0f766e',
-    fillColor: '#14b8a6',
+    color: '#3e6a79',
+    fillColor: '#4e8397',
     fillOpacity: 0.95,
     weight: 2,
   }).addTo(map)
+}
+
+function focusMapOnUserLocation() {
+  if (!map || !userLocation.value) return
+  const targetZoom = Math.max(map.getZoom(), 15)
+  map.flyTo([userLocation.value.lat, userLocation.value.lng], targetZoom, {
+    animate: true,
+    duration: 0.45,
+  })
 }
 
 function applyFilters() {
@@ -1126,7 +1155,7 @@ async function locateUser(): Promise<boolean> {
     renderUserLocationMarker()
 
     if (map) {
-      map.panTo([userLocation.value.lat, userLocation.value.lng], { animate: true })
+      focusMapOnUserLocation()
     }
 
     router.replace({ query: buildRouteQuery() })
@@ -1253,6 +1282,10 @@ function openSource(source: string, sourceUrl: string) {
   const url = resolveSourceUrl(source, sourceUrl)
   if (url === '#') return
   window.open(url, '_blank', 'noopener,noreferrer')
+}
+
+function toiletDetailHref(id: string): string {
+  return `/toilets/${encodeURIComponent(id)}`
 }
 
 function formatDistance(km: number): string {
