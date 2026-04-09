@@ -37,6 +37,8 @@
 
 ## Game
 
+- [ ] Replace prototype/fallback character visuals with a production-ready humanoid model/material setup (current render can appear cone-like and non-human in some scenes).
+- [ ] Improve overall 3D visual quality/art direction of the game scene (lighting, environment assets, shaders, polish pass).
 - [ ] Balance toilet option probabilities based on playtesting
 - [ ] Refine reward system (functional rewards, not just cosmetic)
 - [ ] City-specific difficulty modes

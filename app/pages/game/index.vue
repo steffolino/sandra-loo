@@ -67,6 +67,28 @@
         <span class="text-brand-accent font-bold">{{ gameState.score }} pts</span>
       </div>
 
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs text-gray-500">
+          Play mode
+        </p>
+        <div class="inline-flex rounded-lg border border-gray-300 overflow-hidden">
+          <button
+            class="px-3 py-1.5 text-xs font-semibold transition-colors"
+            :class="playMode === 'fps' ? 'bg-brand-accent text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
+            @click="playMode = 'fps'"
+          >
+            FPS 3D
+          </button>
+          <button
+            class="px-3 py-1.5 text-xs font-semibold transition-colors"
+            :class="playMode === 'classic' ? 'bg-brand-accent text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
+            @click="playMode = 'classic'"
+          >
+            Classic
+          </button>
+        </div>
+      </div>
+
       <!-- Reward picker -->
       <div v-if="showRewardPicker" class="card p-5 mb-6">
         <h2 class="font-semibold text-brand mb-3">
@@ -100,7 +122,20 @@
         <h2 class="font-semibold text-brand mb-3">
           Where will you go?
         </h2>
-        <div class="grid sm:grid-cols-3 gap-4">
+        <p v-if="playMode === 'fps'" class="text-xs text-gray-500 mb-3">
+          Walk up to a toilet spot and press <span class="font-semibold">E</span> to interact.
+        </p>
+
+        <GameFpsRunScene
+          v-if="playMode === 'fps'"
+          class="mb-4"
+          :options="toiletOptions"
+          :enabled="gameState.isRunning && !showRewardPicker"
+          :round-key="gameState.step"
+          @select-option="handleSelectOption"
+        />
+
+        <div v-else class="grid sm:grid-cols-3 gap-4">
           <button
             v-for="option in config?.toiletOptions"
             :key="option.type"
@@ -144,7 +179,7 @@
 </template>
 
 <script setup lang="ts">
-import type { GameConfig } from '../../../shared/types/index'
+import type { GameConfig, ToiletOption } from '../../../shared/types/index'
 import { useGame } from '../../composables/useGame'
 
 const { data } = await useFetch<{ data: GameConfig }>('/api/game/config')
@@ -166,6 +201,13 @@ const {
   rewardsPerStep: 3,
   toiletOptions: [],
 })
+
+const playMode = ref<'fps' | 'classic'>('fps')
+const toiletOptions = computed(() => config.value?.toiletOptions ?? [])
+
+function handleSelectOption(option: ToiletOption) {
+  chooseToilet(option)
+}
 
 function optionIcon(type: string): string {
   const icons: Record<string, string> = {
