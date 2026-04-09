@@ -80,8 +80,9 @@ stylized survival game from a female perspective.
 
 ## Next Steps With Highest Civic Value
 
-1. Add toilet trust indicators (freshness + confirmations + source confidence) directly in list/map cards.
-2. Merge duplicate toilets across OSM and city datasets before serving API payloads.
-3. Add release smoke tests that fail CI when `/toilets/` renders but API data is empty.
-4. Improve mobile map performance for dense city centers (clustering + faster nearest handling).
-5. Add anti-abuse controls for reports/reviews to protect data quality.
+1. Add persistent storage (SQLite + migrations) so reviews/reports/confirmations survive deployments.
+2. Complete manual moderation workflow for reports (status transitions, resolution notes, admin UX).
+3. Schedule automated source refresh (weekly imports + validation + pull request with diff summary).
+4. Add API integration and E2E tests for critical user flows (`/toilets`, review/report submit, game score submit).
+5. Improve map performance in dense areas (marker clustering + faster nearest-toilet calculations).
+6. Add production monitoring baseline (error-rate alerting, latency thresholds, submission failure alerts).

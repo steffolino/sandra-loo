@@ -4,15 +4,17 @@
 
 - [x] Add toilet trust indicators (freshness, confirmations, source confidence) in map/list cards.
 - [x] Implement cross-source deduplication before API serving.
-- [ ] Add CI smoke check: `/toilets/` renders and `/api/toilets/index` contains data.
+- [x] Add CI smoke check: `/toilets/` renders and `/api/toilets/index` contains data.
+- [x] Add POST endpoint throttling/rate-limits for report/review abuse prevention.
+- [ ] Persist user submissions to durable storage (SQLite) instead of in-memory runtime.
 - [ ] Add map clustering + nearest-performance optimizations for dense mobile usage.
-- [ ] Add POST endpoint throttling/rate-limits for report/review abuse prevention.
+- [ ] Add API integration + E2E smoke tests for the highest-risk user journeys.
 
 ## P0 Stability / Release Blockers
 
 - [ ] Ensure local setup is reproducible on a clean machine (`npm ci`, imports, `npm run dev`, `npm run generate`).
 - [x] Eliminate GitHub Pages API 404s by prerendering all required read endpoints for static hosting.
-- [ ] Add a deployment smoke check to verify toilet data loads on Pages after each release.
+- [x] Add a deployment smoke check to verify toilet data loads on Pages after each release.
 - [x] Prevent fallback to Nuxt default placeholder view on production Pages deployment.
 - [x] Ship map-first toilet discovery in MVP (list-only is not acceptable as final MVP UX).
 - [x] Ship basic navigation support (nearest toilet and route guidance link-out/in-app path).
@@ -69,7 +71,7 @@
 
 - [ ] Replace in-memory store with SQLite (Drizzle ORM)
 - [ ] Pagination for toilet list
-- [ ] Rate limiting on POST endpoints
+- [x] Rate limiting on POST endpoints
 - [ ] OpenAPI / Swagger spec generation
 
 ## Testing

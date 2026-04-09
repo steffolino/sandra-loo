@@ -173,6 +173,9 @@ npm test
 | `docs/api.md`                     | API reference                  |
 | `docs/import-strategy.md`         | Data import instructions       |
 | `docs/backlog.md`                 | Development backlog            |
+| `docs/DEPLOY_CHECKLIST.md`        | Deployment runbook checklist   |
+| `docs/DEPLOY_REPORT_2026-04-09.md`| Latest deployment gate report  |
+| `docs/RELEASE_NOTES_2026-04-09.md`| Latest release notes           |
 
 ---
 
@@ -187,7 +190,7 @@ The project is designed with clear upgrade paths for production use:
 | **Map view**                   | Required in MVP (map-first UX)          | Marker clustering + advanced layers             |
 | **Navigation UX**              | Required in MVP (nearest + route guide) | Turn-by-turn and accessibility-aware routing    |
 | **Input validation**           | Inline checks in route handlers         | Zod schema validation                           |
-| **Rate limiting**              | None                                    | Nitro rate-limit middleware                     |
+| **Rate limiting**              | POST abuse protection (rate-limit + cooldown + honeypot) | Move to distributed/edge-backed rate limiting |
 | **Scheduled data import**      | Manual `npm run import:*`               | GitHub Actions scheduled workflow               |
 | **Admin moderation**           | Stub admin pages                        | Full workflow with DB-backed status transitions |
 | **i18n**                       | English only                            | `@nuxtjs/i18n` module                           |
@@ -235,21 +238,10 @@ MIT — see [LICENSE](LICENSE)
 
 ## Next Steps (Highest User Value)
 
-1. Add a "trust layer" per toilet:
-   - data freshness label
-   - recent confirmation count
-   - source confidence score
-2. Add deduplication across OSM + city imports:
-   - merge overlapping records into one canonical toilet entry
-   - prevent duplicate markers and confusing reviews
-3. Add a post-deploy smoke test:
-   - verify `/toilets/` loads
-   - verify `/api/toilets/index` is non-empty
-   - fail deployment automatically if data is broken
-4. Improve nearest-toilet speed and reliability:
-   - lightweight marker clustering for dense zones
-   - precomputed nearest subsets for mobile performance
-5. Add basic reliability protections:
-   - POST endpoint rate limiting
-   - abuse throttling for reports/reviews
+1. Persist community submissions in SQLite (reviews, reports, confirmations, leaderboard) so data survives restarts/deploys.
+2. Add report moderation workflow in admin (triage states, resolution notes, audit trail).
+3. Add API integration + E2E coverage for release-critical flows (`/toilets`, submit review/report, leaderboard submit).
+4. Add scheduled import automation (weekly source sync + validation + change summary).
+5. Improve mobile map performance in dense areas (marker clustering, nearest-calculation optimization).
+6. Add production monitoring and alerting baselines (error rate, latency, submission failure spikes).
 
