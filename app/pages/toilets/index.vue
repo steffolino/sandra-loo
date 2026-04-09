@@ -1118,9 +1118,6 @@ function refreshMapMarkers() {
     hasAutoFitted = true
   }
 
-  if (selectedToilet.value) {
-    map.panTo([selectedToilet.value.lat, selectedToilet.value.lng], { animate: true, duration: 0.35 })
-  }
 }
 
 function renderUserLocationMarker() {
@@ -1226,6 +1223,11 @@ async function locateUser(): Promise<boolean> {
     router.replace({ query: buildRouteQuery() })
     if (!useStaticApiMode.value) {
       await refresh()
+    }
+
+    // Keep map focus on the device position even after data refresh updates markers.
+    if (map) {
+      focusMapOnUserLocation()
     }
     return true
   }
