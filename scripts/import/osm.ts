@@ -13,7 +13,7 @@
  * https://www.openstreetmap.org/copyright
  */
 
-import { writeFile, mkdir } from 'node:fs/promises'
+import { writeFile, mkdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { Toilet } from '../../shared/types/index'
 
@@ -33,6 +33,7 @@ const OVERPASS_APIS = (process.env.OVERPASS_APIS
   .filter(Boolean)
 
 const OUTPUT_FILE = join(process.cwd(), 'data', 'imports', 'osm.json')
+const ALLOW_STALE = process.env.OSM_IMPORT_ALLOW_STALE === 'true'
 
 // ---------------------------------------------------------------------------
 // Overpass QL query builder
@@ -160,19 +161,49 @@ async function main() {
   console.log(`Cities: ${CITIES.join(', ')}`)
   console.log(`Overpass APIs: ${OVERPASS_APIS.join(', ')}\n`)
 
+  const existing = await readExistingSnapshot()
   const all: Toilet[] = []
+  const staleCities: string[] = []
+
   for (const city of CITIES) {
-    const records = await fetchCity(city)
-    all.push(...records)
+    try {
+      const records = await fetchCity(city)
+      all.push(...records)
+    }
+    catch (error) {
+      if (!ALLOW_STALE) throw error
+
+      const fallback = existing.filter(toilet => toilet.city === city)
+      if (fallback.length === 0) throw error
+
+      staleCities.push(city)
+      all.push(...fallback)
+      console.warn(`  Using stale cached OSM data for ${city} (${fallback.length} records).`)
+    }
   }
 
   // Deduplicate by id.
   const deduped = [...new Map(all.map(t => [t.id, t])).values()]
   console.log(`\nTotal records: ${deduped.length} (after deduplication)`)
+  if (staleCities.length > 0) {
+    console.log(`Stale fallback applied for: ${staleCities.join(', ')}`)
+  }
 
   await mkdir(join(process.cwd(), 'data', 'imports'), { recursive: true })
   await writeFile(OUTPUT_FILE, JSON.stringify(deduped, null, 2), 'utf-8')
   console.log(`Written to: ${OUTPUT_FILE}`)
+}
+
+async function readExistingSnapshot(): Promise<Toilet[]> {
+  try {
+    const raw = await readFile(OUTPUT_FILE, 'utf-8')
+    const parsed = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return []
+    return parsed as Toilet[]
+  }
+  catch {
+    return []
+  }
 }
 
 main().catch((err) => {

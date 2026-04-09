@@ -34,6 +34,7 @@ jobs:
         run: npm run import:osm
         env:
           CITIES: Leipzig,Frankfurt am Main
+          OSM_IMPORT_ALLOW_STALE: 'true'
 
       - name: Import Leipzig Open Data
         run: npm run import:leipzig
