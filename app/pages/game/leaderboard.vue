@@ -3,6 +3,9 @@
     <h1 class="text-2xl font-bold text-brand mb-6">
       🏆 Leaderboard
     </h1>
+    <div class="card p-4 mb-6 border-amber-200 bg-amber-50 text-amber-900 text-sm">
+      The game is still work in progress. Leaderboard behavior may change as gameplay evolves.
+    </div>
 
     <div class="flex gap-3 mb-6">
       <button

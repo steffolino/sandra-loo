@@ -6,6 +6,9 @@
     <p class="text-sm text-gray-500 mb-6">
       A run-based survival game. Manage your bladder meter — and avoid the igitt zone.
     </p>
+    <div class="card p-4 mb-6 border-amber-200 bg-amber-50 text-amber-900 text-sm">
+      This game module is still work in progress. Features and balancing may change.
+    </div>
 
     <!-- Not started -->
     <div v-if="!gameState.isRunning && !gameState.isGameOver" class="card p-8 text-center">

@@ -2,12 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --cube-primary: #845ec2;
+  --cube-secondary: #4e8397;
+  --cube-base: #ece6df;
+  --cube-base-soft: #f7f4f1;
+  --cube-base-card: #fcfaf8;
+  --cube-text: #2f2a26;
+}
+
 @layer base {
   html {
     @apply scroll-smooth;
   }
   body {
-    @apply bg-white text-gray-900 font-sans antialiased;
+    background-color: var(--cube-base-soft);
+    color: var(--cube-text);
+    @apply font-sans antialiased;
   }
 }
 
@@ -21,16 +32,25 @@
 
   .btn-secondary {
     @apply inline-flex items-center justify-center px-4 py-2 rounded-lg
-           border border-gray-300 text-gray-700 font-semibold text-sm
-           hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300
+           border text-brand font-semibold text-sm
+           hover:bg-brand/10 focus:outline-none focus:ring-2 focus:ring-brand/40
            transition-all duration-150;
+    border-color: color-mix(in srgb, var(--cube-secondary) 35%, white);
+    background-color: color-mix(in srgb, var(--cube-base-card) 88%, white);
   }
 
   .card {
-    @apply bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden;
+    @apply rounded-xl shadow-sm overflow-hidden;
+    background-color: var(--cube-base-card);
+    border: 1px solid color-mix(in srgb, var(--cube-base) 85%, #9f9488);
   }
 
   .meter-bar {
     @apply h-3 rounded-full transition-all duration-500;
   }
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 400;
 }

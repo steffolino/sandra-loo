@@ -1,11 +1,19 @@
 import type { Report } from '../../../shared/types/index'
 import { addReport } from '../../utils/store'
 import { generateId, nowIso } from '../../utils/helpers'
+import { enforcePostProtection } from '../../utils/post-protection'
 
 const VALID_TYPES = ['closed', 'dirty', 'broken', 'unsafe', 'missing', 'other']
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
+  enforcePostProtection(event, body, {
+    routeKey: 'reports',
+    rateLimitMax: 6,
+    rateLimitWindowMs: 60_000,
+    cooldownMs: 10_000,
+    minSubmitDelayMs: 1_500,
+  })
 
   if (!body.toilet_id || typeof body.toilet_id !== 'string') {
     throw createError({ statusCode: 400, message: 'toilet_id is required' })

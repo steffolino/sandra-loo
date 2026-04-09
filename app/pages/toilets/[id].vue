@@ -59,8 +59,26 @@
 
         <!-- Data source transparency -->
         <div class="bg-gray-50 rounded-lg p-3 text-xs text-gray-500 mt-4">
-          <strong>Data source:</strong> {{ toilet.source_name }} ({{ toilet.source }})
-          · Last updated: {{ formatDate(toilet.last_updated_at) }}
+          <p>
+            <strong>Data provenance:</strong>
+            {{ formatProvenanceLabel(toilet.source, toilet.source_name) }}
+          </p>
+          <p class="mt-1">
+            <strong>Source record:</strong>
+            {{ formatProvenanceMeta(toilet.source, toilet.source_name) }}
+          </p>
+          <p class="mt-1">
+            <a
+              :href="resolveSourceUrl(toilet.source, toilet.source_url)"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="underline hover:text-brand"
+            >Open source dataset</a>
+          </p>
+          <p class="mt-1">
+            <strong>Last updated:</strong>
+            {{ formatDate(toilet.last_updated_at) }}
+          </p>
         </div>
       </div>
 
@@ -146,6 +164,7 @@
 
 <script setup lang="ts">
 import type { Toilet, Review, Report, Confirmation } from '../../../../shared/types/index'
+import { formatProvenanceLabel, formatProvenanceMeta, resolveSourceUrl } from '../../utils/provenance'
 
 type ToiletDetail = Toilet & {
   reviews: Review[]
@@ -193,6 +212,7 @@ const confirmationTypes = [
 
 const confirming = ref(false)
 const confirmSuccess = ref(false)
+const confirmationFormStartedAt = Date.now()
 
 async function confirm(type: string) {
   if (!toilet.value) return
@@ -201,7 +221,12 @@ async function confirm(type: string) {
   try {
     await $fetch('/api/confirmations', {
       method: 'POST',
-      body: { toilet_id: toilet.value.id, type },
+      body: {
+        toilet_id: toilet.value.id,
+        type,
+        website: '',
+        form_started_at: confirmationFormStartedAt,
+      },
     })
     confirmSuccess.value = true
     setTimeout(() => { confirmSuccess.value = false }, 3000)
@@ -219,3 +244,5 @@ function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('de-DE')
 }
 </script>
+
+

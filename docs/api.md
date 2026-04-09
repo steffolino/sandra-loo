@@ -43,6 +43,11 @@ List and filter toilets.
       "review_count": 8,
       "report_count": 1,
       "has_reports": true,
+      "freshness_days": 12,
+      "freshness_label": "fresh",
+      "recent_confirmation_count": 3,
+      "source_confidence_score": 90,
+      "source_confidence_level": "high",
       "distance_km": 0.6
     }
   ],

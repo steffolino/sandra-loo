@@ -5,7 +5,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Only one deployment runs at a time; newer runs cancel older ones.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -16,9 +15,6 @@ permissions:
   id-token: write
 
 jobs:
-  # ─────────────────────────────────────────────────────────────────────────
-  # 1. Import data & build the static site
-  # ─────────────────────────────────────────────────────────────────────────
   build:
     runs-on: ubuntu-latest
     steps:
@@ -34,8 +30,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # ── Data imports ────────────────────────────────────────────────────
-      # OSM import always runs and provides fallback city coverage.
       - name: Import OpenStreetMap data
         run: npm run import:osm
         env:
@@ -43,18 +37,12 @@ jobs:
 
       - name: Import Leipzig Open Data
         run: npm run import:leipzig
-        # Auto-discovers the CSV resource from the CKAN portal.
-        # Set LEIPZIG_RESOURCE_ID as a repository variable if you have a
-        # specific resource ID; otherwise auto-discovery is used.
         env:
           LEIPZIG_RESOURCE_ID: ${{ vars.LEIPZIG_RESOURCE_ID }}
           LEIPZIG_DATASET_ID: offentliche-toiletten-stadt-leipzig1
 
       - name: Import Frankfurt Open Data
         run: npm run import:frankfurt
-        # Frankfurt uses a custom InformationPortal (not CKAN).
-        # Set FRANKFURT_WFS_URL as a repository variable with a direct GeoJSON/CSV URL
-        # from https://offenedaten.frankfurt.de (search for "Toiletten").
         env:
           FRANKFURT_WFS_URL: ${{ vars.FRANKFURT_WFS_URL }}
           FRANKFURT_DATASET_ID: oeffentliche-wc-anlagen
@@ -77,14 +65,14 @@ jobs:
           console.log(`Import check passed: leipzig=${leipzig}, frankfurt=${frankfurt}`)
           NODE
 
-      # ── Static generation ────────────────────────────────────────────────
       - name: Generate static site
         run: npm run generate
         env:
-          # Sub-path for GitHub Pages: /<repo-name>/
           NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
 
-      # ── Upload artifact for Pages deployment ─────────────────────────────
+      - name: Run deploy smoke check
+        run: npm run smoke:deploy
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
@@ -93,9 +81,6 @@ jobs:
         with:
           path: .output/public
 
-  # ─────────────────────────────────────────────────────────────────────────
-  # 2. Deploy the artifact to GitHub Pages
-  # ─────────────────────────────────────────────────────────────────────────
   deploy:
     needs: build
     runs-on: ubuntu-latest

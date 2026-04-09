@@ -19,6 +19,20 @@
       </div>
     </section>
 
+    <section class="card p-6 mb-8 bg-brand/5 border-brand/10">
+      <h2 class="text-lg font-semibold text-brand mb-2">
+        New here? Start in 30 seconds
+      </h2>
+      <p class="text-sm text-gray-600 mb-3">
+        Open the map, pick a nearby toilet, and help others by leaving a quick
+        review or confirmation.
+      </p>
+      <p class="text-sm text-gray-600">
+        No account needed. Anonymous usage is fully supported during this demo
+        phase, and social login is intentionally not enabled yet.
+      </p>
+    </section>
+
     <!-- Feature cards -->
     <section class="grid sm:grid-cols-3 gap-6 mt-4">
       <div class="card p-6">

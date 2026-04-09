@@ -1,8 +1,35 @@
 <template>
   <div>
-    <h1 class="text-2xl font-bold text-brand mb-6">
-      Find a Toilet
-    </h1>
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+      <h1 class="text-2xl font-bold text-brand">
+        Find a Toilet
+      </h1>
+      <button class="btn-secondary text-sm" @click="showTrustInfo = true">
+        How we verify data
+      </button>
+    </div>
+
+    <div v-if="showTrustInfo" class="fixed inset-0 z-[1300] bg-black/40 p-3" @click.self="showTrustInfo = false">
+      <div class="card p-5 max-w-lg mx-auto mt-10">
+        <h2 class="text-lg font-semibold text-brand mb-2">
+          How we verify data
+        </h2>
+        <p class="text-sm text-gray-600">
+          Source shows where a toilet record comes from (for example, OpenStreetMap or city open data).
+        </p>
+        <p class="text-sm text-gray-600 mt-2">
+          Freshness indicates how many days since the source record was updated.
+        </p>
+        <p class="text-sm text-gray-600 mt-2">
+          Confidence is derived from source reliability signals; recent community confirmations add trust context.
+        </p>
+        <div class="mt-4">
+          <button class="btn-primary text-sm" @click="showTrustInfo = false">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div class="md:hidden flex gap-2 mb-3">
       <button class="btn-secondary flex-1" :disabled="locating" @click="locateUser">
@@ -51,6 +78,16 @@
           <option value="any">All report states</option>
           <option value="true" :disabled="!canFilterReportedTrue">Reported only</option>
           <option value="false" :disabled="!canFilterReportedFalse">No reports</option>
+        </select>
+
+        <select
+          v-model="filters.source_kind"
+          class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
+        >
+          <option value="any">All data sources</option>
+          <option value="osm">OpenStreetMap</option>
+          <option value="city_open_data">City open data</option>
+          <option value="other">Other sources</option>
         </select>
 
         <select
@@ -113,7 +150,7 @@
 
     <div
       v-if="isMobile && showFilters"
-      class="fixed inset-0 z-[700] bg-black/35 p-3"
+      class="fixed inset-0 z-[1300] bg-black/35 p-3"
       @click.self="showFilters = false"
     >
       <div class="card p-4 max-h-[88svh] overflow-y-auto">
@@ -163,6 +200,16 @@
             <option value="any">All report states</option>
             <option value="true" :disabled="!canFilterReportedTrue">Reported only</option>
             <option value="false" :disabled="!canFilterReportedFalse">No reports</option>
+          </select>
+
+          <select
+            v-model="filters.source_kind"
+            class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
+          >
+            <option value="any">All data sources</option>
+            <option value="osm">OpenStreetMap</option>
+            <option value="city_open_data">City open data</option>
+            <option value="other">Other sources</option>
           </select>
 
           <select
@@ -241,7 +288,7 @@
       </p>
     </div>
 
-    <div v-if="activePending" class="text-center py-16 text-gray-400">
+    <div v-if="activePending && !hasLoadedOnce" class="text-center py-16 text-gray-400">
       Loading toilets...
     </div>
 
@@ -282,11 +329,17 @@
             />
           </div>
         </ClientOnly>
+        <p
+          v-if="isMapMarkerLimited"
+          class="text-xs text-gray-500 px-1"
+        >
+          Showing {{ mapToilets.length }} nearby markers on mobile for faster loading.
+        </p>
 
         <div
           v-if="selectedToilet"
           class="card p-4"
-          :class="isMobile ? 'sticky bottom-2 z-[450] shadow-lg' : ''"
+          :class="isMobile ? 'sticky bottom-2 z-[1080] shadow-lg' : ''"
         >
           <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
             <div>
@@ -312,6 +365,30 @@
             <span v-if="selectedToilet.distance_km !== undefined" class="px-2 py-1 rounded-full bg-slate-100 text-slate-700">
               {{ formatDistance(selectedToilet.distance_km) }} away
             </span>
+            <span
+              v-if="selectedToilet.freshness_label"
+              class="px-2 py-1 rounded-full"
+              :class="freshnessClass(selectedToilet.freshness_label)"
+            >
+              {{ freshnessText(selectedToilet.freshness_label, selectedToilet.freshness_days) }}
+            </span>
+            <span class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">
+              {{ selectedToilet.recent_confirmation_count }} recent confirmation{{ selectedToilet.recent_confirmation_count === 1 ? '' : 's' }}
+            </span>
+            <span
+              class="px-2 py-1 rounded-full"
+              :class="confidenceClass(selectedToilet.source_confidence_level)"
+            >
+              Confidence {{ selectedToilet.source_confidence_score }}/100
+            </span>
+            <button
+              type="button"
+              class="px-2 py-1 rounded-full bg-cyan-100 text-cyan-800 hover:bg-cyan-200"
+              :title="`Open source: ${formatProvenanceMeta(selectedToilet.source, selectedToilet.source_name)}`"
+              @click="openSource(selectedToilet.source, selectedToilet.source_url)"
+            >
+              Source {{ formatProvenanceLabel(selectedToilet.source, selectedToilet.source_name) }}
+            </button>
           </div>
 
           <div class="flex flex-wrap gap-2">
@@ -404,6 +481,33 @@
             />
           </div>
         </div>
+
+        <div
+          v-if="isMobile && toilets.length > 0"
+          class="sticky bottom-2 z-[1120]"
+        >
+          <div class="card p-2 shadow-xl bg-white/95 backdrop-blur-sm">
+            <button
+              class="btn-secondary w-full text-sm min-h-11"
+              @click="showMobileToiletList = !showMobileToiletList"
+            >
+              {{ showMobileToiletList ? `Hide public toilet list (${toilets.length})` : `Show public toilet list (${toilets.length})` }}
+            </button>
+
+            <div
+              v-if="showMobileToiletList"
+              class="mt-2 max-h-[42svh] overflow-y-auto rounded-lg border border-gray-200 bg-white p-2"
+            >
+              <div class="space-y-2">
+                <ToiletCard
+                  v-for="toilet in toilets"
+                  :key="`mobile-bottom-${toilet.id}`"
+                  :toilet="toilet"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div v-show="viewMode === 'list'" class="space-y-3">
@@ -420,6 +524,7 @@
 <script setup lang="ts">
 import 'leaflet/dist/leaflet.css'
 import type { ToiletListItem, ToiletType } from '../../../shared/types/index'
+import { formatProvenanceLabel, formatProvenanceMeta, resolveSourceUrl, sourceKindFromRecord } from '../../utils/provenance'
 
 interface ToiletsResponse {
   data: ToiletListItem[]
@@ -462,7 +567,9 @@ interface OsrmResponse {
 
 type SortMode = 'nearest' | 'rating' | 'updated'
 type ReportedFilter = 'any' | 'true' | 'false'
-type FilterKey = 'city' | 'type' | 'is_free' | 'is_accessible' | 'reported' | 'min_rating' | 'radius'
+type SourceKindFilter = 'any' | 'osm' | 'city_open_data' | 'other'
+type FilterKey = 'city' | 'type' | 'is_free' | 'is_accessible' | 'reported' | 'min_rating' | 'radius' | 'source_kind'
+const MOBILE_MARKER_LIMIT = 250
 
 const route = useRoute()
 const router = useRouter()
@@ -479,16 +586,13 @@ const filters = ref({
   is_free: route.query.is_free === 'true',
   is_accessible: route.query.is_accessible === 'true',
   reported: ((route.query.reported as ReportedFilter) ?? 'any'),
+  source_kind: ((route.query.source_kind as SourceKindFilter) ?? 'any'),
   min_rating: Number(route.query.min_rating ?? 0),
   radius: Number(route.query.radius ?? 0),
   sort: ((route.query.sort as SortMode) ?? 'updated'),
 })
 
-const userLocation = ref<UserLocation | null>(
-  route.query.lat && route.query.lng
-    ? { lat: Number(route.query.lat), lng: Number(route.query.lng) }
-    : null,
-)
+const userLocation = ref<UserLocation | null>(null)
 
 const queryParams = computed(() => {
   const p: Record<string, string> = {}
@@ -498,6 +602,7 @@ const queryParams = computed(() => {
   if (filters.value.is_free) p.is_free = 'true'
   if (filters.value.is_accessible) p.is_accessible = 'true'
   if (filters.value.reported !== 'any') p.reported = filters.value.reported
+  if (filters.value.source_kind !== 'any') p.source_kind = filters.value.source_kind
   if (filters.value.min_rating > 0) p.min_rating = String(filters.value.min_rating)
   if (filters.value.radius > 0) p.radius = String(filters.value.radius)
   p.sort = filters.value.sort
@@ -582,6 +687,7 @@ const apiToilets = computed(() => (
     : data.value?.data ?? []
 ))
 const hasImportedData = computed(() => apiToilets.value.length > 0)
+const hasLoadedOnce = ref(false)
 
 function withAppliedFilters(source: ToiletListItem[], ignore: FilterKey[] = []): ToiletListItem[] {
   let list = [...source]
@@ -602,6 +708,9 @@ function withAppliedFilters(source: ToiletListItem[], ignore: FilterKey[] = []):
   if (!ignore.includes('reported') && filters.value.reported !== 'any') {
     const wantReported = filters.value.reported === 'true'
     list = list.filter(t => t.has_reports === wantReported)
+  }
+  if (!ignore.includes('source_kind') && filters.value.source_kind !== 'any') {
+    list = list.filter(t => sourceKindFromRecord(t.source, t.source_name) === filters.value.source_kind)
   }
   if (!ignore.includes('min_rating') && filters.value.min_rating > 0) {
     list = list.filter(t => (t.avg_rating ?? 0) >= filters.value.min_rating)
@@ -668,6 +777,9 @@ const toilets = computed(() => {
     const wantReported = filters.value.reported === 'true'
     list = list.filter(t => t.has_reports === wantReported)
   }
+  if (filters.value.source_kind !== 'any') {
+    list = list.filter(t => sourceKindFromRecord(t.source, t.source_name) === filters.value.source_kind)
+  }
   if (filters.value.min_rating > 0) {
     list = list.filter(t => (t.avg_rating ?? 0) >= filters.value.min_rating)
   }
@@ -687,6 +799,33 @@ const toilets = computed(() => {
 
   return list
 })
+
+const mapToilets = computed(() => {
+  const base = toilets.value
+
+  if (!isMobile.value || base.length <= MOBILE_MARKER_LIMIT) {
+    return base
+  }
+
+  let limited = userLocation.value
+    ? [...base]
+      .sort((a, b) => (a.distance_km ?? Number.POSITIVE_INFINITY) - (b.distance_km ?? Number.POSITIVE_INFINITY))
+      .slice(0, MOBILE_MARKER_LIMIT)
+    : base.slice(0, MOBILE_MARKER_LIMIT)
+
+  if (
+    selectedToilet.value
+    && !limited.some(t => t.id === selectedToilet.value?.id)
+  ) {
+    limited = [selectedToilet.value, ...limited.slice(0, MOBILE_MARKER_LIMIT - 1)]
+  }
+
+  return limited
+})
+
+const isMapMarkerLimited = computed(() => (
+  isMobile.value && toilets.value.length > mapToilets.value.length
+))
 
 watch(
   [availableCities, availableTypes, canFilterReportedTrue, canFilterReportedFalse, canFilterFree, canFilterAccessible],
@@ -718,6 +857,8 @@ watch(
 const viewMode = ref<'map' | 'list'>('map')
 const isMobile = ref(false)
 const showFilters = ref(false)
+const showMobileToiletList = ref(false)
+const showTrustInfo = ref(false)
 
 const locating = ref(false)
 const locationError = ref('')
@@ -755,8 +896,24 @@ watch(toilets, (next) => {
   refreshMapMarkers()
 })
 
+watch(activePending, (isPending) => {
+  if (!isPending) {
+    hasLoadedOnce.value = true
+  }
+}, { immediate: true })
+
 watch(selectedToilet, () => {
   refreshMapMarkers()
+})
+
+watch(mapToilets, () => {
+  refreshMapMarkers()
+})
+
+watch(viewMode, (mode) => {
+  if (mode !== 'map') {
+    showMobileToiletList.value = false
+  }
 })
 
 onMounted(async () => {
@@ -779,6 +936,16 @@ watch(
   [activePending, mapContainer, viewMode],
   async ([isPending, container, mode]) => {
     if (isPending || !container || mode !== 'map') return
+
+    if (map && map.getContainer() !== container) {
+      map.remove()
+      map = null
+      tileLayer = null
+      toiletsLayer = null
+      userMarker = null
+      routeLayer = null
+      hasAutoFitted = false
+    }
 
     await nextTick()
     await initMap()
@@ -806,6 +973,7 @@ function updateMobileMode() {
   isMobile.value = mediaQuery.matches
   if (!isMobile.value) {
     showFilters.value = true
+    showMobileToiletList.value = false
   }
 }
 
@@ -815,7 +983,8 @@ async function initMap() {
   leaflet = await import('leaflet')
 
   map = leaflet.map(mapContainer.value, {
-    zoomControl: true,
+    zoomControl: false,
+    attributionControl: false,
     preferCanvas: true,
   }).setView([51.34, 12.37], 12)
 
@@ -826,6 +995,11 @@ async function initMap() {
 
   tileLayer.addTo(map)
   toiletsLayer = leaflet.layerGroup().addTo(map)
+  leaflet.control.zoom({ position: 'topright' }).addTo(map)
+  leaflet.control.attribution({
+    position: 'topleft',
+    prefix: false,
+  }).addTo(map)
 }
 
 function refreshMapMarkers() {
@@ -833,7 +1007,7 @@ function refreshMapMarkers() {
 
   toiletsLayer.clearLayers()
 
-  for (const toilet of toilets.value) {
+  for (const toilet of mapToilets.value) {
     const isSelected = selectedToilet.value?.id === toilet.id
     const marker = leaflet.circleMarker([toilet.lat, toilet.lng], {
       radius: isSelected ? 8 : 6,
@@ -847,12 +1021,14 @@ function refreshMapMarkers() {
       selectedToilet.value = toilet
     })
 
-    marker.bindTooltip(toilet.name ?? 'Public Toilet')
+    if (!isMobile.value) {
+      marker.bindTooltip(toilet.name ?? 'Public Toilet')
+    }
     marker.addTo(toiletsLayer)
   }
 
-  if (!hasAutoFitted && toilets.value.length > 0) {
-    const bounds = leaflet.latLngBounds(toilets.value.map(t => [t.lat, t.lng] as [number, number]))
+  if (!hasAutoFitted && mapToilets.value.length > 0) {
+    const bounds = leaflet.latLngBounds(mapToilets.value.map(t => [t.lat, t.lng] as [number, number]))
     map.fitBounds(bounds.pad(0.15))
     hasAutoFitted = true
   }
@@ -896,6 +1072,7 @@ function resetFilters() {
     is_free: false,
     is_accessible: false,
     reported: 'any',
+    source_kind: 'any',
     min_rating: 0,
     radius: 0,
     sort: userLocation.value ? 'nearest' : 'updated',
@@ -913,6 +1090,7 @@ function buildRouteQuery(): Record<string, string | undefined> {
     is_free: filters.value.is_free ? 'true' : undefined,
     is_accessible: filters.value.is_accessible ? 'true' : undefined,
     reported: filters.value.reported === 'any' ? undefined : filters.value.reported,
+    source_kind: filters.value.source_kind === 'any' ? undefined : filters.value.source_kind,
     min_rating: filters.value.min_rating > 0 ? String(filters.value.min_rating) : undefined,
     radius: filters.value.radius > 0 ? String(filters.value.radius) : undefined,
     sort: filters.value.sort,
@@ -921,10 +1099,10 @@ function buildRouteQuery(): Record<string, string | undefined> {
   }
 }
 
-async function locateUser() {
+async function locateUser(): Promise<boolean> {
   if (!import.meta.client || !navigator.geolocation) {
     locationError.value = 'Geolocation is not supported on this device.'
-    return
+    return false
   }
 
   locating.value = true
@@ -935,7 +1113,7 @@ async function locateUser() {
       navigator.geolocation.getCurrentPosition(resolve, reject, {
         enableHighAccuracy: true,
         timeout: 12000,
-        maximumAge: 60000,
+        maximumAge: 0,
       })
     })
 
@@ -955,9 +1133,11 @@ async function locateUser() {
     if (!useStaticApiMode.value) {
       await refresh()
     }
+    return true
   }
   catch {
     locationError.value = 'Could not access your location. Please allow location permission and try again.'
+    return false
   }
   finally {
     locating.value = false
@@ -967,11 +1147,10 @@ async function locateUser() {
 async function startNavigation(toilet: ToiletListItem) {
   routingError.value = ''
 
-  if (!userLocation.value) {
-    await locateUser()
-  }
+  // Always trigger a fresh geolocation request before navigation.
+  const hasLocation = await locateUser()
 
-  if (!userLocation.value || !leaflet || !map) {
+  if (!hasLocation || !userLocation.value || !leaflet || !map) {
     routingError.value = 'Current location is required to calculate a route.'
     return
   }
@@ -1069,11 +1248,39 @@ function externalRouteUrl(toilet: ToiletListItem): string {
   return `https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot&route=${userLocation.value.lat}%2C${userLocation.value.lng}%3B${toilet.lat}%2C${toilet.lng}`
 }
 
+function openSource(source: string, sourceUrl: string) {
+  if (!import.meta.client) return
+  const url = resolveSourceUrl(source, sourceUrl)
+  if (url === '#') return
+  window.open(url, '_blank', 'noopener,noreferrer')
+}
+
 function formatDistance(km: number): string {
   if (km < 1) {
     return `${Math.round(km * 1000)} m`
   }
   return `${km.toFixed(1)} km`
+}
+
+function freshnessText(
+  label: ToiletListItem['freshness_label'],
+  days: number,
+): string {
+  if (label === 'fresh') return `Updated ${days}d ago`
+  if (label === 'aging') return `Updated ${days}d ago`
+  return `Data may be stale (${days}d)`
+}
+
+function freshnessClass(label: ToiletListItem['freshness_label']): string {
+  if (label === 'fresh') return 'bg-teal-100 text-teal-700'
+  if (label === 'aging') return 'bg-orange-100 text-orange-700'
+  return 'bg-rose-100 text-rose-700'
+}
+
+function confidenceClass(level: ToiletListItem['source_confidence_level']): string {
+  if (level === 'high') return 'bg-sky-100 text-sky-800'
+  if (level === 'medium') return 'bg-indigo-100 text-indigo-700'
+  return 'bg-gray-100 text-gray-700'
 }
 
 function haversineKm(

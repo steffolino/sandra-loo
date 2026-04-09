@@ -85,6 +85,7 @@ function normalizeElement(el: OverpassElement, city: string): Toilet | null {
     lng,
     source: `https://www.openstreetmap.org/${el.type}/${el.id}`,
     source_name: 'OpenStreetMap',
+    source_url: `https://www.openstreetmap.org/${el.type}/${el.id}`,
     is_accessible: tags.wheelchair === 'yes' || tags.wheelchair === 'designated',
     is_free: tags.fee !== 'yes',
     opening_hours: tags.opening_hours ?? null,

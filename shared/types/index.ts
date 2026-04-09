@@ -25,6 +25,8 @@ export interface Toilet {
   source: string
   /** Human-readable source label */
   source_name: string
+  /** Canonical source page or dataset URL */
+  source_url: string
   is_accessible: boolean
   is_free: boolean
   opening_hours: string | null
@@ -38,6 +40,11 @@ export interface ToiletListItem extends Toilet {
   review_count: number
   report_count: number
   has_reports: boolean
+  freshness_days: number
+  freshness_label: 'fresh' | 'aging' | 'stale'
+  recent_confirmation_count: number
+  source_confidence_score: number
+  source_confidence_level: 'high' | 'medium' | 'low'
   distance_km?: number
 }
 
@@ -171,4 +178,5 @@ export interface ToiletFilters {
   lat?: number
   lng?: number
   radius?: number
+  source_kind?: 'osm' | 'city_open_data' | 'other'
 }

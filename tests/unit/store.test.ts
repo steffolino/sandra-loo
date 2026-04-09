@@ -8,6 +8,7 @@ import {
   getConfirmationsForToilet,
   addScore,
   getAllTimeLeaderboard,
+  normalizeAndMergeToilets,
 } from '../../server/utils/store'
 import {
   FIXTURE_REVIEW_1,
@@ -70,5 +71,55 @@ describe('store – leaderboard', () => {
     for (let i = 1; i < lb.length; i++) {
       expect(lb[i - 1].score).toBeGreaterThanOrEqual(lb[i].score)
     }
+  })
+})
+
+describe('store – import merge quality', () => {
+  it('merges likely duplicate toilets across sources', () => {
+    const now = '2026-01-01T00:00:00.000Z'
+    const inputs = [
+      {
+        id: 'osm-node-1',
+        name: 'WC Main Station',
+        type: 'public' as const,
+        address: 'Hauptbahnhof, Leipzig',
+        city: 'Leipzig',
+        lat: 51.345,
+        lng: 12.381,
+        source: 'https://openstreetmap.org/node/1',
+        source_name: 'OpenStreetMap',
+        source_url: 'https://openstreetmap.org/node/1',
+        is_accessible: false,
+        is_free: true,
+        opening_hours: null,
+        notes: null,
+        created_at: now,
+        last_updated_at: now,
+      },
+      {
+        id: 'leipzig-77',
+        name: 'WC Main Station',
+        type: 'public' as const,
+        address: 'Hauptbahnhof, Leipzig',
+        city: 'Leipzig',
+        lat: 51.34502,
+        lng: 12.38101,
+        source: 'https://opendata.leipzig.de',
+        source_name: 'Leipzig Open Data',
+        source_url: 'https://opendata.leipzig.de',
+        is_accessible: true,
+        is_free: false,
+        opening_hours: 'Mo-Su 06:00-22:00',
+        notes: 'City maintained',
+        created_at: now,
+        last_updated_at: '2026-01-02T00:00:00.000Z',
+      },
+    ]
+
+    const merged = normalizeAndMergeToilets(inputs)
+    expect(merged).toHaveLength(1)
+    expect(merged[0].id).toBe('leipzig-77')
+    expect(merged[0].is_accessible).toBe(true)
+    expect(merged[0].is_free).toBe(false)
   })
 })

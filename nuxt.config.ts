@@ -1,6 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import type { Toilet } from './shared/types/index'
+import { normalizeAndMergeToilets } from './server/utils/store'
 
 // Allow GitHub Pages (or any sub-path deployment) via NUXT_APP_BASE_URL.
 // e.g.  NUXT_APP_BASE_URL=/sandra-loo/  npm run generate
@@ -8,23 +10,22 @@ const baseURL = process.env.NUXT_APP_BASE_URL || '/'
 
 function getPrerenderApiRoutes(): string[] {
   const files = ['osm.json', 'leipzig.json', 'frankfurt.json']
-  const ids = new Set<string>()
+  const all: Toilet[] = []
 
   for (const file of files) {
     const path = join(process.cwd(), 'data', 'imports', file)
     if (!existsSync(path)) continue
 
     try {
-      const parsed = JSON.parse(readFileSync(path, 'utf-8')) as Array<{ id?: string }>
-      for (const row of parsed) {
-        if (row?.id) ids.add(row.id)
-      }
+      const parsed = JSON.parse(readFileSync(path, 'utf-8')) as Toilet[]
+      all.push(...parsed)
     }
     catch {
       // Ignore malformed file; build still proceeds with base API route.
     }
   }
 
+  const ids = new Set(normalizeAndMergeToilets(all).map(t => t.id))
   const detailRoutes = [...ids].map(id => `/api/toilets/${encodeURIComponent(id)}/`)
   const apiRoutes = ['/api/toilets/', ...detailRoutes]
   const prefixedRoutes

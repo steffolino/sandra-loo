@@ -175,6 +175,7 @@ function normalizeRow(row: CKANRow, index: number): Toilet | null {
     lng,
     source: `${BASE_URL}/datastore_search?resource_id=${RESOURCE_ID || '(auto)'}&filters={"_id":${row._id ?? index}}`,
     source_name: 'Leipzig Open Data',
+    source_url: `https://opendata.leipzig.de/dataset/${DATASET_ID}`,
     is_accessible: parseLeipzigAccessibility(row),
     is_free: parseLeipzigIsFree(row),
     opening_hours: String(row.oeffnungszeiten ?? row.opening_hours ?? '') || null,
