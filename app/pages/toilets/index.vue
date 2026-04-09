@@ -361,15 +361,20 @@
             v-if="isMobile"
             type="button"
             class="w-full mb-2 rounded-lg border border-gray-200 bg-[var(--cube-base-card)] px-3 py-2 text-sm font-medium text-brand flex items-center justify-between"
+            :aria-expanded="showSelectedToiletDetails ? 'true' : 'false'"
             @click="showSelectedToiletDetails = !showSelectedToiletDetails"
           >
             <span>Toilet details</span>
-            <span aria-hidden="true">{{ showSelectedToiletDetails ? '▴' : '▾' }}</span>
+            <span
+              aria-hidden="true"
+              class="inline-block text-base leading-none transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              :class="showSelectedToiletDetails ? 'rotate-180' : 'rotate-0'"
+            >⌄</span>
           </button>
 
           <div
-            class="overflow-hidden transition-[max-height,opacity,margin] duration-200"
-            :class="!isMobile || showSelectedToiletDetails ? 'max-h-[60svh] opacity-100 mt-0' : 'max-h-0 opacity-0 mt-0'"
+            class="overflow-hidden will-change-[max-height,opacity,transform] transition-[max-height,opacity,transform,margin] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            :class="!isMobile || showSelectedToiletDetails ? 'max-h-[60svh] opacity-100 translate-y-0 mt-0 pointer-events-auto' : 'max-h-0 opacity-0 -translate-y-1 mt-0 pointer-events-none'"
           >
             <div class="flex flex-wrap gap-2 mb-3 text-xs">
             <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">{{ selectedToilet.type }}</span>
