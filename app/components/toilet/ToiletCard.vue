@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    :to="`/toilets/${toilet.id}`"
+    :to="toiletDetailHref(toilet.id)"
     class="card p-4 flex items-start gap-4 hover:shadow-md transition-shadow block"
   >
     <div class="text-2xl mt-0.5">WC</div>
@@ -124,5 +124,9 @@ function openSource(source: string, sourceUrl: string) {
   const url = resolveSourceUrl(source, sourceUrl)
   if (url === '#') return
   window.open(url, '_blank', 'noopener,noreferrer')
+}
+
+function toiletDetailHref(id: string): string {
+  return `/toilets/${encodeURIComponent(id)}/`
 }
 </script>

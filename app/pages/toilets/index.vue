@@ -1285,7 +1285,7 @@ function openSource(source: string, sourceUrl: string) {
 }
 
 function toiletDetailHref(id: string): string {
-  return `/toilets/${encodeURIComponent(id)}`
+  return `/toilets/${encodeURIComponent(id)}/`
 }
 
 function formatDistance(km: number): string {
