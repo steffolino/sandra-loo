@@ -25,6 +25,14 @@
       placeholder="Optional description…"
       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
     />
+    <input
+      v-model="website"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+      aria-hidden="true"
+      class="hidden"
+    >
 
     <div class="flex items-center gap-3">
       <button
@@ -59,6 +67,8 @@ const reportTypes = [
 
 const selected = ref('')
 const description = ref('')
+const website = ref('')
+const formStartedAt = ref(Date.now())
 const submitting = ref(false)
 const success = ref(false)
 const errorMsg = ref('')
@@ -75,11 +85,15 @@ async function submit() {
         toilet_id: props.toiletId,
         type: selected.value,
         description: description.value || null,
+        website: website.value,
+        form_started_at: formStartedAt.value,
       },
     })
     success.value = true
     selected.value = ''
     description.value = ''
+    website.value = ''
+    formStartedAt.value = Date.now()
     emit('submitted')
     setTimeout(() => { success.value = false }, 3000)
   }

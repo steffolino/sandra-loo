@@ -10,10 +10,10 @@ export default {
     extend: {
       colors: {
         brand: {
-          DEFAULT: '#1a1a2e',
-          light: '#16213e',
-          accent: '#e94560',
-          muted: '#6b7280',
+          DEFAULT: '#4e8397',
+          light: '#3f6f80',
+          accent: '#845ec2',
+          muted: '#8f8479',
         },
       },
       fontFamily: {

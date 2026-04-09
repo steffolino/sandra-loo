@@ -1,5 +1,5 @@
 import type { ToiletFilters } from '../../../shared/types/index'
-import { getAllReports, getAllReviews, getToilets } from '../../utils/store'
+import { getAllConfirmations, getAllReports, getAllReviews, getToilets } from '../../utils/store'
 import { buildToiletList } from '../../utils/toilet-list'
 
 export default defineEventHandler(async (event) => {
@@ -16,10 +16,17 @@ export default defineEventHandler(async (event) => {
     lat: query.lat ? Number(query.lat) : undefined,
     lng: query.lng ? Number(query.lng) : undefined,
     radius: query.radius ? Number(query.radius) : undefined,
+    source_kind: query.source_kind as ToiletFilters['source_kind'],
   }
 
   const toilets = await getToilets()
-  const list = buildToiletList(toilets, getAllReviews(), getAllReports(), filters)
+  const list = buildToiletList(
+    toilets,
+    getAllReviews(),
+    getAllReports(),
+    getAllConfirmations(),
+    filters,
+  )
 
   return {
     data: list,

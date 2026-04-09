@@ -2,8 +2,8 @@
 
 ## Next Steps (Top Value)
 
-- [ ] Add toilet trust indicators (freshness, confirmations, source confidence) in map/list cards.
-- [ ] Implement cross-source deduplication before API serving.
+- [x] Add toilet trust indicators (freshness, confirmations, source confidence) in map/list cards.
+- [x] Implement cross-source deduplication before API serving.
 - [ ] Add CI smoke check: `/toilets/` renders and `/api/toilets/index` contains data.
 - [ ] Add map clustering + nearest-performance optimizations for dense mobile usage.
 - [ ] Add POST endpoint throttling/rate-limits for report/review abuse prevention.
@@ -21,7 +21,7 @@
 
 - [ ] Integrate OSM import into CI/CD pipeline (scheduled weekly)
 - [ ] Define update frequency per data source
-- [ ] Implement cross-source deduplication (same physical toilet in OSM + city data)
+- [x] Implement cross-source deduplication (same physical toilet in OSM + city data)
 - [ ] Add data freshness indicator to toilet detail page
 - [ ] Support additional cities (Berlin, Munich, Hamburg)
 - [ ] Validate coordinates are within Germany bounding box

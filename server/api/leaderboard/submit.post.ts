@@ -1,9 +1,17 @@
 import type { GameScore } from '../../../shared/types/index'
 import { addScore } from '../../utils/store'
 import { generateId, nowIso } from '../../utils/helpers'
+import { enforcePostProtection } from '../../utils/post-protection'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
+  enforcePostProtection(event, body, {
+    routeKey: 'leaderboard-submit',
+    rateLimitMax: 8,
+    rateLimitWindowMs: 60_000,
+    cooldownMs: 5_000,
+    minSubmitDelayMs: 1_000,
+  })
 
   if (typeof body.score !== 'number' || body.score < 0) {
     throw createError({ statusCode: 400, message: 'score must be a non-negative number' })

@@ -13,6 +13,7 @@
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest",
+    "smoke:deploy": "node scripts/smoke/deploy-check.mjs",
     "import:osm": "tsx scripts/import/osm.ts",
     "import:leipzig": "tsx scripts/import/leipzig.ts",
     "import:frankfurt": "tsx scripts/import/frankfurt.ts"

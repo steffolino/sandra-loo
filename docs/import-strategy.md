@@ -156,12 +156,20 @@ For production, consider setting up a scheduled GitHub Actions workflow.
 
 ## Deduplication
 
-Each record has a deterministic ID based on its source and source record ID.
-Re-running import scripts overwrites the output JSON, so there is no
-accumulation of duplicates between runs.
+Each import file still uses deterministic source IDs (`osm-*`, `leipzig-*`,
+`frankfurt-*`) so repeated imports do not duplicate records inside one source.
 
-Cross-source deduplication (same physical toilet in OSM and city data) is a
-future enhancement tracked in `docs/backlog.md`.
+In addition, API serving now performs cross-source deduplication before records
+reach the UI:
+
+- filters records to Germany bounding-box coordinates
+- detects likely duplicates in the same city by short geospatial distance
+  (around <= 80m) plus name/address similarity
+- merges duplicates into one canonical record (preferring city open-data over
+  fallback/OSM where available)
+
+This prevents duplicate map markers and duplicate toilet detail entries when
+the same physical toilet exists in multiple source imports.
 
 ---
 

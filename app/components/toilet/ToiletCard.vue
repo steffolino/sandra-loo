@@ -41,6 +41,34 @@
         >
           {{ toilet.report_count }} report{{ toilet.report_count === 1 ? '' : 's' }}
         </span>
+        <span
+          v-if="toilet.freshness_label !== undefined"
+          class="px-2 py-0.5 rounded-full text-xs font-medium"
+          :class="freshnessClass(toilet.freshness_label)"
+        >
+          {{ freshnessText(toilet.freshness_label, toilet.freshness_days) }}
+        </span>
+        <span
+          v-if="toilet.recent_confirmation_count !== undefined"
+          class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700"
+        >
+          {{ toilet.recent_confirmation_count }} recent confirmation{{ toilet.recent_confirmation_count === 1 ? '' : 's' }}
+        </span>
+        <span
+          v-if="toilet.source_confidence_score !== undefined"
+          class="px-2 py-0.5 rounded-full text-xs font-medium"
+          :class="confidenceClass(toilet.source_confidence_level)"
+        >
+          Confidence {{ toilet.source_confidence_score }}/100
+        </span>
+        <button
+          type="button"
+          class="px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800 hover:bg-cyan-200"
+          :title="`Open source: ${formatProvenanceMeta(toilet.source, toilet.source_name)}`"
+          @click.prevent.stop="openSource(toilet.source, toilet.source_url)"
+        >
+          Source {{ formatProvenanceLabel(toilet.source, toilet.source_name) }}
+        </button>
       </div>
     </div>
     <div class="text-right shrink-0">
@@ -59,6 +87,7 @@
 
 <script setup lang="ts">
 import type { Toilet, ToiletListItem } from '../../../shared/types/index'
+import { formatProvenanceLabel, formatProvenanceMeta, resolveSourceUrl } from '../../utils/provenance'
 
 defineProps<{ toilet: Toilet | ToiletListItem }>()
 
@@ -67,5 +96,33 @@ function formatDistance(km: number): string {
     return `${Math.round(km * 1000)} m`
   }
   return `${km.toFixed(1)} km`
+}
+
+function freshnessText(
+  label: ToiletListItem['freshness_label'],
+  days: number,
+): string {
+  if (label === 'fresh') return `Updated ${days}d ago`
+  if (label === 'aging') return `Updated ${days}d ago`
+  return `Data may be stale (${days}d)`
+}
+
+function freshnessClass(label: ToiletListItem['freshness_label']): string {
+  if (label === 'fresh') return 'bg-teal-100 text-teal-700'
+  if (label === 'aging') return 'bg-orange-100 text-orange-700'
+  return 'bg-rose-100 text-rose-700'
+}
+
+function confidenceClass(level: ToiletListItem['source_confidence_level']): string {
+  if (level === 'high') return 'bg-sky-100 text-sky-800'
+  if (level === 'medium') return 'bg-indigo-100 text-indigo-700'
+  return 'bg-gray-100 text-gray-700'
+}
+
+function openSource(source: string, sourceUrl: string) {
+  if (!import.meta.client) return
+  const url = resolveSourceUrl(source, sourceUrl)
+  if (url === '#') return
+  window.open(url, '_blank', 'noopener,noreferrer')
 }
 </script>

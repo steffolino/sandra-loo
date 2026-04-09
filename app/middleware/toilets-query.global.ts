@@ -7,6 +7,7 @@ export default defineNuxtRouteMiddleware((to) => {
     'is_free',
     'is_accessible',
     'reported',
+    'source_kind',
     'min_rating',
     'radius',
     'sort',

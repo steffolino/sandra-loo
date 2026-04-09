@@ -12,6 +12,8 @@ dist/
 .env.*.local
 
 # Imported data is committed for production static deploys.
+# Runtime user submissions are local-only MVP persistence.
+data/runtime/
 
 # Logs
 *.log

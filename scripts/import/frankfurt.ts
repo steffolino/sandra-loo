@@ -166,6 +166,7 @@ function normalizeFeature(feature: GeoJSONFeature, index: number): Toilet | null
     lng,
     source: WFS_URL || `${PORTAL_BASE}/dataset/${DATASET_ID}`,
     source_name: 'Frankfurt am Main Open Data',
+    source_url: `${PORTAL_BASE}/dataset/${DATASET_ID}`,
     is_accessible: Boolean(props.rollstuhl ?? props.wheelchair ?? props.barrierefrei ?? false),
     is_free: !(props.kostenpflichtig ?? props.gebuehr ?? false),
     opening_hours: String(props.oeffnungszeiten ?? props.opening_hours ?? '') || null,
@@ -335,6 +336,7 @@ async function fallbackFromOsmImport(): Promise<Toilet[]> {
         ...t,
         id: t.id.startsWith('frankfurt-') ? t.id : `frankfurt-${t.id}`,
         source_name: `${t.source_name} (fallback)`,
+        source_url: t.source_url || t.source,
       }))
 
     if (fallback.length > 0) {
