@@ -339,7 +339,7 @@
         <div
           v-if="selectedToilet"
           class="card p-4"
-          :class="isMobile ? 'sticky bottom-2 z-[1080] shadow-lg' : ''"
+          :class="isMobile ? 'sticky bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] z-[1080] shadow-lg max-h-[34svh] overflow-y-auto overscroll-contain' : ''"
         >
           <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
             <div>
@@ -526,19 +526,19 @@
 
         <div
           v-if="isMobile && toilets.length > 0"
-          class="sticky bottom-2 z-[1120]"
+          class="sticky bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] z-[1120]"
         >
           <div class="card p-2 shadow-xl bg-white/95 backdrop-blur-sm">
             <button
               class="btn-secondary w-full text-sm min-h-11"
-              @click="showMobileToiletList = !showMobileToiletList"
+              @click="toggleMobileToiletList"
             >
               {{ showMobileToiletList ? `Hide public toilet list (${toilets.length})` : `Show public toilet list (${toilets.length})` }}
             </button>
 
             <div
               v-if="showMobileToiletList"
-              class="mt-2 max-h-[42svh] overflow-y-auto rounded-lg border border-gray-200 bg-white p-2"
+              class="mt-2 max-h-[45svh] overflow-y-auto overscroll-contain rounded-lg border border-gray-200 bg-white p-2"
             >
               <div class="space-y-1.5">
                 <div
@@ -546,7 +546,7 @@
                   :key="`mobile-bottom-${toilet.id}`"
                   role="button"
                   tabindex="0"
-                  class="w-full text-left rounded-lg border px-2.5 py-2 transition-colors"
+                  class="w-full text-left rounded-lg border px-2.5 py-2.5 transition-colors"
                   :class="selectedToilet?.id === toilet.id ? 'border-brand-accent bg-brand-accent/10' : 'border-gray-200 bg-white hover:bg-[var(--cube-base-card)]'"
                   @click="focusToiletFromList(toilet)"
                   @keydown.enter.prevent="focusToiletFromList(toilet)"
@@ -1360,6 +1360,14 @@ function focusToiletFromList(toilet: ToiletListItem) {
   if (map) {
     const targetZoom = Math.max(map.getZoom(), 16)
     map.flyTo([toilet.lat, toilet.lng], targetZoom, { animate: true, duration: 0.35 })
+  }
+}
+
+function toggleMobileToiletList() {
+  const next = !showMobileToiletList.value
+  showMobileToiletList.value = next
+  if (isMobile.value && next) {
+    showSelectedToiletDetails.value = false
   }
 }
 
