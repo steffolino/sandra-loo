@@ -1,4 +1,11 @@
-import type { GameConfig, GameState, Reward, ToiletOption } from '../../../shared/types/index'
+import type {
+  GameConfig,
+  GameState,
+  GameStepSummary,
+  MilestoneOption,
+  Reward,
+  ToiletOption,
+} from '../../../shared/types/index'
 
 export function useGame(config: GameConfig) {
   const state = ref<GameState>({
@@ -12,8 +19,9 @@ export function useGame(config: GameConfig) {
     equippedRewards: [],
   })
 
-  const pendingRewards = ref<Reward[]>([])
-  const showRewardPicker = ref(false)
+  const milestoneOptions = ref<MilestoneOption[]>([])
+  const showMilestonePicker = ref(false)
+  const lastStepSummary = ref<GameStepSummary | null>(null)
 
   function startGame() {
     state.value = {
@@ -26,96 +34,168 @@ export function useGame(config: GameConfig) {
       gameOverReason: null,
       equippedRewards: [],
     }
-    pendingRewards.value = []
-    showRewardPicker.value = false
+    milestoneOptions.value = []
+    showMilestonePicker.value = false
+    lastStepSummary.value = null
   }
 
   function chooseToilet(option: ToiletOption) {
-    if (!state.value.isRunning) return
+    if (!state.value.isRunning || showMilestonePicker.value) return
 
-    // Apply effects
+    const rewardBonuses = calculateRewardBonuses(state.value.equippedRewards)
+    const stepPressureGain = config.bladderIncreasePerStep
+    const bladderDelta = option.bladderEffect + rewardBonuses.bladderReliefBonus
+    const igittDelta = option.igittEffect - rewardBonuses.igittShieldBonus
+    const scoreDelta = config.pointsPerStep + option.pointsBonus + rewardBonuses.scoreBonus
+
+    state.value.bladderMeter = Math.min(config.meterMax, state.value.bladderMeter + stepPressureGain)
     state.value.bladderMeter = Math.max(
       0,
-      Math.min(config.meterMax, state.value.bladderMeter + option.bladderEffect),
+      Math.min(config.meterMax, state.value.bladderMeter + bladderDelta),
     )
     state.value.igittMeter = Math.max(
       0,
-      Math.min(config.meterMax, state.value.igittMeter + option.igittEffect),
+      Math.min(config.meterMax, state.value.igittMeter + igittDelta),
     )
-
-    state.value.score += config.pointsPerStep + option.pointsBonus
+    state.value.score += scoreDelta
     state.value.step++
 
-    // Random bladder increase per step
-    state.value.bladderMeter = Math.min(
-      config.meterMax,
-      state.value.bladderMeter + Math.floor(Math.random() * 15) + 5,
-    )
+    lastStepSummary.value = {
+      optionLabel: option.label,
+      optionType: option.type,
+      stepPressureGain,
+      bladderDelta,
+      igittDelta,
+      scoreDelta,
+      totalBladder: Math.round(state.value.bladderMeter),
+      totalIgitt: Math.round(state.value.igittMeter),
+      rewardHighlights: describeBonuses(rewardBonuses),
+    }
 
-    // Check game over
     if (state.value.bladderMeter >= config.meterMax) {
       endGame('bladder')
       return
     }
+
     if (state.value.igittMeter >= config.meterMax) {
       endGame('igitt')
       return
     }
 
-    // Max steps reached = win
     if (state.value.step >= config.maxSteps) {
       endGame(null)
       return
     }
 
-    // Offer rewards
-    pendingRewards.value = generateRewards(config.rewardsPerStep)
-    showRewardPicker.value = true
+    if (state.value.step % config.stepsPerMilestone === 0) {
+      milestoneOptions.value = generateMilestoneOptions()
+      showMilestonePicker.value = true
+    }
   }
 
-  function pickReward(reward: Reward) {
-    state.value.equippedRewards.push(reward)
-    pendingRewards.value = []
-    showRewardPicker.value = false
-  }
+  function chooseMilestone(option: MilestoneOption) {
+    if (!showMilestonePicker.value) return
 
-  function skipReward() {
-    pendingRewards.value = []
-    showRewardPicker.value = false
+    state.value.equippedRewards.push(option.reward)
+    state.value.score += option.pointsBonus
+    milestoneOptions.value = []
+    showMilestonePicker.value = false
   }
 
   function endGame(reason: 'bladder' | 'igitt' | null) {
     state.value.isRunning = false
     state.value.isGameOver = true
     state.value.gameOverReason = reason
-    showRewardPicker.value = false
+    showMilestonePicker.value = false
   }
 
   return {
     state: readonly(state),
-    pendingRewards: readonly(pendingRewards),
-    showRewardPicker: readonly(showRewardPicker),
+    milestoneOptions: readonly(milestoneOptions),
+    showMilestonePicker: readonly(showMilestonePicker),
+    lastStepSummary: readonly(lastStepSummary),
     startGame,
     chooseToilet,
-    pickReward,
-    skipReward,
+    chooseMilestone,
   }
 }
 
-// ---------------------------------------------------------------------------
-// Reward pool (cosmetic – MVP)
-// ---------------------------------------------------------------------------
-
-const REWARD_POOL: Reward[] = [
-  { id: 'r1', name: 'Golden Roll', description: 'A shimmering toilet roll', category: 'cosmetic', icon: '🧻✨' },
-  { id: 'r2', name: 'Hygiene Halo', description: 'You glow with cleanliness', category: 'cosmetic', icon: '😇' },
-  { id: 'r3', name: 'Speed Sneakers', description: 'Run faster to the next loo', category: 'cosmetic', icon: '👟' },
-  { id: 'r4', name: 'Nose Clip', description: 'Igitt immunity +10%', category: 'cosmetic', icon: '🤏' },
-  { id: 'r5', name: 'VIP Pass', description: 'Skip the queue', category: 'cosmetic', icon: '🎫' },
-  { id: 'r6', name: 'Café Voucher', description: 'Free latte, nicer loo', category: 'cosmetic', icon: '☕' },
+const SHOP_REWARDS: MilestoneOption[] = [
+  {
+    id: 'shoe-shop',
+    label: 'Shoe Shop',
+    description: 'Pick up fast soles and turn the run into a style statement.',
+    icon: 'Sneakers',
+    pointsBonus: 80,
+    reward: {
+      id: 'shop-speed',
+      name: 'Speed Sneakers',
+      description: 'Extra score on every remaining stop.',
+      category: 'bonus',
+      icon: 'Speed',
+      scoreBonus: 20,
+    },
+  },
+  {
+    id: 'grocery-store',
+    label: 'Grocery Store',
+    description: 'Stock up on tissues and cooling drinks for a steadier route.',
+    icon: 'Groceries',
+    pointsBonus: 60,
+    reward: {
+      id: 'shop-relief',
+      name: 'Emergency Tissue Pack',
+      description: 'Each stop gives a little extra relief.',
+      category: 'bonus',
+      icon: 'Tissues',
+      bladderReliefBonus: -10,
+    },
+  },
+  {
+    id: 'pharmacy',
+    label: 'Pharmacy',
+    description: 'Grab a hygiene kit and reduce the risk from sketchy toilets.',
+    icon: 'Pharmacy',
+    pointsBonus: 70,
+    reward: {
+      id: 'shop-shield',
+      name: 'Hygiene Kit',
+      description: 'Cuts the igitt hit on future stops.',
+      category: 'bonus',
+      icon: 'Shield',
+      igittShieldBonus: 10,
+    },
+  },
 ]
 
-function generateRewards(count: number): Reward[] {
-  const shuffled = [...REWARD_POOL].sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, count)
+function generateMilestoneOptions() {
+  return [...SHOP_REWARDS].sort(() => Math.random() - 0.5).slice(0, 3)
+}
+
+function calculateRewardBonuses(rewards: Reward[]) {
+  return rewards.reduce((totals, reward) => ({
+    bladderReliefBonus: totals.bladderReliefBonus + (reward.bladderReliefBonus ?? 0),
+    igittShieldBonus: totals.igittShieldBonus + (reward.igittShieldBonus ?? 0),
+    scoreBonus: totals.scoreBonus + (reward.scoreBonus ?? 0),
+  }), {
+    bladderReliefBonus: 0,
+    igittShieldBonus: 0,
+    scoreBonus: 0,
+  })
+}
+
+function describeBonuses(bonuses: ReturnType<typeof calculateRewardBonuses>): string[] {
+  const highlights: string[] = []
+
+  if (bonuses.bladderReliefBonus < 0) {
+    highlights.push(`${Math.abs(bonuses.bladderReliefBonus)} extra bladder relief`)
+  }
+  if (bonuses.igittShieldBonus > 0) {
+    highlights.push(`${bonuses.igittShieldBonus} igitt shield`)
+  }
+  if (bonuses.scoreBonus > 0) {
+    highlights.push(`+${bonuses.scoreBonus} bonus points`)
+  }
+
+  return highlights
 }

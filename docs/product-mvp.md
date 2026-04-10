@@ -2,30 +2,28 @@
 
 ## Vision
 
-Sandra Loo is a mobile-first PWA for Germany that solves a real civic problem
-(finding accessible, clean public toilets) while raising awareness through a
-stylized survival game from a female perspective.
+Sandra Loo is a mobile-first PWA for Germany that combines:
 
----
+- a practical civic toilet finder
+- a stylized awareness game about toilet access, urgency, and public-space friction
 
-## Product Principles
+## Product principles
 
-1. **Real data only** - no fabricated toilet locations, ever
-2. **Empty-state-first UX** - designed states for no data, not errors
-3. **Mobile-first** - optimized for one-handed use on small screens
-4. **Transparent data sources** - every record shows its origin
-5. **Light humor + subtle feminist perspective** - stylish, not cartoonish
-6. **Extensible architecture** - utility and game are separate modules
+1. Real data only for the civic utility
+2. Empty-state-first UX rather than fake content
+3. Mobile-first interaction and navigation
+4. Transparent source metadata
+5. Light humor with a grounded perspective
+6. Separate utility and game modules, with room to evolve both
 
----
-
-## MVP Scope
+## MVP scope
 
 ### Geography
-- Germany only
-- MVP cities: **Leipzig**, **Frankfurt am Main**
 
-### Module 1: Civic Utility
+- Germany only
+- MVP cities: Leipzig and Frankfurt am Main
+
+### Module 1: Civic utility
 
 | Feature | MVP | Future |
 | --- | --- | --- |
@@ -39,50 +37,63 @@ stylized survival game from a female perspective.
 | Community reviews | Yes | Yes |
 | Issue reports | Yes | Yes |
 | Confirmations | Yes | Yes |
-| Navigation UX (route + nearest WC guidance) | Yes | Yes |
-| Auth (login) | No | Yes |
+| Basic navigation UX | Yes | Yes |
+| Auth | No | Yes |
 
-### Module 2: Awareness Game
+### Module 2: Awareness game
 
 | Feature | MVP | Future |
 | --- | --- | --- |
-| Run-based game | Yes | Yes |
+| Step-based run loop | Yes | Yes |
+| 3D destination scene | Yes | Yes |
 | Bladder meter | Yes | Yes |
 | Igitt meter | Yes | Yes |
-| Toilet option choice | Yes | Yes |
-| Step progression | Yes | Yes |
-| Cosmetic rewards | Yes | Yes |
+| Three toilet options per step | Yes | Yes |
+| Milestone shops every 10 steps | Yes | Yes |
+| Reward bonuses | Yes | Yes |
 | Leaderboard | Yes | Yes |
-| Avatar visuals | No | Yes |
+| Free-roam exploration | No | Possible |
 | Multiplayer | No | No |
 
----
+## Current gameplay MVP definition
 
-## Non-Goals (MVP)
+The current game MVP is defined as:
 
-- Advanced gamification or AI features
+- 20-step runs
+- three toilet choices per step
+- bladder pressure applied before toilet relief
+- milestone shop events every 10 steps
+- reward bonuses that affect later steps
+- a 3D scene with HUD-integrated meters and selection flow
+
+## Non-goals for MVP
+
+- Advanced AI features
 - Real-time multiplayer
-- Full admin moderation workflow
+- Full moderation backoffice
 - Automatic authority reporting
-- Auth provider integration (anonymous use is default)
+- Database-backed persistence for every submission on day one
 
----
+## Delivery requirements
 
-## Delivery Requirements (MVP)
+- Local development should run without manual repair steps
+- The civic utility must work with imported real data only
+- Static deployment must include required prerendered payloads
+- The game should be playable end-to-end in its current step-based form
+- The game HUD should keep the critical meters visible during play
 
-- Local development must run end-to-end (`npm ci`, imports, `npm run dev`, `npm run generate`) without manual fixes.
-- GitHub Pages deployment must not show Nuxt default placeholder or API 404 for toilet list/detail pages.
-- Static deployment must pre-render required API JSON payloads used by the frontend.
-- MVP civic utility must include a usable map-first experience and basic user navigation support, not list-only browsing.
-- Filter UX must disable unavailable options and show an explicit "no filter matches" message when data exists but current filters return zero results.
+## Storage stance for MVP
 
----
+The MVP remains JSON-first.
 
-## Next Steps With Highest Civic Value
+- Toilet data is stored in JSON imports
+- The project is intentionally avoiding SQL setup for the initial MVP
+- SQLite remains the first upgrade path after MVP if persistence needs increase
 
-1. Add persistent storage (SQLite + migrations) so reviews/reports/confirmations survive deployments.
-2. Complete manual moderation workflow for reports (status transitions, resolution notes, admin UX).
-3. Schedule automated source refresh (weekly imports + validation + pull request with diff summary).
-4. Add API integration and E2E tests for critical user flows (`/toilets`, review/report submit, game score submit).
-5. Improve map performance in dense areas (marker clustering + faster nearest-toilet calculations).
-6. Add production monitoring baseline (error-rate alerting, latency thresholds, submission failure alerts).
+## Highest-value next steps after this MVP slice
+
+1. Add stronger milestone presentation so each 10-step checkpoint feels special
+2. Improve game juice with better character animation and destination reveals
+3. Persist submissions and leaderboard data in SQLite when MVP validation justifies it
+4. Add integration and E2E coverage for critical civic and game flows
+5. Automate data refresh and validation for imported city datasets
