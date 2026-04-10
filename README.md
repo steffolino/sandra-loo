@@ -1,58 +1,47 @@
-# Sandra Loo 🚻
+# Sandra Loo
 
-**Civic Toilet Finder + Awareness Game** — Nuxt 4 PWA for Germany (MVP)
+**Civic Toilet Finder + Awareness Game** - Nuxt 4 PWA for Germany (MVP)
 
-> 🤖 **This project was primarily built using AI coding agents** (GitHub Copilot Agent).
-> All code, architecture, and documentation were generated and refined through
-> AI-assisted development. Human review and civic-data quality principles are applied
-> throughout.
-
----
+> This project was primarily built using AI coding agents. Human review and civic-data quality principles are applied throughout.
 
 ## What is Sandra Loo?
 
-Sandra Loo is a mobile-first Progressive Web App that combines two modules:
+Sandra Loo is a mobile-first Progressive Web App with two connected modules:
 
-1. **Civic Utility** — Find, review, and report on public toilets in German cities
-2. **Awareness Game** — A stylized, run-based survival game from a female perspective
+1. Civic utility: find, review, and report on public toilets in German cities
+2. Awareness game: a stylized survival game built around bladder pressure, toilet choice, and humor rooted in real urban friction
 
-### MVP Cities
+### MVP cities
 
 - Leipzig
 - Frankfurt am Main
 
----
+## Data policy
 
-## Data Policy
+This project handles real-world civic data. No fake toilet data is generated.
 
-> ⚠️ **This project handles real-world civic data. No fake data is ever generated.**
+- All toilet locations come from verifiable sources such as OpenStreetMap and city open-data portals
+- Data is imported through scripts in `scripts/import/`, not hardcoded by hand
+- Records include source metadata and timestamps
+- If no data is imported, the app shows empty states rather than fake content
 
-- All toilet locations come from **real, verifiable sources** (OpenStreetMap, city open-data portals)
-- Data is imported via **scripts in `scripts/import/`** — never hardcoded
-- Every record includes `source`, `source_name`, and `last_updated_at`
-- If no data is imported: the app shows **empty states** — it never fabricates content
+## Tech stack
 
----
+| Layer | Technology |
+| --- | --- |
+| Frontend | Nuxt 4, Vue 3, TypeScript, Tailwind CSS |
+| Mapping | OpenStreetMap + Leaflet |
+| Backend | Nuxt server routes (Nitro) |
+| Storage | JSON files for MVP |
+| PWA | `@vite-pwa/nuxt` |
+| State | Local/composable state, with Pinia available for future expansion |
 
-## Tech Stack
-
-| Layer      | Technology                              |
-| ---------- | --------------------------------------- |
-| Frontend   | Nuxt 4, Vue 3, TypeScript, Tailwind CSS |
-| Mapping    | OpenStreetMap + Leaflet                 |
-| Backend    | Nuxt server routes (Nitro)              |
-| Database   | JSON files (MVP) → SQLite / Postgres    |
-| PWA        | @vite-pwa/nuxt                          |
-| State      | Pinia                                   |
-
----
-
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
-- Node.js ≥ 18
-- npm ≥ 9
+- Node.js >= 18
+- npm >= 9
 
 ### Install dependencies
 
@@ -64,31 +53,25 @@ npm install
 
 ```bash
 cp .env.example .env
-# Edit .env as needed
 ```
 
-### Run development server
+### Run the development server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Open `http://localhost:3000`.
 
 ### Import real data
 
 ```bash
-# Import from OpenStreetMap (Leipzig + Frankfurt am Main)
 npm run import:osm
-
-# Import from Leipzig Open Data (requires LEIPZIG_RESOURCE_ID)
 npm run import:leipzig
-
-# Import from Frankfurt am Main Open Data (requires FRANKFURT_WFS_URL)
 npm run import:frankfurt
 ```
 
-See [`docs/import-strategy.md`](docs/import-strategy.md) for full instructions.
+See `docs/import-strategy.md` for details.
 
 ### Build for production
 
@@ -103,145 +86,95 @@ npm run preview
 npm test
 ```
 
----
+## Current game MVP
 
-## Project Structure
+The awareness game is currently a 3D, step-based run rather than a free-roam world.
 
-```
+- Each step offers three toilet choices: public toilet, cafe, and park
+- Taking a step increases bladder pressure first
+- The chosen toilet then changes bladder, igitt, and score
+- Every 10 steps the player reaches a milestone shop and picks one bonus reward
+- A full run currently lasts 20 steps
+- The game HUD now lives directly inside the 3D scene, including bladder, igitt, step, pressure, and score
+
+## Project structure
+
+```text
 /
-├─ app/                    # Frontend (Vue 3 + Nuxt pages/components)
-│  ├─ assets/css/
-│  ├─ components/
-│  │  ├─ game/
-│  │  └─ toilet/
-│  ├─ composables/
-│  ├─ layouts/
-│  └─ pages/
-│     ├─ admin/
-│     ├─ game/
-│     └─ toilets/
-├─ server/                 # API routes (Nitro)
-│  ├─ api/
-│  │  ├─ confirmations/
-│  │  ├─ game/
-│  │  ├─ leaderboard/
-│  │  ├─ reports/
-│  │  ├─ reviews/
-│  │  └─ toilets/
-│  └─ utils/
-├─ shared/
-│  └─ types/               # Shared TypeScript types
-├─ scripts/
-│  └─ import/              # Data import scripts
-│     ├─ osm.ts
-│     ├─ leipzig.ts
-│     └─ frankfurt.ts
-├─ data/
-│  └─ imports/             # Imported JSON data snapshots (committed for Pages deploy)
-├─ docs/                   # Documentation
-├─ .github/                # Issue templates, PR template
-├─ public/                 # Static assets
-└─ tests/                  # Unit and API tests
+|-- app/
+|   |-- assets/css/
+|   |-- components/
+|   |   |-- game/
+|   |   `-- toilet/
+|   |-- composables/
+|   |-- layouts/
+|   `-- pages/
+|       |-- admin/
+|       |-- game/
+|       `-- toilets/
+|-- server/
+|   |-- api/
+|   `-- utils/
+|-- shared/
+|   `-- types/
+|-- scripts/
+|   `-- import/
+|-- data/
+|   `-- imports/
+|-- docs/
+|-- public/
+`-- tests/
 ```
 
----
+## API endpoints
 
-## API Endpoints
-
-| Method | Path                          | Description             |
-| ------ | ----------------------------- | ----------------------- |
-| GET    | `/api/toilets`                | List / filter toilets   |
-| GET    | `/api/toilets/:id`            | Toilet detail           |
-| POST   | `/api/reviews`                | Submit a review         |
-| POST   | `/api/reports`                | Submit a report         |
-| POST   | `/api/confirmations`          | Submit a confirmation   |
-| GET    | `/api/leaderboard/daily`      | Daily leaderboard       |
-| GET    | `/api/leaderboard/all-time`   | All-time leaderboard    |
-| POST   | `/api/leaderboard/submit`     | Submit a game score     |
-| GET    | `/api/game/config`            | Game configuration      |
-
----
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | `/api/toilets` | List and filter toilets |
+| GET | `/api/toilets/:id` | Toilet detail |
+| POST | `/api/reviews` | Submit a review |
+| POST | `/api/reports` | Submit a report |
+| POST | `/api/confirmations` | Submit a confirmation |
+| GET | `/api/leaderboard/daily` | Daily leaderboard |
+| GET | `/api/leaderboard/all-time` | All-time leaderboard |
+| POST | `/api/leaderboard/submit` | Submit a game score |
+| GET | `/api/game/config` | Current game configuration |
 
 ## Documentation
 
-| File                              | Description                    |
-| --------------------------------- | ------------------------------ |
-| `docs/product-mvp.md`             | Product scope and principles   |
-| `docs/architecture.md`            | System architecture            |
-| `docs/game-design.md`             | Game mechanics and design      |
-| `docs/data-model.md`              | Data model reference           |
-| `docs/api.md`                     | API reference                  |
-| `docs/import-strategy.md`         | Data import instructions       |
-| `docs/backlog.md`                 | Development backlog            |
-| `docs/DEPLOY_CHECKLIST.md`        | Deployment runbook checklist   |
-| `docs/DEPLOY_REPORT_2026-04-09.md`| Latest deployment gate report  |
-| `docs/RELEASE_NOTES_2026-04-09.md`| Latest release notes           |
+| File | Description |
+| --- | --- |
+| `docs/product-mvp.md` | Product scope and principles |
+| `docs/architecture.md` | Current system architecture |
+| `docs/game-design.md` | Current game loop and mechanics |
+| `docs/data-model.md` | Shared data model reference |
+| `docs/api.md` | API reference |
+| `docs/import-strategy.md` | Data import instructions |
+| `docs/backlog.md` | Feature backlog |
+| `docs/DEPLOY_CHECKLIST.md` | Deployment checklist |
+| `docs/DEPLOY_REPORT_2026-04-09.md` | Latest deployment gate report |
+| `docs/RELEASE_NOTES_2026-04-09.md` | Latest release notes |
 
----
+## Upgrade paths
 
-## Optional Extensions
+The MVP intentionally keeps storage simple.
 
-The project is designed with clear upgrade paths for production use:
+- Current storage is JSON-based for toilet data and MVP game configuration/state assumptions
+- Persistent community submissions and leaderboard storage are still a post-MVP storage task
+- The intended next storage upgrade is SQLite, followed by Postgres if the product grows
 
-| Extension                      | Current (MVP)                           | Upgrade path                                   |
-| ------------------------------ | --------------------------------------- | ---------------------------------------------- |
-| **Database**                   | JSON files in `data/imports/`           | SQLite via Drizzle ORM; then Postgres           |
-| **Auth**                       | Anonymous use                           | Auth.js or Supabase (post-MVP)                  |
-| **Map view**                   | Required in MVP (map-first UX)          | Marker clustering + advanced layers             |
-| **Navigation UX**              | Required in MVP (nearest + route guide) | Turn-by-turn and accessibility-aware routing    |
-| **Input validation**           | Inline checks in route handlers         | Zod schema validation                           |
-| **Rate limiting**              | POST abuse protection (rate-limit + cooldown + honeypot) | Move to distributed/edge-backed rate limiting |
-| **Scheduled data import**      | Manual `npm run import:*`               | GitHub Actions scheduled workflow               |
-| **Admin moderation**           | Stub admin pages                        | Full workflow with DB-backed status transitions |
-| **i18n**                       | English only                            | `@nuxtjs/i18n` module                           |
-| **Component library**          | Ad-hoc Tailwind classes                 | Design-token–based `ui/` component set          |
-| **Pinia stores**               | Local component state                   | Shared Pinia stores for auth/preferences        |
+## Deployment notes
 
-See [`docs/backlog.md`](docs/backlog.md) for the full feature backlog and
-[`docs/architecture.md`](docs/architecture.md) for architectural decision rationale.
-
----
+- The app can be built as a Node-hosted Nuxt app or prerendered for static hosting
+- GitHub Pages requires prerendered payloads for the routes it serves
+- Imported city data should be committed for reliable static deploys
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
+MIT - see `LICENSE`
 
----
+## Data attribution
 
-## Data Attribution
-
-- Map data (c) [OpenStreetMap contributors](https://www.openstreetmap.org/copyright) - ODbL
-- Leipzig data: [Leipzig Open Data](https://opendata.leipzig.de) - CC BY 4.0
-- Frankfurt data: [Frankfurt am Main Open Data](https://offenedaten.frankfurt.de) - dl-de/by-2-0
----
-
-## Deployment Notes (GitHub Pages)
-
-- This project is deployed as a static site on GitHub Pages via GitHub Actions.
-- Deployment is handled by `.github/workflows/deploy.yml`.
-- CI currently uses `npm install` in the deploy workflow to avoid lockfile strictness failures during Pages builds.
-- GitHub Pages does not run a live Nuxt server, so API routes must be prerendered during `npm run generate`.
-- Required behavior for releases:
-  - No `/api/toilets` or `/api/toilets/:id` 404 on production Pages.
-  - No fallback to Nuxt default placeholder view.
-  - Imported city data must be present before static generation.
-  - `data/imports/*.json` snapshots are committed so Pages deploys always ship non-empty toilet data.
-
-## MVP UX Requirement
-
-- MVP must include a proper map-first toilet discovery experience and basic navigation support.
-- List view is a secondary fallback, not the primary/final MVP experience.
-- Mobile UX is priority one: filters can be shown/hidden to keep map view near fullscreen.
-- Mobile/desktop filters disable options with no matching data in the current dataset context.
-- Empty states distinguish between `no imported data` and `no results for current filters`.
-- Canonical app links use `/toilets/` to avoid extra redirect hops on Pages.
-
-## Next Steps (Highest User Value)
-
-1. Persist community submissions in SQLite (reviews, reports, confirmations, leaderboard) so data survives restarts/deploys.
-2. Add report moderation workflow in admin (triage states, resolution notes, audit trail).
-3. Add API integration + E2E coverage for release-critical flows (`/toilets`, submit review/report, leaderboard submit).
-4. Add scheduled import automation (weekly source sync + validation + change summary).
-5. Improve mobile map performance in dense areas (marker clustering, nearest-calculation optimization).
-6. Add production monitoring and alerting baselines (error rate, latency, submission failure spikes).
-
+- OpenStreetMap contributors - ODbL
+- Leipzig Open Data - CC BY 4.0
+- Frankfurt am Main Open Data - dl-de/by-2-0

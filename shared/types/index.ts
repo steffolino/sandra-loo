@@ -135,11 +135,12 @@ export interface ToiletOption {
 
 export interface GameConfig {
   maxSteps: number
+  stepsPerMilestone: number
   pointsPerStep: number
   meterMax: number
   meterDangerThreshold: number
+  bladderIncreasePerStep: number
   toiletOptions: ToiletOption[]
-  rewardsPerStep: number
 }
 
 export type RewardCategory = 'cosmetic' | 'bonus'
@@ -150,6 +151,18 @@ export interface Reward {
   description: string
   category: RewardCategory
   icon: string
+  bladderReliefBonus?: number
+  igittShieldBonus?: number
+  scoreBonus?: number
+}
+
+export interface MilestoneOption {
+  id: string
+  label: string
+  description: string
+  icon: string
+  reward: Reward
+  pointsBonus: number
 }
 
 export interface GameState {
@@ -161,6 +174,18 @@ export interface GameState {
   isGameOver: boolean
   gameOverReason: 'bladder' | 'igitt' | null
   equippedRewards: Reward[]
+}
+
+export interface GameStepSummary {
+  optionLabel: string
+  optionType: ToiletOptionType
+  stepPressureGain: number
+  bladderDelta: number
+  igittDelta: number
+  scoreDelta: number
+  totalBladder: number
+  totalIgitt: number
+  rewardHighlights: string[]
 }
 
 // ============================================================

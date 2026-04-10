@@ -1,11 +1,12 @@
 import type { GameConfig } from '../../../shared/types/index'
 
 const config: GameConfig = {
-  maxSteps: 10,
+  maxSteps: 20,
+  stepsPerMilestone: 10,
   pointsPerStep: 100,
   meterMax: 100,
   meterDangerThreshold: 75,
-  rewardsPerStep: 3,
+  bladderIncreasePerStep: 14,
   toiletOptions: [
     {
       type: 'public',

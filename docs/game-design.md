@@ -1,117 +1,130 @@
-# Game Design – Sandra Loo
+# Game Design - Sandra Loo
 
 ## Concept
 
-A stylized, run-based survival game from a female perspective. The player
-navigates an urban environment while managing two meters: **Bladder** and
-**Igitt**. Each run consists of up to 10 steps. At each step, the player
-chooses where to go for a toilet break.
+Sandra Loo is a stylized survival game from a female perspective. The player
+tries to make it through a city run while managing two meters:
 
-The game is intentionally humorous but grounded in real frustrations that
-women disproportionately face in urban public spaces.
+- `Bladder`: pressure and urgency
+- `Igitt`: disgust, dirtiness, and discomfort
 
----
+The tone is playful, but the core tension is grounded in a real public-space problem:
+finding a usable toilet in time.
 
-## Core Loop
+## Current MVP loop
 
-```
+The current implemented loop is step-based and presented inside a 3D scene.
+
+```text
 START RUN
-  │
-  ▼
-┌───────────────────────────────┐
-│  Display current meter values  │
-│  (Bladder %, Igitt %)          │
-└───────────┬───────────────────┘
-            │
-            ▼
-┌───────────────────────────────┐
-│  Player chooses toilet option  │
-│  - Public toilet               │
-│  - Café                        │
-│  - Park / bushes               │
-└───────────┬───────────────────┘
-            │
-            ▼
-     Apply meter effects
-     Add step score (+100 pts)
-     Random bladder increase
-            │
-            ├─ Bladder ≥ 100 → GAME OVER (💦)
-            ├─ Igitt ≥ 100   → GAME OVER (🤢)
-            ├─ Step = 10     → WIN (🏆)
-            │
-            ▼
-     Offer reward choice
-     (1 of 3 cosmetic rewards)
-            │
-            ▼
-     Next step →  (back to top)
+  |
+  v
+Show 3D HUD
+- Bladder
+- Igitt
+- Step
+- Pressure gain
+- Score
+  |
+  v
+Present 3 toilet options
+- Public toilet
+- Cafe
+- Park
+  |
+  v
+Player selects an option in the 3D scene
+  |
+  v
+Short walking/commit animation plays
+  |
+  v
+Apply step pressure first
+  |
+  v
+Apply toilet relief, igitt, and score effects
+  |
+  +--> Bladder >= 100 -> game over
+  +--> Igitt >= 100 -> game over
+  +--> Step % 10 == 0 -> milestone shop
+  |
+  v
+Continue until step 20
 ```
 
----
+## Run structure
 
-## Meters
+- A run currently lasts 20 steps
+- Every step offers exactly three toilet choices
+- Every 10 steps the player reaches a milestone shop
+- Milestone shops act as sub-finals and reward the player with one bonus item
 
-| Meter   | Range | Game over at | Description                         |
-| ------- | ----- | ------------ | ----------------------------------- |
-| Bladder | 0–100 | 100          | Increases each step (random +5–20)  |
-| Igitt   | 0–100 | 100          | Increases with bad toilet choices   |
+## Meter rules
 
-**Danger threshold**: 75 — UI changes color to warn the player.
+| Meter | Range | Game over at | Description |
+| --- | --- | --- | --- |
+| Bladder | 0-100 | 100 | Increases every step before toilet relief is applied |
+| Igitt | 0-100 | 100 | Increases based on the cleanliness and dignity cost of the chosen option |
 
----
+Danger threshold for both meters is currently `75`.
 
-## Toilet Options
+## Current toilet options
 
-| Option         | Bladder effect | Igitt effect | Points bonus | Probability |
-| -------------- | -------------- | ------------ | ------------ | ----------- |
-| Public toilet  | −40            | +15          | 0            | 40%         |
-| Café           | −45            | +5           | +10          | 35%         |
-| Park / bushes  | −50            | +30          | −20          | 25%         |
+| Option | Bladder effect | Igitt effect | Points bonus |
+| --- | --- | --- | --- |
+| Public toilet | -40 | +15 | 0 |
+| Cafe | -45 | +5 | +10 |
+| Park | -50 | +30 | -20 |
 
-> The probability column reflects how often each option is available in a
-> real city context. The player always sees all options but their risk varies.
+## Step pressure
 
----
+- Current pressure gain per step: `+14 bladder`
+- Pressure is applied before the selected toilet effect
+- This creates tension even when the player picks the best option available
 
 ## Scoring
 
-- **Base score**: +100 points per step completed
-- **Bonus/penalty**: applied per toilet option chosen
-- **Max score** (10 steps, all Café): ~1,100 points
+- Base score per step: `+100`
+- Each toilet option applies its own points modifier
+- Milestone rewards can add extra score bonuses
 
----
+## Milestone shops
+
+Milestone shops appear after steps 10 and 20 in the current run structure.
+They are meant to feel like a sub-final or checkpoint event.
+
+Current milestone choices:
+
+| Shop | Reward | Effect |
+| --- | --- | --- |
+| Shoe shop | Speed Sneakers | Score-focused bonus |
+| Grocery store | Emergency Tissue Pack | Extra bladder relief bonus |
+| Pharmacy | Hygiene Kit | Igitt shield bonus |
 
 ## Rewards
 
-After each step the player can pick 1 of 3 cosmetic rewards. Rewards persist
-for the duration of the run and are displayed as equipped items.
+Rewards persist for the rest of the run and modify later outcomes.
 
-### MVP Reward Pool
+Current reward effect types:
 
-| Reward       | Icon | Description                  |
-| ------------ | ---- | ---------------------------- |
-| Golden Roll  | 🧻✨  | A shimmering toilet roll     |
-| Hygiene Halo | 😇   | You glow with cleanliness    |
-| Speed Sneakers | 👟  | Run faster to the next loo   |
-| Nose Clip    | 🤏   | Igitt immunity +10%          |
-| VIP Pass     | 🎫   | Skip the queue               |
-| Café Voucher | ☕   | Free latte, nicer loo        |
+- Extra bladder relief
+- Igitt shielding
+- Bonus score
 
----
+## Presentation
 
-## Leaderboard
+The current game MVP is not free-roam.
 
-- **Daily**: top 100 scores for the current day
-- **All-time**: top 100 scores overall
-- Login required for named entries (anonymous scores accepted in MVP)
+- The player stands in a 3D street scene
+- Three destination models are visible at a distance
+- The player cycles between them with keys or buttons
+- Confirming a choice triggers a short walking animation and camera push
+- The main meters live inside the game HUD rather than outside the scene
 
----
+## Future directions
 
-## Future Game Features
-
-- Avatar visuals and cosmetic unlocks
-- City-specific difficulty modes
-- Event-based challenges ("Weihnachtsmarkt Survival")
-- Achievement badges
-- Social sharing
+- Stronger milestone scenes with custom shop models
+- More city-specific events and special runs
+- Better character animation fidelity
+- Extra destination variants beyond the initial three toilet types
+- More meaningful reward combinations
