@@ -9,12 +9,13 @@
     "lng": 8.6817649,
     "source": "https://www.openstreetmap.org/node/270127797",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/270127797",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": "06:00-23:45",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-560833278",
@@ -26,12 +27,13 @@
     "lng": 8.6806766,
     "source": "https://www.openstreetmap.org/node/560833278",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/560833278",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-771351538",
@@ -43,12 +45,13 @@
     "lng": 8.665167,
     "source": "https://www.openstreetmap.org/node/771351538",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/771351538",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-771414716",
@@ -60,12 +63,13 @@
     "lng": 8.6573338,
     "source": "https://www.openstreetmap.org/node/771414716",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/771414716",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-771414718",
@@ -77,12 +81,13 @@
     "lng": 8.6578212,
     "source": "https://www.openstreetmap.org/node/771414718",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/771414718",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-812258899",
@@ -94,12 +99,13 @@
     "lng": 8.5823189,
     "source": "https://www.openstreetmap.org/node/812258899",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/812258899",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-827527989",
@@ -111,12 +117,13 @@
     "lng": 8.6187339,
     "source": "https://www.openstreetmap.org/node/827527989",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/827527989",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-970158150",
@@ -128,12 +135,13 @@
     "lng": 8.6995251,
     "source": "https://www.openstreetmap.org/node/970158150",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/970158150",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-970212844",
@@ -145,12 +153,13 @@
     "lng": 8.703138,
     "source": "https://www.openstreetmap.org/node/970212844",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/970212844",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-973670197",
@@ -162,12 +171,13 @@
     "lng": 8.7046486,
     "source": "https://www.openstreetmap.org/node/973670197",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/973670197",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-973670200",
@@ -179,12 +189,13 @@
     "lng": 8.7066883,
     "source": "https://www.openstreetmap.org/node/973670200",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/973670200",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-1014654801",
@@ -196,12 +207,13 @@
     "lng": 8.6815795,
     "source": "https://www.openstreetmap.org/node/1014654801",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/1014654801",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": "Mo-Sa 09:30-21:00",
     "notes": "Behindertentoilette im 2. und 4. OG",
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-1300760926",
@@ -213,12 +225,13 @@
     "lng": 8.7073555,
     "source": "https://www.openstreetmap.org/node/1300760926",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/1300760926",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-1453565831",
@@ -230,12 +243,13 @@
     "lng": 8.667042,
     "source": "https://www.openstreetmap.org/node/1453565831",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/1453565831",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-1574293391",
@@ -247,12 +261,13 @@
     "lng": 8.6486427,
     "source": "https://www.openstreetmap.org/node/1574293391",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/1574293391",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-1581244994",
@@ -264,12 +279,13 @@
     "lng": 8.6634813,
     "source": "https://www.openstreetmap.org/node/1581244994",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/1581244994",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-1627447633",
@@ -281,12 +297,13 @@
     "lng": 8.5773447,
     "source": "https://www.openstreetmap.org/node/1627447633",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/1627447633",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-1938160316",
@@ -298,12 +315,13 @@
     "lng": 8.6341532,
     "source": "https://www.openstreetmap.org/node/1938160316",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/1938160316",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-2314548390",
@@ -315,12 +333,13 @@
     "lng": 8.544538,
     "source": "https://www.openstreetmap.org/node/2314548390",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/2314548390",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": "Mo-Fr 06:00-18:00",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-2554189491",
@@ -332,12 +351,13 @@
     "lng": 8.6527856,
     "source": "https://www.openstreetmap.org/node/2554189491",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/2554189491",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-2676855370",
@@ -349,12 +369,13 @@
     "lng": 8.6865377,
     "source": "https://www.openstreetmap.org/node/2676855370",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/2676855370",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-2679290905",
@@ -366,12 +387,13 @@
     "lng": 8.6199783,
     "source": "https://www.openstreetmap.org/node/2679290905",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/2679290905",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-2735800887",
@@ -383,12 +405,13 @@
     "lng": 8.6528974,
     "source": "https://www.openstreetmap.org/node/2735800887",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/2735800887",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-2739044094",
@@ -400,12 +423,13 @@
     "lng": 8.565453,
     "source": "https://www.openstreetmap.org/node/2739044094",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/2739044094",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3136353401",
@@ -417,12 +441,13 @@
     "lng": 8.6528492,
     "source": "https://www.openstreetmap.org/node/3136353401",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3136353401",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3300084235",
@@ -434,12 +459,13 @@
     "lng": 8.7015367,
     "source": "https://www.openstreetmap.org/node/3300084235",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3300084235",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3450581829",
@@ -451,12 +477,13 @@
     "lng": 8.6633787,
     "source": "https://www.openstreetmap.org/node/3450581829",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3450581829",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3583806543",
@@ -468,12 +495,13 @@
     "lng": 8.6293904,
     "source": "https://www.openstreetmap.org/node/3583806543",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3583806543",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3643899952",
@@ -485,12 +513,13 @@
     "lng": 8.5720729,
     "source": "https://www.openstreetmap.org/node/3643899952",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3643899952",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3643899953",
@@ -502,12 +531,13 @@
     "lng": 8.5715649,
     "source": "https://www.openstreetmap.org/node/3643899953",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3643899953",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3765708655",
@@ -519,12 +549,13 @@
     "lng": 8.6449222,
     "source": "https://www.openstreetmap.org/node/3765708655",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3765708655",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3765708656",
@@ -536,12 +567,13 @@
     "lng": 8.6446887,
     "source": "https://www.openstreetmap.org/node/3765708656",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3765708656",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3803094957",
@@ -553,12 +585,13 @@
     "lng": 8.6771608,
     "source": "https://www.openstreetmap.org/node/3803094957",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3803094957",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3919552201",
@@ -570,12 +603,13 @@
     "lng": 8.5712429,
     "source": "https://www.openstreetmap.org/node/3919552201",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3919552201",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3919552203",
@@ -587,12 +621,13 @@
     "lng": 8.5876533,
     "source": "https://www.openstreetmap.org/node/3919552203",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3919552203",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3964872566",
@@ -604,29 +639,13 @@
     "lng": 8.6888441,
     "source": "https://www.openstreetmap.org/node/3964872566",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3964872566",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
-  },
-  {
-    "id": "frankfurt-osm-node-3964872570",
-    "name": null,
-    "type": "public",
-    "address": null,
-    "city": "Frankfurt am Main",
-    "lat": 50.1350897,
-    "lng": 8.6895061,
-    "source": "https://www.openstreetmap.org/node/3964872570",
-    "source_name": "OpenStreetMap (fallback)",
-    "is_accessible": false,
-    "is_free": true,
-    "opening_hours": null,
-    "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3964872571",
@@ -638,12 +657,13 @@
     "lng": 8.6913852,
     "source": "https://www.openstreetmap.org/node/3964872571",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3964872571",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": "Aushang: WC geschlossen. Aufgrund einer defekten Abwasserleitung ist die Toilette im Gewann IV geschlossen. Die nächste öffentliche Toilette befindet sich im Gewann XXV oder auf Parkplatz vor der Trauerhalle.",
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3964872574",
@@ -655,12 +675,13 @@
     "lng": 8.6890215,
     "source": "https://www.openstreetmap.org/node/3964872574",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3964872574",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-3964872578",
@@ -672,12 +693,13 @@
     "lng": 8.6917733,
     "source": "https://www.openstreetmap.org/node/3964872578",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/3964872578",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4086833754",
@@ -689,12 +711,13 @@
     "lng": 8.5857334,
     "source": "https://www.openstreetmap.org/node/4086833754",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4086833754",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4086834050",
@@ -706,12 +729,13 @@
     "lng": 8.5860591,
     "source": "https://www.openstreetmap.org/node/4086834050",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4086834050",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4407982720",
@@ -723,12 +747,13 @@
     "lng": 8.5649075,
     "source": "https://www.openstreetmap.org/node/4407982720",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4407982720",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4544606998",
@@ -740,12 +765,13 @@
     "lng": 8.6330468,
     "source": "https://www.openstreetmap.org/node/4544606998",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4544606998",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4817525829",
@@ -757,12 +783,13 @@
     "lng": 8.5691952,
     "source": "https://www.openstreetmap.org/node/4817525829",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4817525829",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4817525927",
@@ -774,12 +801,13 @@
     "lng": 8.5668505,
     "source": "https://www.openstreetmap.org/node/4817525927",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4817525927",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4817525928",
@@ -791,12 +819,13 @@
     "lng": 8.5670353,
     "source": "https://www.openstreetmap.org/node/4817525928",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4817525928",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4817525939",
@@ -808,12 +837,13 @@
     "lng": 8.568156,
     "source": "https://www.openstreetmap.org/node/4817525939",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4817525939",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4817526025",
@@ -825,12 +855,13 @@
     "lng": 8.5688459,
     "source": "https://www.openstreetmap.org/node/4817526025",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4817526025",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4817526122",
@@ -842,12 +873,13 @@
     "lng": 8.5674627,
     "source": "https://www.openstreetmap.org/node/4817526122",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4817526122",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4817526123",
@@ -859,12 +891,13 @@
     "lng": 8.5678032,
     "source": "https://www.openstreetmap.org/node/4817526123",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4817526123",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4817526125",
@@ -876,12 +909,13 @@
     "lng": 8.5693402,
     "source": "https://www.openstreetmap.org/node/4817526125",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4817526125",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4818426081",
@@ -893,12 +927,13 @@
     "lng": 8.7227679,
     "source": "https://www.openstreetmap.org/node/4818426081",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4818426081",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-4918097523",
@@ -910,12 +945,13 @@
     "lng": 8.5733008,
     "source": "https://www.openstreetmap.org/node/4918097523",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/4918097523",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5032947288",
@@ -927,12 +963,13 @@
     "lng": 8.6973801,
     "source": "https://www.openstreetmap.org/node/5032947288",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5032947288",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5279488214",
@@ -944,12 +981,13 @@
     "lng": 8.7242195,
     "source": "https://www.openstreetmap.org/node/5279488214",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5279488214",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5521125122",
@@ -961,12 +999,13 @@
     "lng": 8.670988,
     "source": "https://www.openstreetmap.org/node/5521125122",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5521125122",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5534421566",
@@ -978,12 +1017,13 @@
     "lng": 8.5735274,
     "source": "https://www.openstreetmap.org/node/5534421566",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5534421566",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5562014788",
@@ -995,12 +1035,13 @@
     "lng": 8.6661734,
     "source": "https://www.openstreetmap.org/node/5562014788",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5562014788",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5562014789",
@@ -1012,12 +1053,13 @@
     "lng": 8.6664423,
     "source": "https://www.openstreetmap.org/node/5562014789",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5562014789",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5562014790",
@@ -1029,12 +1071,13 @@
     "lng": 8.6692036,
     "source": "https://www.openstreetmap.org/node/5562014790",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5562014790",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5589927907",
@@ -1046,12 +1089,13 @@
     "lng": 8.5756663,
     "source": "https://www.openstreetmap.org/node/5589927907",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5589927907",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5589927908",
@@ -1063,12 +1107,13 @@
     "lng": 8.5758423,
     "source": "https://www.openstreetmap.org/node/5589927908",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5589927908",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5619805222",
@@ -1080,12 +1125,13 @@
     "lng": 8.5722519,
     "source": "https://www.openstreetmap.org/node/5619805222",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5619805222",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5692293272",
@@ -1097,12 +1143,13 @@
     "lng": 8.6942619,
     "source": "https://www.openstreetmap.org/node/5692293272",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5692293272",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5692293432",
@@ -1114,12 +1161,13 @@
     "lng": 8.6076297,
     "source": "https://www.openstreetmap.org/node/5692293432",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5692293432",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-5982766209",
@@ -1131,12 +1179,13 @@
     "lng": 8.5665775,
     "source": "https://www.openstreetmap.org/node/5982766209",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/5982766209",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6253506647",
@@ -1148,12 +1197,13 @@
     "lng": 8.7495941,
     "source": "https://www.openstreetmap.org/node/6253506647",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6253506647",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6268173864",
@@ -1165,12 +1215,13 @@
     "lng": 8.6763562,
     "source": "https://www.openstreetmap.org/node/6268173864",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6268173864",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.514Z",
-    "last_updated_at": "2026-04-07T22:11:29.514Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6298664785",
@@ -1182,12 +1233,13 @@
     "lng": 8.5736869,
     "source": "https://www.openstreetmap.org/node/6298664785",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6298664785",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6299537380",
@@ -1199,12 +1251,13 @@
     "lng": 8.5735791,
     "source": "https://www.openstreetmap.org/node/6299537380",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6299537380",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6323009785",
@@ -1216,12 +1269,13 @@
     "lng": 8.658238,
     "source": "https://www.openstreetmap.org/node/6323009785",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6323009785",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6376020336",
@@ -1233,12 +1287,13 @@
     "lng": 8.6587515,
     "source": "https://www.openstreetmap.org/node/6376020336",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6376020336",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": "Oct-Mar: Mo-Su 07:00-18:00; Apr-Sep: Mo-Su 06:00-21:00",
     "notes": "WC 50 Cent, Pissoir kostenlos, Sommer 6-21 Uhr, Winter 7-18 Uhr",
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6402458464",
@@ -1250,12 +1305,13 @@
     "lng": 8.7050121,
     "source": "https://www.openstreetmap.org/node/6402458464",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6402458464",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6406593930",
@@ -1267,12 +1323,13 @@
     "lng": 8.7023631,
     "source": "https://www.openstreetmap.org/node/6406593930",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6406593930",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6448356173",
@@ -1284,12 +1341,13 @@
     "lng": 8.6451712,
     "source": "https://www.openstreetmap.org/node/6448356173",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6448356173",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": "In Underground station",
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6503552695",
@@ -1301,12 +1359,13 @@
     "lng": 8.6498469,
     "source": "https://www.openstreetmap.org/node/6503552695",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6503552695",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6583723444",
@@ -1318,12 +1377,13 @@
     "lng": 8.6921449,
     "source": "https://www.openstreetmap.org/node/6583723444",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6583723444",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-6587076660",
@@ -1335,12 +1395,13 @@
     "lng": 8.6988055,
     "source": "https://www.openstreetmap.org/node/6587076660",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/6587076660",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-7095448166",
@@ -1352,12 +1413,13 @@
     "lng": 8.6341421,
     "source": "https://www.openstreetmap.org/node/7095448166",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/7095448166",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-7285172310",
@@ -1369,12 +1431,13 @@
     "lng": 8.6844322,
     "source": "https://www.openstreetmap.org/node/7285172310",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/7285172310",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-7913771913",
@@ -1386,12 +1449,13 @@
     "lng": 8.6569328,
     "source": "https://www.openstreetmap.org/node/7913771913",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/7913771913",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-8026332885",
@@ -1403,12 +1467,13 @@
     "lng": 8.5521572,
     "source": "https://www.openstreetmap.org/node/8026332885",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/8026332885",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-8306631603",
@@ -1420,12 +1485,13 @@
     "lng": 8.7083332,
     "source": "https://www.openstreetmap.org/node/8306631603",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/8306631603",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-8571946317",
@@ -1437,12 +1503,13 @@
     "lng": 8.5137385,
     "source": "https://www.openstreetmap.org/node/8571946317",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/8571946317",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-8671540207",
@@ -1454,12 +1521,13 @@
     "lng": 8.6528259,
     "source": "https://www.openstreetmap.org/node/8671540207",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/8671540207",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-8755700359",
@@ -1471,12 +1539,13 @@
     "lng": 8.575719,
     "source": "https://www.openstreetmap.org/node/8755700359",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/8755700359",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-8871414441",
@@ -1488,12 +1557,13 @@
     "lng": 8.6198178,
     "source": "https://www.openstreetmap.org/node/8871414441",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/8871414441",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-8871414442",
@@ -1505,12 +1575,13 @@
     "lng": 8.6211837,
     "source": "https://www.openstreetmap.org/node/8871414442",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/8871414442",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-8892062794",
@@ -1522,12 +1593,13 @@
     "lng": 8.6527875,
     "source": "https://www.openstreetmap.org/node/8892062794",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/8892062794",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9043684537",
@@ -1539,12 +1611,13 @@
     "lng": 8.6555365,
     "source": "https://www.openstreetmap.org/node/9043684537",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9043684537",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9098533224",
@@ -1556,12 +1629,13 @@
     "lng": 8.6288843,
     "source": "https://www.openstreetmap.org/node/9098533224",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9098533224",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9103729217",
@@ -1573,12 +1647,13 @@
     "lng": 8.5889636,
     "source": "https://www.openstreetmap.org/node/9103729217",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9103729217",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9216716401",
@@ -1590,12 +1665,13 @@
     "lng": 8.717754,
     "source": "https://www.openstreetmap.org/node/9216716401",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9216716401",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9283750384",
@@ -1607,12 +1683,13 @@
     "lng": 8.6535956,
     "source": "https://www.openstreetmap.org/node/9283750384",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9283750384",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9283752089",
@@ -1624,12 +1701,13 @@
     "lng": 8.6547586,
     "source": "https://www.openstreetmap.org/node/9283752089",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9283752089",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9341171029",
@@ -1641,12 +1719,13 @@
     "lng": 8.6445503,
     "source": "https://www.openstreetmap.org/node/9341171029",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9341171029",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9422298630",
@@ -1658,12 +1737,13 @@
     "lng": 8.5423074,
     "source": "https://www.openstreetmap.org/node/9422298630",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9422298630",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": "Mo-Fr 06:00-19:00; Sa 09:00-14:00",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9545199818",
@@ -1675,12 +1755,13 @@
     "lng": 8.6085084,
     "source": "https://www.openstreetmap.org/node/9545199818",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9545199818",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": "closed in winter season from 15Th Oct to 30. Apr.",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9571238917",
@@ -1692,12 +1773,13 @@
     "lng": 8.5892737,
     "source": "https://www.openstreetmap.org/node/9571238917",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9571238917",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9612541765",
@@ -1709,12 +1791,13 @@
     "lng": 8.6239806,
     "source": "https://www.openstreetmap.org/node/9612541765",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9612541765",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9779175830",
@@ -1726,12 +1809,13 @@
     "lng": 8.7028021,
     "source": "https://www.openstreetmap.org/node/9779175830",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9779175830",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9881291117",
@@ -1743,12 +1827,13 @@
     "lng": 8.6952694,
     "source": "https://www.openstreetmap.org/node/9881291117",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9881291117",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9890956418",
@@ -1760,12 +1845,13 @@
     "lng": 8.6797791,
     "source": "https://www.openstreetmap.org/node/9890956418",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9890956418",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9982035121",
@@ -1777,12 +1863,13 @@
     "lng": 8.5673665,
     "source": "https://www.openstreetmap.org/node/9982035121",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9982035121",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9982035126",
@@ -1794,12 +1881,13 @@
     "lng": 8.5631584,
     "source": "https://www.openstreetmap.org/node/9982035126",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9982035126",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9982035128",
@@ -1811,12 +1899,13 @@
     "lng": 8.5624705,
     "source": "https://www.openstreetmap.org/node/9982035128",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9982035128",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9982079731",
@@ -1828,12 +1917,13 @@
     "lng": 8.5626345,
     "source": "https://www.openstreetmap.org/node/9982079731",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9982079731",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9982079735",
@@ -1845,12 +1935,13 @@
     "lng": 8.563832,
     "source": "https://www.openstreetmap.org/node/9982079735",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9982079735",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9982079740",
@@ -1862,12 +1953,13 @@
     "lng": 8.561781,
     "source": "https://www.openstreetmap.org/node/9982079740",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9982079740",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9982079741",
@@ -1879,12 +1971,13 @@
     "lng": 8.5658741,
     "source": "https://www.openstreetmap.org/node/9982079741",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9982079741",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9982079743",
@@ -1896,12 +1989,13 @@
     "lng": 8.5676076,
     "source": "https://www.openstreetmap.org/node/9982079743",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9982079743",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-9982079744",
@@ -1913,12 +2007,13 @@
     "lng": 8.5672683,
     "source": "https://www.openstreetmap.org/node/9982079744",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/9982079744",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10004178917",
@@ -1930,12 +2025,13 @@
     "lng": 8.6153738,
     "source": "https://www.openstreetmap.org/node/10004178917",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10004178917",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10042989631",
@@ -1943,16 +2039,17 @@
     "type": "public",
     "address": null,
     "city": "Frankfurt am Main",
-    "lat": 50.0272323,
-    "lng": 8.5869511,
+    "lat": 50.0271901,
+    "lng": 8.5869189,
     "source": "https://www.openstreetmap.org/node/10042989631",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10042989631",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10066426701",
@@ -1964,12 +2061,13 @@
     "lng": 8.6908073,
     "source": "https://www.openstreetmap.org/node/10066426701",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10066426701",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": "Mo-Fr 07:00-dusk; Sa,Su,PH 10:00-dusk",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10074497712",
@@ -1981,12 +2079,13 @@
     "lng": 8.5795631,
     "source": "https://www.openstreetmap.org/node/10074497712",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10074497712",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10092201646",
@@ -1998,12 +2097,13 @@
     "lng": 8.6734019,
     "source": "https://www.openstreetmap.org/node/10092201646",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10092201646",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10106895544",
@@ -2015,12 +2115,13 @@
     "lng": 8.690461,
     "source": "https://www.openstreetmap.org/node/10106895544",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10106895544",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10184252083",
@@ -2032,12 +2133,13 @@
     "lng": 8.655697,
     "source": "https://www.openstreetmap.org/node/10184252083",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10184252083",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10184252084",
@@ -2049,12 +2151,13 @@
     "lng": 8.6566194,
     "source": "https://www.openstreetmap.org/node/10184252084",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10184252084",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10184252085",
@@ -2066,12 +2169,13 @@
     "lng": 8.6535153,
     "source": "https://www.openstreetmap.org/node/10184252085",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10184252085",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10709827950",
@@ -2083,12 +2187,13 @@
     "lng": 8.6526971,
     "source": "https://www.openstreetmap.org/node/10709827950",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10709827950",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10733707178",
@@ -2100,12 +2205,13 @@
     "lng": 8.6031054,
     "source": "https://www.openstreetmap.org/node/10733707178",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10733707178",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10734992768",
@@ -2117,12 +2223,13 @@
     "lng": 8.6319546,
     "source": "https://www.openstreetmap.org/node/10734992768",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10734992768",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-10857692690",
@@ -2134,12 +2241,13 @@
     "lng": 8.6330703,
     "source": "https://www.openstreetmap.org/node/10857692690",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/10857692690",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": "Mo-Su 12:00-23:00",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11019506693",
@@ -2151,12 +2259,13 @@
     "lng": 8.5669302,
     "source": "https://www.openstreetmap.org/node/11019506693",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11019506693",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11057089834",
@@ -2168,12 +2277,13 @@
     "lng": 8.7212892,
     "source": "https://www.openstreetmap.org/node/11057089834",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11057089834",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": "06:00-22:00",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11279962838",
@@ -2185,12 +2295,13 @@
     "lng": 8.6811492,
     "source": "https://www.openstreetmap.org/node/11279962838",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11279962838",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11305675877",
@@ -2202,12 +2313,13 @@
     "lng": 8.6629584,
     "source": "https://www.openstreetmap.org/node/11305675877",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11305675877",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11355724458",
@@ -2219,12 +2331,13 @@
     "lng": 8.5848299,
     "source": "https://www.openstreetmap.org/node/11355724458",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11355724458",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11355724459",
@@ -2236,12 +2349,13 @@
     "lng": 8.5848505,
     "source": "https://www.openstreetmap.org/node/11355724459",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11355724459",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11363608270",
@@ -2253,12 +2367,13 @@
     "lng": 8.5847713,
     "source": "https://www.openstreetmap.org/node/11363608270",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11363608270",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11382100244",
@@ -2270,12 +2385,13 @@
     "lng": 8.6728719,
     "source": "https://www.openstreetmap.org/node/11382100244",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11382100244",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11435312070",
@@ -2287,12 +2403,13 @@
     "lng": 8.6341843,
     "source": "https://www.openstreetmap.org/node/11435312070",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11435312070",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11536980025",
@@ -2304,12 +2421,13 @@
     "lng": 8.5663602,
     "source": "https://www.openstreetmap.org/node/11536980025",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11536980025",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11595071188",
@@ -2321,12 +2439,13 @@
     "lng": 8.5939529,
     "source": "https://www.openstreetmap.org/node/11595071188",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11595071188",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11676292697",
@@ -2338,12 +2457,13 @@
     "lng": 8.6435418,
     "source": "https://www.openstreetmap.org/node/11676292697",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11676292697",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11676292698",
@@ -2355,12 +2475,13 @@
     "lng": 8.644758,
     "source": "https://www.openstreetmap.org/node/11676292698",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11676292698",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11687867169",
@@ -2372,12 +2493,13 @@
     "lng": 8.7119979,
     "source": "https://www.openstreetmap.org/node/11687867169",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11687867169",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11872197306",
@@ -2389,12 +2511,13 @@
     "lng": 8.7665645,
     "source": "https://www.openstreetmap.org/node/11872197306",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11872197306",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11893406152",
@@ -2406,12 +2529,13 @@
     "lng": 8.561031,
     "source": "https://www.openstreetmap.org/node/11893406152",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11893406152",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11939176265",
@@ -2423,12 +2547,13 @@
     "lng": 8.6467249,
     "source": "https://www.openstreetmap.org/node/11939176265",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11939176265",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11942956921",
@@ -2440,12 +2565,13 @@
     "lng": 8.6658696,
     "source": "https://www.openstreetmap.org/node/11942956921",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11942956921",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11942957013",
@@ -2457,29 +2583,13 @@
     "lng": 8.6658488,
     "source": "https://www.openstreetmap.org/node/11942957013",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11942957013",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
-  },
-  {
-    "id": "frankfurt-osm-node-11964342996",
-    "name": null,
-    "type": "public",
-    "address": null,
-    "city": "Frankfurt am Main",
-    "lat": 50.1171399,
-    "lng": 8.6769223,
-    "source": "https://www.openstreetmap.org/node/11964342996",
-    "source_name": "OpenStreetMap (fallback)",
-    "is_accessible": false,
-    "is_free": false,
-    "opening_hours": "24/7",
-    "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11964344839",
@@ -2491,12 +2601,13 @@
     "lng": 8.6768926,
     "source": "https://www.openstreetmap.org/node/11964344839",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11964344839",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11990670036",
@@ -2508,12 +2619,13 @@
     "lng": 8.684398,
     "source": "https://www.openstreetmap.org/node/11990670036",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11990670036",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": "Toilette",
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-11990670037",
@@ -2525,12 +2637,13 @@
     "lng": 8.6906823,
     "source": "https://www.openstreetmap.org/node/11990670037",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/11990670037",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12055277061",
@@ -2542,12 +2655,13 @@
     "lng": 8.6640815,
     "source": "https://www.openstreetmap.org/node/12055277061",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12055277061",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12087848908",
@@ -2559,12 +2673,13 @@
     "lng": 8.664452,
     "source": "https://www.openstreetmap.org/node/12087848908",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12087848908",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12117022712",
@@ -2576,12 +2691,13 @@
     "lng": 8.6953828,
     "source": "https://www.openstreetmap.org/node/12117022712",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12117022712",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12133204162",
@@ -2593,12 +2709,13 @@
     "lng": 8.4883912,
     "source": "https://www.openstreetmap.org/node/12133204162",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12133204162",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12137313550",
@@ -2610,12 +2727,13 @@
     "lng": 8.547322,
     "source": "https://www.openstreetmap.org/node/12137313550",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12137313550",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12148108124",
@@ -2627,12 +2745,13 @@
     "lng": 8.6334005,
     "source": "https://www.openstreetmap.org/node/12148108124",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12148108124",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12246906798",
@@ -2644,12 +2763,13 @@
     "lng": 8.6890262,
     "source": "https://www.openstreetmap.org/node/12246906798",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12246906798",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12345850638",
@@ -2661,12 +2781,13 @@
     "lng": 8.5389113,
     "source": "https://www.openstreetmap.org/node/12345850638",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12345850638",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12404433230",
@@ -2678,12 +2799,13 @@
     "lng": 8.7079732,
     "source": "https://www.openstreetmap.org/node/12404433230",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12404433230",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12424513405",
@@ -2695,12 +2817,13 @@
     "lng": 8.5195059,
     "source": "https://www.openstreetmap.org/node/12424513405",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12424513405",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12492549128",
@@ -2712,12 +2835,13 @@
     "lng": 8.716798,
     "source": "https://www.openstreetmap.org/node/12492549128",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12492549128",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12523333965",
@@ -2729,12 +2853,13 @@
     "lng": 8.5850234,
     "source": "https://www.openstreetmap.org/node/12523333965",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12523333965",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12579221355",
@@ -2746,12 +2871,13 @@
     "lng": 8.716786,
     "source": "https://www.openstreetmap.org/node/12579221355",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12579221355",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": "Mobile Toilette f. Busfahrer",
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12798177394",
@@ -2763,12 +2889,13 @@
     "lng": 8.7335221,
     "source": "https://www.openstreetmap.org/node/12798177394",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12798177394",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12849203059",
@@ -2780,12 +2907,13 @@
     "lng": 8.6364665,
     "source": "https://www.openstreetmap.org/node/12849203059",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12849203059",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12918681863",
@@ -2797,12 +2925,13 @@
     "lng": 8.6338934,
     "source": "https://www.openstreetmap.org/node/12918681863",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12918681863",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-12921503473",
@@ -2814,12 +2943,13 @@
     "lng": 8.6719111,
     "source": "https://www.openstreetmap.org/node/12921503473",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/12921503473",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-13031827439",
@@ -2831,12 +2961,13 @@
     "lng": 8.5734634,
     "source": "https://www.openstreetmap.org/node/13031827439",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/13031827439",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-13069471141",
@@ -2848,12 +2979,13 @@
     "lng": 8.6810814,
     "source": "https://www.openstreetmap.org/node/13069471141",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/13069471141",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-13069507002",
@@ -2865,12 +2997,13 @@
     "lng": 8.6827566,
     "source": "https://www.openstreetmap.org/node/13069507002",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/13069507002",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-13069507003",
@@ -2882,12 +3015,13 @@
     "lng": 8.6821212,
     "source": "https://www.openstreetmap.org/node/13069507003",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/13069507003",
     "is_accessible": false,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-13308688288",
@@ -2899,12 +3033,13 @@
     "lng": 8.5682157,
     "source": "https://www.openstreetmap.org/node/13308688288",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/13308688288",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-13418323119",
@@ -2916,12 +3051,13 @@
     "lng": 8.7119594,
     "source": "https://www.openstreetmap.org/node/13418323119",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/13418323119",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-node-13418323153",
@@ -2933,12 +3069,49 @@
     "lng": 8.711947,
     "source": "https://www.openstreetmap.org/node/13418323153",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/13418323153",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
+  },
+  {
+    "id": "frankfurt-osm-node-13719022723",
+    "name": null,
+    "type": "public",
+    "address": null,
+    "city": "Frankfurt am Main",
+    "lat": 50.1266608,
+    "lng": 8.7188773,
+    "source": "https://www.openstreetmap.org/node/13719022723",
+    "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/13719022723",
+    "is_accessible": true,
+    "is_free": true,
+    "opening_hours": null,
+    "notes": "mobile Miettoilette",
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
+  },
+  {
+    "id": "frankfurt-osm-node-13730030337",
+    "name": null,
+    "type": "public",
+    "address": null,
+    "city": "Frankfurt am Main",
+    "lat": 50.0264301,
+    "lng": 8.5876568,
+    "source": "https://www.openstreetmap.org/node/13730030337",
+    "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/node/13730030337",
+    "is_accessible": false,
+    "is_free": true,
+    "opening_hours": null,
+    "notes": null,
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-61670405",
@@ -2950,12 +3123,13 @@
     "lng": 8.6399537,
     "source": "https://www.openstreetmap.org/way/61670405",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/61670405",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-97223726",
@@ -2967,12 +3141,13 @@
     "lng": 8.5499198,
     "source": "https://www.openstreetmap.org/way/97223726",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/97223726",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-284095379",
@@ -2984,12 +3159,13 @@
     "lng": 8.6361035,
     "source": "https://www.openstreetmap.org/way/284095379",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/284095379",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-285113003",
@@ -3001,12 +3177,13 @@
     "lng": 8.5886246,
     "source": "https://www.openstreetmap.org/way/285113003",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/285113003",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-397916193",
@@ -3018,12 +3195,13 @@
     "lng": 8.6866066,
     "source": "https://www.openstreetmap.org/way/397916193",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/397916193",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-435056263",
@@ -3035,12 +3213,13 @@
     "lng": 8.5698237,
     "source": "https://www.openstreetmap.org/way/435056263",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/435056263",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-435056298",
@@ -3052,12 +3231,13 @@
     "lng": 8.5701584,
     "source": "https://www.openstreetmap.org/way/435056298",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/435056298",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-440183551",
@@ -3069,12 +3249,13 @@
     "lng": 8.6856359,
     "source": "https://www.openstreetmap.org/way/440183551",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/440183551",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": "Mo-Su 06:00-22:00",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-440792245",
@@ -3086,12 +3267,13 @@
     "lng": 8.6797283,
     "source": "https://www.openstreetmap.org/way/440792245",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/440792245",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-440792255",
@@ -3103,12 +3285,13 @@
     "lng": 8.6796464,
     "source": "https://www.openstreetmap.org/way/440792255",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/440792255",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-464543150",
@@ -3120,12 +3303,13 @@
     "lng": 8.6571615,
     "source": "https://www.openstreetmap.org/way/464543150",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/464543150",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-521661976",
@@ -3137,12 +3321,13 @@
     "lng": 8.727089,
     "source": "https://www.openstreetmap.org/way/521661976",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/521661976",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-526107106",
@@ -3154,12 +3339,13 @@
     "lng": 8.5700168,
     "source": "https://www.openstreetmap.org/way/526107106",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/526107106",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-526110090",
@@ -3171,12 +3357,13 @@
     "lng": 8.5706884,
     "source": "https://www.openstreetmap.org/way/526110090",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/526110090",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-526414225",
@@ -3188,12 +3375,13 @@
     "lng": 8.5721052,
     "source": "https://www.openstreetmap.org/way/526414225",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/526414225",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-526414227",
@@ -3205,12 +3393,13 @@
     "lng": 8.5735947,
     "source": "https://www.openstreetmap.org/way/526414227",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/526414227",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-579353832",
@@ -3222,12 +3411,13 @@
     "lng": 8.5728402,
     "source": "https://www.openstreetmap.org/way/579353832",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/579353832",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-579656921",
@@ -3239,12 +3429,13 @@
     "lng": 8.5715682,
     "source": "https://www.openstreetmap.org/way/579656921",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/579656921",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-579656923",
@@ -3256,12 +3447,13 @@
     "lng": 8.5718831,
     "source": "https://www.openstreetmap.org/way/579656923",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/579656923",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-580595036",
@@ -3273,12 +3465,13 @@
     "lng": 8.5741401,
     "source": "https://www.openstreetmap.org/way/580595036",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/580595036",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-580849034",
@@ -3290,12 +3483,13 @@
     "lng": 8.5728818,
     "source": "https://www.openstreetmap.org/way/580849034",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/580849034",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-580849036",
@@ -3307,12 +3501,13 @@
     "lng": 8.5727828,
     "source": "https://www.openstreetmap.org/way/580849036",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/580849036",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-715305529",
@@ -3324,12 +3519,13 @@
     "lng": 8.6335004,
     "source": "https://www.openstreetmap.org/way/715305529",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/715305529",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-737090337",
@@ -3341,12 +3537,13 @@
     "lng": 8.6409046,
     "source": "https://www.openstreetmap.org/way/737090337",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/737090337",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-925359445",
@@ -3358,12 +3555,13 @@
     "lng": 8.5451848,
     "source": "https://www.openstreetmap.org/way/925359445",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/925359445",
     "is_accessible": true,
     "is_free": false,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-1021617420",
@@ -3375,12 +3573,13 @@
     "lng": 8.6921363,
     "source": "https://www.openstreetmap.org/way/1021617420",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/1021617420",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-1120790859",
@@ -3392,12 +3591,13 @@
     "lng": 8.7167714,
     "source": "https://www.openstreetmap.org/way/1120790859",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/1120790859",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-1146095435",
@@ -3409,12 +3609,13 @@
     "lng": 8.6866055,
     "source": "https://www.openstreetmap.org/way/1146095435",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/1146095435",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": "24/7",
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-1329937055",
@@ -3426,12 +3627,13 @@
     "lng": 8.7098486,
     "source": "https://www.openstreetmap.org/way/1329937055",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/1329937055",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-1379430129",
@@ -3443,12 +3645,13 @@
     "lng": 8.5858471,
     "source": "https://www.openstreetmap.org/way/1379430129",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/1379430129",
     "is_accessible": true,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   },
   {
     "id": "frankfurt-osm-way-1420679916",
@@ -3460,11 +3663,12 @@
     "lng": 8.5869174,
     "source": "https://www.openstreetmap.org/way/1420679916",
     "source_name": "OpenStreetMap (fallback)",
+    "source_url": "https://www.openstreetmap.org/way/1420679916",
     "is_accessible": false,
     "is_free": true,
     "opening_hours": null,
     "notes": null,
-    "created_at": "2026-04-07T22:11:29.515Z",
-    "last_updated_at": "2026-04-07T22:11:29.515Z"
+    "created_at": "2026-04-14T20:38:06.755Z",
+    "last_updated_at": "2026-04-14T20:38:06.755Z"
   }
 ]

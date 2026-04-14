@@ -24,6 +24,7 @@ List and filter toilets.
 | `city`          | string  | Filter by city (e.g. `Leipzig`)            |
 | `is_free`       | boolean | `true` to show only free toilets           |
 | `is_accessible` | boolean | `true` to show only accessible toilets     |
+| `has_opening_hours` | boolean | `true` to show only records with opening hours |
 | `type`          | string  | Toilet type (e.g. `public`, `cafe`)        |
 | `reported`      | boolean | `true` only with reports, `false` without  |
 | `min_rating`    | number  | Minimum average rating (1-5)               |
@@ -31,6 +32,9 @@ List and filter toilets.
 | `lat`           | number  | Latitude for proximity search              |
 | `lng`           | number  | Longitude for proximity search             |
 | `radius`        | number  | Radius in km for proximity search          |
+
+Note: `source_kind` remains available in the backend for maintenance and API
+consumers, but it is not a primary public filter in the UI.
 
 **Response**
 

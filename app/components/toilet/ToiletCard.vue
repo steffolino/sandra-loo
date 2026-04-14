@@ -25,9 +25,15 @@
           Accessible
         </span>
         <span
+          v-if="toilet.opening_hours"
+          class="px-2 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800"
+        >
+          Hours shown
+        </span>
+        <span
           class="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600"
         >
-          {{ toilet.type }}
+          {{ toiletTypeLabel(toilet.type) }}
         </span>
         <span
           v-if="toilet.avg_rating !== undefined && toilet.avg_rating !== null"
@@ -59,16 +65,8 @@
           class="px-2 py-0.5 rounded-full text-xs font-medium"
           :class="confidenceClass(toilet.source_confidence_level)"
         >
-          Confidence {{ toilet.source_confidence_score }}/100
+          Source reliability {{ toilet.source_confidence_score }}/100
         </span>
-        <button
-          type="button"
-          class="px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800 hover:bg-cyan-200"
-          :title="`Open source: ${formatProvenanceMeta(toilet.source, toilet.source_name)}`"
-          @click.prevent.stop="openSource(toilet.source, toilet.source_url)"
-        >
-          Source {{ formatProvenanceLabel(toilet.source, toilet.source_name) }}
-        </button>
       </div>
     </div>
     <div class="text-right shrink-0">
@@ -87,7 +85,7 @@
 
 <script setup lang="ts">
 import type { Toilet, ToiletListItem } from '../../../shared/types/index'
-import { formatProvenanceLabel, formatProvenanceMeta, resolveSourceUrl } from '../../utils/provenance'
+import { toiletTypeMeta } from '../../utils/toilet-type'
 
 defineProps<{ toilet: Toilet | ToiletListItem }>()
 
@@ -119,11 +117,8 @@ function confidenceClass(level: ToiletListItem['source_confidence_level']): stri
   return 'bg-gray-100 text-gray-700'
 }
 
-function openSource(source: string, sourceUrl: string) {
-  if (!import.meta.client) return
-  const url = resolveSourceUrl(source, sourceUrl)
-  if (url === '#') return
-  window.open(url, '_blank', 'noopener,noreferrer')
+function toiletTypeLabel(type: Toilet['type']): string {
+  return toiletTypeMeta(type).label
 }
 
 function toiletDetailHref(id: string): string {

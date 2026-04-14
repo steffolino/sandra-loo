@@ -196,6 +196,7 @@ export interface ToiletFilters {
   city?: string
   is_accessible?: boolean
   is_free?: boolean
+  has_opening_hours?: boolean
   type?: ToiletType
   reported?: boolean
   min_rating?: number
@@ -203,5 +204,5 @@ export interface ToiletFilters {
   lat?: number
   lng?: number
   radius?: number
-  source_kind?: 'osm' | 'city_open_data' | 'other'
+  source_kind?: 'osm' | 'city_open_data' | 'institutional' | 'other'
 }

@@ -114,11 +114,30 @@ describe('store – import merge quality', () => {
         created_at: now,
         last_updated_at: '2026-01-02T00:00:00.000Z',
       },
+      {
+        id: 'institutional-way-7',
+        name: 'WC Main Station',
+        type: 'public' as const,
+        address: 'Hauptbahnhof, Leipzig',
+        city: 'Leipzig',
+        lat: 51.34501,
+        lng: 12.38102,
+        source: 'https://www.openstreetmap.org/way/7',
+        source_name: 'Institutional layer (OSM-derived)',
+        source_url: 'https://www.openstreetmap.org/way/7',
+        is_accessible: false,
+        is_free: true,
+        opening_hours: 'Mo-Su 06:00-22:00',
+        notes: 'Derived from public institution access',
+        created_at: now,
+        last_updated_at: '2026-01-03T00:00:00.000Z',
+      },
     ]
 
     const merged = normalizeAndMergeToilets(inputs)
     expect(merged).toHaveLength(1)
     expect(merged[0].id).toBe('leipzig-77')
+    expect(merged[0].source_name).toBe('Leipzig Open Data')
     expect(merged[0].is_accessible).toBe(true)
     expect(merged[0].is_free).toBe(false)
   })

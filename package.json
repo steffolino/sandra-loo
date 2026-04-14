@@ -15,6 +15,7 @@
     "test:watch": "vitest",
     "smoke:deploy": "node scripts/smoke/deploy-check.mjs",
     "import:osm": "tsx scripts/import/osm.ts",
+    "import:institutional": "tsx scripts/import/institutional.ts",
     "import:leipzig": "tsx scripts/import/leipzig.ts",
     "import:frankfurt": "tsx scripts/import/frankfurt.ts"
   },
@@ -23,6 +24,7 @@
     "@rollup/plugin-terser": "^1.0.0"
   },
   "dependencies": {
+    "@iconify-json/lucide": "^1.2.102",
     "@nuxtjs/tailwindcss": "^6.13.2",
     "@pinia/nuxt": "^0.10.1",
     "@vite-pwa/nuxt": "^0.10.6",
