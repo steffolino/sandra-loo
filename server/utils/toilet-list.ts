@@ -82,17 +82,23 @@ export function buildToiletList(
   if (filters.is_free !== undefined) {
     list = list.filter(t => t.is_free === filters.is_free)
   }
+  if (filters.has_opening_hours !== undefined) {
+    list = list.filter(t => Boolean(t.opening_hours) === filters.has_opening_hours)
+  }
   if (filters.type) {
     list = list.filter(t => t.type === filters.type)
   }
   if (filters.source_kind) {
     list = list.filter((t) => {
       const combined = `${t.source} ${t.source_name}`.toLowerCase()
-      if (filters.source_kind === 'osm') {
-        return combined.includes('openstreetmap') || combined.includes(' osm ')
-      }
       if (filters.source_kind === 'city_open_data') {
         return combined.includes('open data') || combined.includes('opendata') || combined.includes('offenedaten')
+      }
+      if (filters.source_kind === 'institutional') {
+        return combined.includes('institutional') || combined.includes('derived')
+      }
+      if (filters.source_kind === 'osm') {
+        return combined.includes('openstreetmap') || combined.includes(' osm ')
       }
       return !(
         combined.includes('openstreetmap')
@@ -100,22 +106,26 @@ export function buildToiletList(
         || combined.includes('open data')
         || combined.includes('opendata')
         || combined.includes('offenedaten')
+        || combined.includes('institutional')
+        || combined.includes('derived')
       )
     })
   }
   if (filters.reported !== undefined) {
     list = list.filter(t => t.has_reports === filters.reported)
   }
-  if (filters.min_rating !== undefined && Number.isFinite(filters.min_rating)) {
-    list = list.filter(t => (t.avg_rating ?? 0) >= filters.min_rating)
+  const minRating = filters.min_rating
+  if (minRating !== undefined && Number.isFinite(minRating)) {
+    list = list.filter(t => (t.avg_rating ?? 0) >= minRating)
   }
+  const radius = filters.radius
   if (
     filters.lat !== undefined
     && filters.lng !== undefined
-    && filters.radius !== undefined
-    && Number.isFinite(filters.radius)
+    && radius !== undefined
+    && Number.isFinite(radius)
   ) {
-    list = list.filter(t => (t.distance_km ?? Number.POSITIVE_INFINITY) <= filters.radius)
+    list = list.filter(t => (t.distance_km ?? Number.POSITIVE_INFINITY) <= radius)
   }
 
   if (filters.sort === 'nearest' && filters.lat !== undefined && filters.lng !== undefined) {
@@ -156,6 +166,13 @@ function getSourceConfidenceScore(sourceName: string, source: string): number {
     || sourceLc.includes('offenedaten')
   ) {
     return 90
+  }
+  if (
+    sourceNameLc.includes('institutional')
+    || sourceNameLc.includes('derived')
+    || sourceLc.includes('institutional')
+  ) {
+    return 72
   }
   if (
     sourceNameLc.includes('openstreetmap')

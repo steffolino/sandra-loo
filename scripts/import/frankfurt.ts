@@ -24,7 +24,7 @@
  * Output: data/imports/frankfurt.json
  */
 
-import { writeFile, mkdir, readFile } from 'node:fs/promises'
+import { writeFile, mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { Toilet } from '../../shared/types/index'
 
@@ -302,7 +302,7 @@ async function fetchAll(): Promise<Toilet[]> {
       console.warn('   InformationPortal system. If auto-discovery fails, set the')
       console.warn('   FRANKFURT_WFS_URL env var to a direct GeoJSON/CSV download URL.')
       console.warn(`   Browse ${PORTAL_BASE} and search for "Toiletten" to find it.`)
-      return fallbackFromOsmImport()
+      throw new Error('No official Frankfurt download URL could be discovered')
     }
     targetUrl = resource.url
     format = resource.format || 'GEOJSON'
@@ -318,38 +318,10 @@ async function fetchAll(): Promise<Toilet[]> {
     .filter((t): t is Toilet => t !== null)
 
   if (records.length === 0) {
-    return fallbackFromOsmImport()
+    throw new Error('Frankfurt dataset decoded to zero records')
   }
 
   return records
-}
-
-
-async function fallbackFromOsmImport(): Promise<Toilet[]> {
-  const osmFile = join(process.cwd(), 'data', 'imports', 'osm.json')
-  try {
-    const raw = await readFile(osmFile, 'utf-8')
-    const parsed = JSON.parse(raw) as Toilet[]
-    const fallback = parsed
-      .filter(t => t.city === CITY)
-      .map(t => ({
-        ...t,
-        id: t.id.startsWith('frankfurt-') ? t.id : `frankfurt-${t.id}`,
-        source_name: `${t.source_name} (fallback)`,
-        source_url: t.source_url || t.source,
-      }))
-
-    if (fallback.length > 0) {
-      console.warn(`  Using ${fallback.length} Frankfurt records from osm.json fallback`)
-      return fallback
-    }
-  }
-  catch {
-    // Ignore and return empty list below.
-  }
-
-  console.warn('  No Frankfurt fallback data found in data/imports/osm.json')
-  return []
 }
 // ---------------------------------------------------------------------------
 // Main

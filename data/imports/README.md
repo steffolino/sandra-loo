@@ -7,6 +7,7 @@ This directory stores JSON files imported by the data import scripts.
 | File              | Source                  | Script                        |
 | ----------------- | ----------------------- | ----------------------------- |
 | `osm.json`        | OpenStreetMap           | `npm run import:osm`          |
+| `institutional.json` | OSM-derived institutional layer | `npm run import:institutional` |
 | `leipzig.json`    | Leipzig Open Data       | `npm run import:leipzig`      |
 | `frankfurt.json`  | Frankfurt Open Data     | `npm run import:frankfurt`    |
 

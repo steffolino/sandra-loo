@@ -145,6 +145,16 @@ describe('buildToiletList', () => {
     expect(list.map(t => t.id)).not.toContain('t-2')
   })
 
+  it('filters by opening hours availability', () => {
+    const list = buildToiletList([
+      { ...baseToilets[0], opening_hours: 'Mo-Fr 08:00-18:00' },
+      { ...baseToilets[1], opening_hours: null },
+    ], reviews, reports, confirmations, { has_opening_hours: true })
+
+    expect(list).toHaveLength(1)
+    expect(list[0].id).toBe('t-1')
+  })
+
   it('sorts by nearest when lat/lng are provided', () => {
     const list = buildToiletList(baseToilets, reviews, reports, confirmations, {
       lat: 51.3397,
@@ -172,6 +182,21 @@ describe('buildToiletList', () => {
 
     expect(t1?.source_confidence_score).toBe(65)
     expect(t2?.source_confidence_level).toBe('medium')
+  })
+
+  it('classifies institutional sources separately', () => {
+    const list = buildToiletList([
+      {
+        ...baseToilets[0],
+        source: 'https://www.openstreetmap.org/node/1',
+        source_name: 'Institutional layer (OSM-derived)',
+        source_url: 'https://www.openstreetmap.org/node/1',
+      },
+    ], reviews, reports, confirmations, { source_kind: 'institutional' })
+
+    expect(list).toHaveLength(1)
+    expect(list[0].source_confidence_score).toBe(72)
+    expect(list[0].source_confidence_level).toBe('medium')
   })
 
   it('filters by source kind', () => {

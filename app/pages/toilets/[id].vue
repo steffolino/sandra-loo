@@ -64,15 +64,11 @@
           <strong>Notes:</strong> {{ toilet.notes }}
         </p>
 
-        <!-- Data source transparency -->
+        <!-- Data details -->
         <div class="bg-gray-50 rounded-lg p-3 text-xs text-gray-500 mt-4">
-          <p>
-            <strong>Data provenance:</strong>
-            {{ formatProvenanceLabel(toilet.source, toilet.source_name) }}
-          </p>
           <p class="mt-1">
-            <strong>Source record:</strong>
-            {{ formatProvenanceMeta(toilet.source, toilet.source_name) }}
+            <strong>Last updated:</strong>
+            {{ formatDate(toilet.last_updated_at) }}
           </p>
           <p class="mt-1">
             <a
@@ -80,11 +76,7 @@
               target="_blank"
               rel="noopener noreferrer"
               class="underline hover:text-brand"
-            >Open source dataset</a>
-          </p>
-          <p class="mt-1">
-            <strong>Last updated:</strong>
-            {{ formatDate(toilet.last_updated_at) }}
+            >Open data source</a>
           </p>
         </div>
       </div>
@@ -171,7 +163,7 @@
 
 <script setup lang="ts">
 import type { Toilet, Review, Report, Confirmation } from '../../../../shared/types/index'
-import { formatProvenanceLabel, formatProvenanceMeta, resolveSourceUrl } from '../../utils/provenance'
+import { resolveSourceUrl } from '../../utils/provenance'
 
 type ToiletDetail = Toilet & {
   reviews: Review[]

@@ -30,7 +30,7 @@ export async function getToilets(): Promise<Toilet[]> {
   if (toiletCache !== null) return toiletCache
 
   const dataDir = join(process.cwd(), 'data', 'imports')
-  const files = ['osm.json', 'leipzig.json', 'frankfurt.json']
+  const files = ['osm.json', 'institutional.json', 'leipzig.json', 'frankfurt.json']
   const all: Toilet[] = []
 
   for (const file of files) {
@@ -279,8 +279,9 @@ function compareToiletPriority(a: Toilet, b: Toilet): number {
 
 function sourcePriority(toilet: Toilet): number {
   const sourceName = toilet.source_name.toLowerCase()
-  if (sourceName.includes('open data') && !sourceName.includes('fallback')) return 3
-  if (sourceName.includes('openstreetmap') && !sourceName.includes('fallback')) return 2
+  if (sourceName.includes('open data') && !sourceName.includes('fallback')) return 4
+  if (sourceName.includes('openstreetmap') && !sourceName.includes('fallback')) return 3
+  if (sourceName.includes('institutional')) return 2
   return 1
 }
 

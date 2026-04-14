@@ -3,6 +3,10 @@ export function formatProvenanceLabel(source: unknown, sourceName: unknown): str
   const safeSourceName = asText(sourceName)
   const combined = `${safeSource} ${safeSourceName}`.toLowerCase()
 
+  if (combined.includes('institutional') || combined.includes('derived')) {
+    return 'institutional layer'
+  }
+
   if (combined.includes('openstreetmap') || safeSource.toLowerCase() === 'osm') {
     return 'openstreetmap.org'
   }
@@ -41,12 +45,28 @@ export function resolveSourceUrl(source: unknown, sourceUrl: unknown): string {
   return '#'
 }
 
-export function sourceKindFromRecord(source: unknown, sourceName: unknown): 'osm' | 'city_open_data' | 'other' {
+export type SourcePortal = 'osm' | 'leipzig' | 'frankfurt' | 'institutional' | 'other'
+
+export function sourceKindFromRecord(source: unknown, sourceName: unknown): 'osm' | 'city_open_data' | 'institutional' | 'other' {
   const combined = `${asText(source)} ${asText(sourceName)}`.toLowerCase()
+  if (combined.includes('institutional') || combined.includes('derived')) return 'institutional'
   if (combined.includes('openstreetmap') || combined.includes(' osm ')) return 'osm'
   if (combined.includes('open data') || combined.includes('opendata') || combined.includes('offenedaten')) {
     return 'city_open_data'
   }
+  return 'other'
+}
+
+export function sourcePortalFromRecord(source: unknown, sourceName: unknown): SourcePortal {
+  const safeSource = asText(source).toLowerCase()
+  const safeSourceName = asText(sourceName).toLowerCase()
+  const combined = `${safeSource} ${safeSourceName}`
+
+  if (combined.includes('institutional') || combined.includes('derived')) return 'institutional'
+  if (combined.includes('openstreetmap') || safeSource === 'osm') return 'osm'
+  if (combined.includes('leipzig') || safeSource.includes('opendata.leipzig.de')) return 'leipzig'
+  if (combined.includes('frankfurt') || safeSource.includes('offenedaten.frankfurt.de')) return 'frankfurt'
+
   return 'other'
 }
 

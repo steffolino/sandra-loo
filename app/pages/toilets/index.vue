@@ -5,23 +5,23 @@
         Find a Toilet
       </h1>
       <button class="btn-secondary text-sm" @click="showTrustInfo = true">
-        How we verify data
+        How we judge trust
       </button>
     </div>
 
     <div v-if="showTrustInfo" class="fixed inset-0 z-[1300] bg-black/40 p-3" @click.self="showTrustInfo = false">
       <div class="card p-5 max-w-lg mx-auto mt-10">
         <h2 class="text-lg font-semibold text-brand mb-2">
-          How we verify data
+          How we judge trust
         </h2>
         <p class="text-sm text-gray-600">
-          Source shows where a toilet record comes from (for example, OpenStreetMap or city open data).
+          We surface the details that matter most when choosing a toilet: whether it is free or paid, whether it is accessible, and whether opening hours are available.
         </p>
         <p class="text-sm text-gray-600 mt-2">
-          Freshness indicates how many days since the source record was updated.
+          Freshness shows how recently the record was updated, and recent confirmations help you gauge how active the listing is.
         </p>
         <p class="text-sm text-gray-600 mt-2">
-          Confidence is derived from source reliability signals; recent community confirmations add trust context.
+          Source reliability is still available as a technical backstop, mainly for sorting and maintenance. It is not the main thing to read when you just want a usable toilet.
         </p>
         <div class="mt-4">
           <button class="btn-primary text-sm" @click="showTrustInfo = false">
@@ -60,14 +60,14 @@
           v-model="filters.type"
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
-          <option value="">All types</option>
+          <option value="">All place types</option>
           <option
             v-for="type in toiletTypes"
             :key="type"
             :value="type"
             :disabled="isTypeDisabled(type)"
           >
-            {{ type }}
+            {{ toiletTypeLabel(type) }}
           </option>
         </select>
 
@@ -78,16 +78,6 @@
           <option value="any">All report states</option>
           <option value="true" :disabled="!canFilterReportedTrue">Reported only</option>
           <option value="false" :disabled="!canFilterReportedFalse">No reports</option>
-        </select>
-
-        <select
-          v-model="filters.source_kind"
-          class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
-        >
-          <option value="any">All data sources</option>
-          <option value="osm">OpenStreetMap</option>
-          <option value="city_open_data">City open data</option>
-          <option value="other">Other sources</option>
         </select>
 
         <select
@@ -128,6 +118,11 @@
         <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterAccessible ? 'opacity-60' : ''">
           <input v-model="filters.is_accessible" type="checkbox" class="rounded" :disabled="!canFilterAccessible">
           Accessible only
+        </label>
+
+        <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterOpeningHours ? 'opacity-60' : ''">
+          <input v-model="filters.has_opening_hours" type="checkbox" class="rounded" :disabled="!canFilterOpeningHours">
+          Hours shown only
         </label>
       </div>
 
@@ -182,14 +177,14 @@
             v-model="filters.type"
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
-            <option value="">All types</option>
+            <option value="">All place types</option>
             <option
               v-for="type in toiletTypes"
               :key="`mobile-${type}`"
               :value="type"
               :disabled="isTypeDisabled(type)"
             >
-              {{ type }}
+              {{ toiletTypeLabel(type) }}
             </option>
           </select>
 
@@ -200,16 +195,6 @@
             <option value="any">All report states</option>
             <option value="true" :disabled="!canFilterReportedTrue">Reported only</option>
             <option value="false" :disabled="!canFilterReportedFalse">No reports</option>
-          </select>
-
-          <select
-            v-model="filters.source_kind"
-            class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
-          >
-            <option value="any">All data sources</option>
-            <option value="osm">OpenStreetMap</option>
-            <option value="city_open_data">City open data</option>
-            <option value="other">Other sources</option>
           </select>
 
           <select
@@ -253,6 +238,11 @@
             <input v-model="filters.is_accessible" type="checkbox" class="rounded" :disabled="!canFilterAccessible">
             Accessible only
           </label>
+
+          <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterOpeningHours ? 'opacity-60' : ''">
+            <input v-model="filters.has_opening_hours" type="checkbox" class="rounded" :disabled="!canFilterOpeningHours">
+            Hours shown only
+          </label>
         </div>
 
         <div class="flex gap-2 mt-4">
@@ -286,6 +276,18 @@
       <p class="text-sm text-gray-500">
         {{ toilets.length }} results
       </p>
+    </div>
+
+    <div v-if="viewMode === 'map'" class="flex flex-wrap gap-2 mb-4 text-xs">
+      <span
+        v-for="legend in placeTypeLegend"
+        :key="legend.type"
+        class="px-2 py-1 rounded-full flex items-center gap-1"
+        :style="{ backgroundColor: `${legend.background}22`, color: legend.background }"
+      >
+        <span aria-hidden="true" class="inline-flex items-center" v-html="legend.iconHtml"></span>
+        <span>{{ legend.label }}</span>
+      </span>
     </div>
 
     <div v-if="activePending && !hasLoadedOnce" class="text-center py-16 text-gray-400">
@@ -376,12 +378,13 @@
             class="overflow-hidden will-change-[max-height,opacity,transform] transition-[max-height,opacity,transform,margin] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
             :class="!isMobile || showSelectedToiletDetails ? 'max-h-[60svh] opacity-100 translate-y-0 mt-0 pointer-events-auto' : 'max-h-0 opacity-0 -translate-y-1 mt-0 pointer-events-none'"
           >
-            <div class="flex flex-wrap gap-2 mb-3 text-xs">
-            <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">{{ selectedToilet.type }}</span>
+          <div class="flex flex-wrap gap-2 mb-3 text-xs">
+            <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">{{ toiletTypeLabel(selectedToilet.type) }}</span>
             <span class="px-2 py-1 rounded-full" :class="selectedToilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
               {{ selectedToilet.is_free ? 'Free' : 'Paid' }}
             </span>
             <span v-if="selectedToilet.is_accessible" class="px-2 py-1 rounded-full bg-blue-100 text-blue-700">Accessible</span>
+            <span v-if="selectedToilet.opening_hours" class="px-2 py-1 rounded-full bg-violet-100 text-violet-700">Hours shown</span>
             <span v-if="selectedToilet.avg_rating !== null" class="px-2 py-1 rounded-full bg-amber-100 text-amber-700">Rating {{ selectedToilet.avg_rating }}</span>
             <span v-if="selectedToilet.distance_km !== undefined" class="px-2 py-1 rounded-full bg-slate-100 text-slate-700">
               {{ formatDistance(selectedToilet.distance_km) }} away
@@ -400,16 +403,8 @@
               class="px-2 py-1 rounded-full"
               :class="confidenceClass(selectedToilet.source_confidence_level)"
             >
-              Confidence {{ selectedToilet.source_confidence_score }}/100
+              Source reliability {{ selectedToilet.source_confidence_score }}/100
             </span>
-            <button
-              type="button"
-              class="px-2 py-1 rounded-full bg-cyan-100 text-cyan-800 hover:bg-cyan-200"
-              :title="`Open source: ${formatProvenanceMeta(selectedToilet.source, selectedToilet.source_name)}`"
-              @click="openSource(selectedToilet.source, selectedToilet.source_url)"
-            >
-              Source {{ formatProvenanceLabel(selectedToilet.source, selectedToilet.source_name) }}
-            </button>
             </div>
 
             <div class="flex flex-wrap gap-2">
@@ -515,7 +510,7 @@
                     {{ toilet.address ?? toilet.city }}
                   </p>
                   <div class="mt-1.5 flex flex-wrap items-center gap-1.5 text-[11px]">
-                    <span class="rounded-full bg-gray-100 text-gray-700 px-2 py-0.5">{{ toilet.type }}</span>
+                    <span class="rounded-full bg-gray-100 text-gray-700 px-2 py-0.5">{{ toiletTypeLabel(toilet.type) }}</span>
                     <span class="rounded-full px-2 py-0.5" :class="toilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
                       {{ toilet.is_free ? 'Free' : 'Paid' }}
                     </span>
@@ -573,9 +568,12 @@
                         {{ toilet.address ?? toilet.city }}
                       </p>
                       <div class="mt-1 flex flex-wrap items-center gap-1 text-[11px]">
-                        <span class="rounded-full bg-gray-100 text-gray-700 px-1.5 py-0.5">{{ toilet.type }}</span>
+                        <span class="rounded-full bg-gray-100 text-gray-700 px-1.5 py-0.5">{{ toiletTypeLabel(toilet.type) }}</span>
                         <span class="rounded-full px-1.5 py-0.5" :class="toilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
                           {{ toilet.is_free ? 'Free' : 'Paid' }}
+                        </span>
+                        <span v-if="toilet.opening_hours" class="rounded-full bg-violet-100 text-violet-700 px-1.5 py-0.5">
+                          Hours shown
                         </span>
                         <span v-if="toilet.distance_km !== undefined" class="rounded-full bg-slate-100 text-slate-700 px-1.5 py-0.5">
                           {{ formatDistance(toilet.distance_km) }}
@@ -611,7 +609,7 @@
 <script setup lang="ts">
 import 'leaflet/dist/leaflet.css'
 import type { ToiletListItem, ToiletType } from '../../../shared/types/index'
-import { formatProvenanceLabel, formatProvenanceMeta, resolveSourceUrl, sourceKindFromRecord } from '../../utils/provenance'
+import { toiletTypeIconHtml, toiletTypeMeta } from '../../utils/toilet-type'
 
 interface ToiletsResponse {
   data: ToiletListItem[]
@@ -654,8 +652,7 @@ interface OsrmResponse {
 
 type SortMode = 'nearest' | 'rating' | 'updated'
 type ReportedFilter = 'any' | 'true' | 'false'
-type SourceKindFilter = 'any' | 'osm' | 'city_open_data' | 'other'
-type FilterKey = 'city' | 'type' | 'is_free' | 'is_accessible' | 'reported' | 'min_rating' | 'radius' | 'source_kind'
+type FilterKey = 'city' | 'type' | 'is_free' | 'is_accessible' | 'has_opening_hours' | 'reported' | 'min_rating' | 'radius'
 const MOBILE_MARKER_LIMIT = 250
 
 const route = useRoute()
@@ -666,14 +663,19 @@ const appBase = runtimeConfig.app.baseURL.endsWith('/')
   : `${runtimeConfig.app.baseURL}/`
 
 const toiletTypes: ToiletType[] = ['public', 'cafe', 'restaurant', 'shopping_mall', 'park', 'petrol_station', 'other']
+const placeTypeLegend = toiletTypes.map(type => ({
+  type,
+  ...toiletTypeMeta(type),
+  iconHtml: toiletTypeIconHtml(type, 14),
+}))
 
 const filters = ref({
   city: String(route.query.city ?? ''),
   type: String(route.query.type ?? ''),
   is_free: route.query.is_free === 'true',
   is_accessible: route.query.is_accessible === 'true',
+  has_opening_hours: route.query.has_opening_hours === 'true',
   reported: ((route.query.reported as ReportedFilter) ?? 'any'),
-  source_kind: ((route.query.source_kind as SourceKindFilter) ?? 'any'),
   min_rating: Number(route.query.min_rating ?? 0),
   radius: Number(route.query.radius ?? 0),
   sort: ((route.query.sort as SortMode) ?? 'updated'),
@@ -688,8 +690,8 @@ const queryParams = computed(() => {
   if (filters.value.type) p.type = filters.value.type
   if (filters.value.is_free) p.is_free = 'true'
   if (filters.value.is_accessible) p.is_accessible = 'true'
+  if (filters.value.has_opening_hours) p.has_opening_hours = 'true'
   if (filters.value.reported !== 'any') p.reported = filters.value.reported
-  if (filters.value.source_kind !== 'any') p.source_kind = filters.value.source_kind
   if (filters.value.min_rating > 0) p.min_rating = String(filters.value.min_rating)
   if (filters.value.radius > 0) p.radius = String(filters.value.radius)
   p.sort = filters.value.sort
@@ -792,12 +794,12 @@ function withAppliedFilters(source: ToiletListItem[], ignore: FilterKey[] = []):
   if (!ignore.includes('is_accessible') && filters.value.is_accessible) {
     list = list.filter(t => t.is_accessible)
   }
+  if (!ignore.includes('has_opening_hours') && filters.value.has_opening_hours) {
+    list = list.filter(t => Boolean(t.opening_hours))
+  }
   if (!ignore.includes('reported') && filters.value.reported !== 'any') {
     const wantReported = filters.value.reported === 'true'
     list = list.filter(t => t.has_reports === wantReported)
-  }
-  if (!ignore.includes('source_kind') && filters.value.source_kind !== 'any') {
-    list = list.filter(t => sourceKindFromRecord(t.source, t.source_name) === filters.value.source_kind)
   }
   if (!ignore.includes('min_rating') && filters.value.min_rating > 0) {
     list = list.filter(t => (t.avg_rating ?? 0) >= filters.value.min_rating)
@@ -821,6 +823,7 @@ const canFilterReportedTrue = computed(() => withAppliedFilters(apiToilets.value
 const canFilterReportedFalse = computed(() => withAppliedFilters(apiToilets.value, ['reported']).some(t => !t.has_reports))
 const canFilterFree = computed(() => withAppliedFilters(apiToilets.value, ['is_free']).some(t => t.is_free))
 const canFilterAccessible = computed(() => withAppliedFilters(apiToilets.value, ['is_accessible']).some(t => t.is_accessible))
+const canFilterOpeningHours = computed(() => withAppliedFilters(apiToilets.value, ['has_opening_hours']).some(t => Boolean(t.opening_hours)))
 
 function isTypeDisabled(type: ToiletType): boolean {
   return !availableTypes.value.has(type) && filters.value.type !== type
@@ -863,9 +866,6 @@ const toilets = computed(() => {
   if (filters.value.reported !== 'any') {
     const wantReported = filters.value.reported === 'true'
     list = list.filter(t => t.has_reports === wantReported)
-  }
-  if (filters.value.source_kind !== 'any') {
-    list = list.filter(t => sourceKindFromRecord(t.source, t.source_name) === filters.value.source_kind)
   }
   if (filters.value.min_rating > 0) {
     list = list.filter(t => (t.avg_rating ?? 0) >= filters.value.min_rating)
@@ -915,7 +915,7 @@ const isMapMarkerLimited = computed(() => (
 ))
 
 watch(
-  [availableCities, availableTypes, canFilterReportedTrue, canFilterReportedFalse, canFilterFree, canFilterAccessible],
+  [availableCities, availableTypes, canFilterReportedTrue, canFilterReportedFalse, canFilterFree, canFilterAccessible, canFilterOpeningHours],
   () => {
     if (filters.value.city && !availableCities.value.includes(filters.value.city)) {
       filters.value.city = ''
@@ -934,6 +934,9 @@ watch(
     }
     if (filters.value.is_accessible && !canFilterAccessible.value) {
       filters.value.is_accessible = false
+    }
+    if (filters.value.has_opening_hours && !canFilterOpeningHours.value) {
+      filters.value.has_opening_hours = false
     }
     if (filters.value.min_rating > 0 && !canFilterMinRating(filters.value.min_rating)) {
       filters.value.min_rating = 0
@@ -1107,12 +1110,17 @@ function refreshMapMarkers() {
 
   for (const toilet of mapToilets.value) {
     const isSelected = selectedToilet.value?.id === toilet.id
-    const marker = leaflet.circleMarker([toilet.lat, toilet.lng], {
-      radius: isSelected ? 8 : 6,
-      color: isSelected ? '#845ec2' : '#4e8397',
-      weight: 2,
-      fillColor: isSelected ? '#9a79cd' : '#6f9dac',
-      fillOpacity: 0.9,
+    const marker = leaflet.marker([toilet.lat, toilet.lng], {
+      icon: createToiletMarkerIcon(toilet, isSelected),
+      riseOnHover: true,
+      keyboard: false,
+      title: `${describeUserMarker(toilet)}: ${toilet.name ?? 'Public Toilet'}`,
+    })
+    marker.bindPopup(buildMarkerPopup(toilet), {
+      closeButton: false,
+      autoPanPadding: [24, 24],
+      className: 'toilet-marker-popup',
+      maxWidth: 260,
     })
 
     marker.on('click', () => {
@@ -1125,6 +1133,7 @@ function refreshMapMarkers() {
         const targetZoom = Math.max(map.getZoom(), 16)
         map.flyTo([toilet.lat, toilet.lng], targetZoom, { animate: true, duration: 0.35 })
       }
+      marker.openPopup()
     })
 
     if (!isMobile.value) {
@@ -1139,6 +1148,109 @@ function refreshMapMarkers() {
     hasAutoFitted = true
   }
 
+}
+
+function createToiletMarkerIcon(
+  toilet: ToiletListItem,
+  selected: boolean,
+): import('leaflet').DivIcon {
+  const { iconHtml, background, foreground } = markerStyleForToilet(toilet, selected)
+  const size = selected ? 34 : 30
+  return leaflet!.divIcon({
+    className: 'toilet-map-marker',
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size],
+    popupAnchor: [0, -size],
+    html: `
+      <div style="
+        width:${size}px;
+        height:${size}px;
+        border-radius:999px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:${selected ? 13 : 12}px;
+        font-weight:700;
+        line-height:1;
+        color:${foreground};
+        background:${background};
+        border:2px solid rgba(255,255,255,0.95);
+        box-shadow:0 10px 22px rgba(15, 23, 42, 0.26);
+        transform:translateY(-2px);
+      ">${iconHtml}</div>
+    `,
+  })
+}
+
+function markerStyleForToilet(
+  toilet: ToiletListItem,
+  selected: boolean,
+): { iconHtml: string, background: string, foreground: string } {
+  const meta = toiletTypeMeta(toilet.type)
+  const shade = selected ? 0.88 : 1
+  return selected
+    ? { iconHtml: toiletTypeIconHtml(toilet.type, 15), background: meta.background, foreground: meta.foreground }
+    : { iconHtml: toiletTypeIconHtml(toilet.type, 15), background: tintColor(meta.background, shade), foreground: meta.foreground }
+}
+
+function describeUserMarker(toilet: ToiletListItem): string {
+  return toiletTypeLabel(toilet.type)
+}
+
+function toiletTypeLabel(type: ToiletType): string {
+  return toiletTypeMeta(type).label
+}
+
+function buildMarkerPopup(toilet: ToiletListItem): string {
+  const typeLabel = escapeHtml(toiletTypeLabel(toilet.type))
+  const name = escapeHtml(toilet.name ?? 'Public Toilet')
+  const address = escapeHtml(toilet.address ?? toilet.city)
+  const freeLabel = toilet.is_free ? 'Free' : 'Paid'
+  const accessLabel = toilet.is_accessible ? 'Accessible' : 'Not marked accessible'
+  const hoursLabel = toilet.opening_hours ? escapeHtml(toilet.opening_hours) : 'Hours not shown'
+  const ratingLabel = toilet.avg_rating !== null && toilet.avg_rating !== undefined
+    ? `Rating ${toilet.avg_rating}`
+    : 'No rating yet'
+
+  return `
+    <div class="space-y-2 text-sm text-slate-700 min-w-[220px]">
+      <div class="flex items-start gap-2">
+        <div class="shrink-0 mt-0.5 text-[var(--brand-accent)]">${toiletTypeIconHtml(toilet.type, 16)}</div>
+        <div class="min-w-0">
+          <div class="font-semibold text-brand leading-tight">${name}</div>
+          <div class="text-xs text-slate-500">${typeLabel}</div>
+        </div>
+      </div>
+      <div class="text-xs text-slate-500">${address}</div>
+      <div class="flex flex-wrap gap-1.5 text-xs">
+        <span class="rounded-full ${toilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'} px-2 py-0.5">${freeLabel}</span>
+        <span class="rounded-full ${toilet.is_accessible ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-500'} px-2 py-0.5">${accessLabel}</span>
+      </div>
+      <div class="flex flex-wrap gap-1.5 text-xs">
+        <span class="rounded-full bg-violet-100 text-violet-700 px-2 py-0.5">${hoursLabel}</span>
+        <span class="rounded-full bg-amber-100 text-amber-700 px-2 py-0.5">${escapeHtml(ratingLabel)}</span>
+      </div>
+    </div>
+  `
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+}
+
+function tintColor(hex: string, blend: number): string {
+  const clean = hex.replace('#', '')
+  if (clean.length !== 6) return hex
+  const r = Number.parseInt(clean.slice(0, 2), 16)
+  const g = Number.parseInt(clean.slice(2, 4), 16)
+  const b = Number.parseInt(clean.slice(4, 6), 16)
+  const mix = (value: number) => Math.round(value * blend + 255 * (1 - blend))
+  return `rgb(${mix(r)}, ${mix(g)}, ${mix(b)})`
 }
 
 function renderUserLocationMarker() {
@@ -1183,8 +1295,8 @@ function resetFilters() {
     type: '',
     is_free: false,
     is_accessible: false,
+    has_opening_hours: false,
     reported: 'any',
-    source_kind: 'any',
     min_rating: 0,
     radius: 0,
     sort: userLocation.value ? 'nearest' : 'updated',
@@ -1201,8 +1313,8 @@ function buildRouteQuery(): Record<string, string | undefined> {
     type: filters.value.type || undefined,
     is_free: filters.value.is_free ? 'true' : undefined,
     is_accessible: filters.value.is_accessible ? 'true' : undefined,
+    has_opening_hours: filters.value.has_opening_hours ? 'true' : undefined,
     reported: filters.value.reported === 'any' ? undefined : filters.value.reported,
-    source_kind: filters.value.source_kind === 'any' ? undefined : filters.value.source_kind,
     min_rating: filters.value.min_rating > 0 ? String(filters.value.min_rating) : undefined,
     radius: filters.value.radius > 0 ? String(filters.value.radius) : undefined,
     sort: filters.value.sort,
@@ -1363,13 +1475,6 @@ function externalRouteUrl(toilet: ToiletListItem): string {
   if (!userLocation.value) return '#'
 
   return `https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot&route=${userLocation.value.lat}%2C${userLocation.value.lng}%3B${toilet.lat}%2C${toilet.lng}`
-}
-
-function openSource(source: string, sourceUrl: string) {
-  if (!import.meta.client) return
-  const url = resolveSourceUrl(source, sourceUrl)
-  if (url === '#') return
-  window.open(url, '_blank', 'noopener,noreferrer')
 }
 
 function focusToiletFromList(toilet: ToiletListItem) {
