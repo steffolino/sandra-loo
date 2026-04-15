@@ -86,6 +86,11 @@ jobs:
             echo "=== INDEX END ==="
           fi
 
+      - name: Create fallback static API payload
+        run: |
+          echo "Creating fallback /api/toilets/index from data/imports"
+          node scripts/smoke/write-api-payload.mjs
+
       - name: Run deploy smoke check
         run: npm run smoke:deploy
 
