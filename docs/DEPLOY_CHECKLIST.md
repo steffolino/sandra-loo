@@ -1,6 +1,6 @@
 # Deploy Checklist
 
-Last updated: 2026-04-09
+Last updated: 2026-04-15
 
 ## 1) Release Scope Freeze
 
@@ -8,8 +8,10 @@ Last updated: 2026-04-09
 - [ ] Scope is limited to:
   - Demo hardening (POST rate limiting, honeypot/cooldown checks)
   - Deploy smoke check
+  - Static API payload fallback generation (if needed)
   - Homepage onboarding copy + feedback link
   - Data provenance visibility + source links/filter
+  - i18n key parity and locale-aware routing fixes
   - Theme/nav/footer accessibility updates
 - [ ] Confirm anonymous usage remains enabled.
 - [ ] Confirm no social auth added.
@@ -19,6 +21,7 @@ Last updated: 2026-04-09
 - [ ] `npm test` passes.
 - [ ] `npm run build` passes.
 - [ ] `npm run smoke:deploy` passes.
+- [ ] `npm run i18n:validate` passes.
 - [ ] Smoke output includes provenance distribution and no missing source metadata.
 
 ## 3) Manual QA (Desktop + Mobile)
@@ -29,6 +32,9 @@ Last updated: 2026-04-09
 - [ ] Footer contrast visually reads clearly (AA minimum) and links are legible.
 - [ ] Toilet list and detail pages show source provenance labels/links.
 - [ ] Source filter works (`any`, `osm`, `city_open_data`, `other`).
+- [ ] Selected language persists after reload.
+- [ ] Internal links preserve locale prefix (`/en`, `/tr`, `/ar`, etc.) where applicable.
+- [ ] Home page cards and onboarding text are translated in each active locale.
 - [ ] Review/report/confirmation/leaderboard submissions still work for real users.
 - [ ] Honeypot/cooldown protections block abuse while allowing normal usage.
 
@@ -55,3 +61,4 @@ Last updated: 2026-04-09
 - [ ] Add deployed commit SHA and timestamp to release notes.
 - [ ] Announce deployment status to stakeholders.
 - [ ] Capture follow-up tasks in backlog.
+- [ ] If stale mixed-language content appears, purge CDN cache and hard-refresh browser cache.

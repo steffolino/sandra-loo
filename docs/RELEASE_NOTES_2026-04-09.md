@@ -1,5 +1,34 @@
 # Release Notes - 2026-04-09
 
+## Addendum - 2026-04-15
+
+### Localization and Routing Hardening
+
+- Replaced remaining hardcoded UI copy in game/admin/home surfaces with i18n keys.
+- Added missing translations across active locales (`de`, `pl`, `tr`, `en`, `ar`, `ru`) for:
+  - Home feature card descriptions and onboarding note
+  - Admin table labels and empty-state copy
+  - Game HUD, milestone, step summary, and leaderboard labels
+  - Shared accessibility labels (`common.language`, `common.select_language`)
+- Updated locale-aware navigation:
+  - Internal links now consistently resolve through locale path helpers.
+  - Toilet card detail links preserve selected locale.
+  - Header active-route matching now supports all 2-letter locale prefixes.
+- Improved locale persistence behavior in language switcher:
+  - Restore from localStorage
+  - Keep i18n cookie in sync
+  - Keep document text direction in sync (LTR/RTL)
+
+### Static Deploy Robustness
+
+- Added a static API payload fallback writer for CI/static output when `/api/toilets/index` is missing.
+- Updated deploy smoke checks to be locale-agnostic (no brittle hardcoded English text assertion).
+
+### Operational Notes
+
+- If production still shows mixed-language content after deploy, force a fresh deploy artifact and clear CDN/browser cache.
+- Build/generate logs may be long due to large localized route set; treat timeout as inconclusive unless error output is present.
+
 ## Summary
 
 This release hardens anonymous demo submissions, improves deployment safety checks, adds transparent data provenance, and updates onboarding/theming/accessibility polish.
