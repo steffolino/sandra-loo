@@ -14,8 +14,12 @@ if (!existsSync(apiIndexPath)) {
 }
 
 const toiletsHtml = readFileSync(toiletsPagePath, 'utf-8')
-if (!toiletsHtml.includes('Find a Toilet')) {
-  fail('Smoke check failed: /toilets/ page did not render expected onboarding content.')
+const hasNuxtPayload = toiletsHtml.includes('__NUXT_DATA__')
+const hasToiletsPayloadRef = toiletsHtml.includes('/toilets/_payload.json')
+const hasToiletRouteLinks = toiletsHtml.includes('/toilets/')
+
+if (!hasNuxtPayload || !hasToiletsPayloadRef || !hasToiletRouteLinks) {
+  fail('Smoke check failed: /toilets/ page did not render expected static Nuxt payload markers.')
 }
 
 let payload
