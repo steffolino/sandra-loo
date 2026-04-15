@@ -151,6 +151,7 @@ The awareness game is currently a 3D, step-based run rather than a free-roam wor
 | `docs/api.md` | API reference |
 | `docs/import-strategy.md` | Data import instructions |
 | `docs/backlog.md` | Feature backlog |
+| `CONTRIBUTING.md` | How to contribute (locales, cities, PR workflow) |
 | `docs/DEPLOY_CHECKLIST.md` | Deployment checklist |
 | `docs/DEPLOY_REPORT_2026-04-09.md` | Latest deployment gate report |
 | `docs/RELEASE_NOTES_2026-04-09.md` | Latest release notes |

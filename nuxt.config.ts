@@ -26,14 +26,10 @@ function getPrerenderApiRoutes(): string[] {
   }
 
   const ids = new Set(normalizeAndMergeToilets(all).map(t => t.id))
-  const detailRoutes = [...ids].map(id => `/api/toilets/${encodeURIComponent(id)}/`)
+  const detailRoutes = [...ids].map(id => `/api/toilets/${encodeURIComponent(id)}`)
   const apiRoutes = ['/api/toilets/', ...detailRoutes]
-  const prefixedRoutes
-    = baseURL !== '/'
-      ? apiRoutes.map(route => `${baseURL}${route.replace(/^\//, '')}`)
-      : []
 
-  return [...new Set([...apiRoutes, ...prefixedRoutes])]
+  return [...new Set(apiRoutes)]
 }
 
 const prerenderApiRoutes = getPrerenderApiRoutes()
@@ -75,10 +71,17 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    // Disable runtime timing instrumentation to avoid noisy console.time label
+    // collisions during concurrent prerender.
+    timing: false,
     // Pre-render the app shell and all crawled links for static hosting.
     prerender: {
       autoSubfolderIndex: true,
+      concurrency: 1,
       crawlLinks: true,
+      // Avoid generating both /api/toilets (file) and /api/toilets/ (directory).
+      // We canonicalize to the slash form above.
+      ignore: ['/api/toilets'],
       routes: ['/', ...prerenderApiRoutes],
     },
   },
