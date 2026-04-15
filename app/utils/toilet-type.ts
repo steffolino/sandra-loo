@@ -8,6 +8,35 @@ export interface ToiletTypeMeta {
   foreground: string
 }
 
+export function toiletTypeLabelKey(type: ToiletType): string {
+  switch (type) {
+    case 'public':
+      return 'toilet_type.public'
+    case 'library':
+      return 'toilet_type.library'
+    case 'university':
+      return 'toilet_type.university'
+    case 'civic':
+      return 'toilet_type.civic'
+    case 'culture':
+      return 'toilet_type.culture'
+    case 'transit':
+      return 'toilet_type.transit'
+    case 'cafe':
+      return 'toilet_type.cafe'
+    case 'restaurant':
+      return 'toilet_type.restaurant'
+    case 'shopping_mall':
+      return 'toilet_type.shopping_mall'
+    case 'park':
+      return 'toilet_type.park'
+    case 'petrol_station':
+      return 'toilet_type.petrol_station'
+    default:
+      return 'toilet_type.other'
+  }
+}
+
 export function toiletTypeMeta(type: ToiletType): ToiletTypeMeta {
   switch (type) {
     case 'public':

@@ -27,7 +27,8 @@
         "details": "Details",
         "back_to_list": "Back to list",
         "show_full_steps": "Show full steps",
-        "hide_full_steps": "Hide full steps"
+        "hide_full_steps": "Hide full steps",
+        "close": "Close"
     },
     "home": {
         "tagline": "Find verified public toilets in Germany — and test your survival skills in our awareness game.",
@@ -76,7 +77,46 @@
         "detail_load_error": "Could not load toilet details.",
         "guide_not_guarantee": "Please use as a guide, not a guarantee.",
         "confirm_status": "Confirm status",
-        "confirm_thanks": "Thank you for confirming!"
+        "confirm_thanks": "Thank you for confirming!",
+        "my_location": "My location",
+        "status_changes_fast": "Toilet status can change fast.",
+        "status_changes_body": "Some public toilets may be dirty, closed, or out of paper. In the future we want users to help track cleanliness and availability so the map stays current.",
+        "status_changes_institutional": "Institutional places like libraries, civic buildings, or universities are only suggestions based on public data. We do not guarantee they are always open, free to use, or suitable for toilet access. If you are unsure, check with the people on site.",
+        "last_updated_label": "Last updated:",
+        "open_data_source": "Open data source",
+        "geolocation_not_supported": "Geolocation is not supported on this device.",
+        "geolocation_permission_error": "Could not access your location. Please allow location permission and try again.",
+        "route_requires_location": "Current location is required to calculate a route.",
+        "routing_unavailable": "Routing service is currently unavailable. Please try again in a moment.",
+        "page_of": "Page {current} of {total}",
+        "mobile_marker_limit_note": "Showing {count} nearby markers on mobile for faster loading.",
+        "distance_away": "{distance} away",
+        "next_maneuver": "Next maneuver",
+        "step_of": "Step {current} of {total}",
+        "not_marked_accessible": "Not marked accessible",
+        "hours_not_shown": "Hours not shown",
+        "no_rating_yet": "No rating yet",
+        "route_action_on": "{action} on {street}",
+        "maneuver_type": {
+            "continue": "continue",
+            "turn": "turn",
+            "depart": "depart",
+            "arrive": "arrive",
+            "merge": "merge",
+            "roundabout": "roundabout",
+            "on_ramp": "on-ramp",
+            "off_ramp": "off-ramp"
+        },
+        "maneuver_modifier": {
+            "left": "left",
+            "right": "right",
+            "straight": "straight",
+            "slight_left": "slight left",
+            "slight_right": "slight right",
+            "sharp_left": "sharp left",
+            "sharp_right": "sharp right",
+            "uturn": "u-turn"
+        }
     },
     "toilet": {
         "public": "Public Toilet",
@@ -138,7 +178,10 @@
         "hours_shown_only": "Hours shown only",
         "apply": "Apply filters",
         "use_current_location": "Use current location",
-        "reset": "Reset"
+        "reset": "Reset",
+        "nearest": "Nearest",
+        "rating_and_up": "{rating} and up",
+        "title": "Filters"
     },
     "game": {
         "mode": "Step Run",
@@ -186,5 +229,19 @@
         "import_runs_desc": "Coming soon – run import scripts",
         "no_reports": "No reports yet",
         "no_reports_text": "User reports will appear here once users start submitting them."
+    },
+    "toilet_type": {
+        "public": "Public toilet",
+        "library": "Library",
+        "university": "University",
+        "civic": "Civic building",
+        "culture": "Culture venue",
+        "transit": "Transit hub",
+        "cafe": "Cafe",
+        "restaurant": "Restaurant",
+        "shopping_mall": "Shopping centre",
+        "park": "Park",
+        "petrol_station": "Petrol station",
+        "other": "Other place"
     }
 }

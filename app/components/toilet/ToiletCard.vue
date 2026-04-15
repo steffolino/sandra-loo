@@ -45,7 +45,7 @@
           v-if="toilet.report_count !== undefined && toilet.report_count > 0"
           class="px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700"
         >
-          {{ $tc('toilet.reports', toilet.report_count, { count: toilet.report_count }) }}
+          {{ $t('toilet.reports', toilet.report_count, { count: toilet.report_count }) }}
         </span>
         <span
           v-if="toilet.freshness_label !== undefined"
@@ -58,7 +58,7 @@
           v-if="toilet.recent_confirmation_count !== undefined"
           class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700"
         >
-          {{ $tc('toilet.recent_confirmations', toilet.recent_confirmation_count, { count: toilet.recent_confirmation_count }) }}
+          {{ $t('toilet.recent_confirmations', toilet.recent_confirmation_count, { count: toilet.recent_confirmation_count }) }}
         </span>
         <span
           v-if="toilet.source_confidence_score !== undefined"
@@ -85,9 +85,10 @@
 
 <script setup lang="ts">
 import type { Toilet, ToiletListItem } from '../../../shared/types/index'
-import { toiletTypeMeta } from '../../utils/toilet-type'
+import { toiletTypeLabelKey } from '../../utils/toilet-type'
 
 defineProps<{ toilet: Toilet | ToiletListItem }>()
+const { t } = useI18n()
 
 function formatDistance(km: number): string {
   if (km < 1) {
@@ -100,9 +101,9 @@ function freshnessText(
   label: ToiletListItem['freshness_label'],
   days: number,
 ): string {
-  if (label === 'fresh') return $t('toilet.updated_days', { days })
-  if (label === 'aging') return $t('toilet.updated_days', { days })
-  return $t('toilet.data_may_be_stale', { days })
+  if (label === 'fresh') return t('toilet.updated_days', { days })
+  if (label === 'aging') return t('toilet.updated_days', { days })
+  return t('toilet.data_may_be_stale', { days })
 }
 
 function freshnessClass(label: ToiletListItem['freshness_label']): string {
@@ -118,7 +119,7 @@ function confidenceClass(level: ToiletListItem['source_confidence_level']): stri
 }
 
 function toiletTypeLabel(type: Toilet['type']): string {
-  return toiletTypeMeta(type).label
+  return t(toiletTypeLabelKey(type))
 }
 
 function toiletDetailHref(id: string): string {

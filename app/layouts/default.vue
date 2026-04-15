@@ -2,28 +2,28 @@
   <div class="min-h-screen flex flex-col bg-[var(--cube-base-soft)]">
     <header class="bg-[var(--cube-base)] text-brand shadow-sm border-b border-[color:color-mix(in_srgb,var(--cube-base)_85%,#9f9488)]">
       <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-        <NuxtLink to="/" class="flex items-center gap-2 font-bold text-lg tracking-tight">
+        <NuxtLink :to="localePath('/')" class="flex items-center gap-2 font-bold text-lg tracking-tight">
           <span class="text-brand-accent">WC</span>
           {{ $t('header.appName') }}
         </NuxtLink>
 
         <nav class="flex items-center gap-2 text-sm font-medium">
           <NuxtLink
-            to="/toilets/"
+            :to="localePath('/toilets/')"
             class="px-3 py-2 rounded-lg transition-colors border"
             :class="isToiletsRoute ? 'bg-[var(--cube-base-card)] text-brand border-[color:color-mix(in_srgb,var(--cube-base)_80%,#9f9488)]' : 'border-[color:color-mix(in_srgb,var(--cube-base)_78%,#9f9488)] text-brand hover:bg-[var(--cube-base-card)]'"
           >
             {{ $t('nav.map_view') }}
           </NuxtLink>
           <NuxtLink
-            to="/game"
+            :to="localePath('/game')"
             class="px-3 py-2 rounded-lg transition-colors border"
             :class="isGameRoute ? 'bg-[var(--cube-base-card)] text-brand border-[color:color-mix(in_srgb,var(--cube-base)_80%,#9f9488)]' : 'border-transparent text-brand/80 hover:text-brand hover:border-[color:color-mix(in_srgb,var(--cube-base)_78%,#9f9488)] hover:bg-[var(--cube-base-card)]'"
           >
             {{ $t('nav.play') }}
           </NuxtLink>
         </nav>
-        <div class="ml-3">
+        <div class="ml-3 flex items-center">
           <LanguageSwitcher />
         </div>
       </div>
@@ -60,7 +60,8 @@
 
 <script setup lang="ts">
 const route = useRoute()
+const localePath = useLocalePath()
 
-const isToiletsRoute = computed(() => route.path.startsWith('/toilets'))
-const isGameRoute = computed(() => route.path.startsWith('/game'))
+const isToiletsRoute = computed(() => /\/(?:en\/)?toilets(?:\/|$)/.test(route.path))
+const isGameRoute = computed(() => /\/(?:en\/)?game(?:\/|$)/.test(route.path))
 </script>

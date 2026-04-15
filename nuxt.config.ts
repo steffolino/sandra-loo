@@ -122,6 +122,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    restructureDir: '.',
     locales: [
       { code: 'de', file: 'de.json', iso: 'de-DE', name: 'Deutsch' },
       { code: 'pl', file: 'pl.json', iso: 'pl-PL', name: 'Polski' },
@@ -133,16 +134,13 @@ export default defineNuxtConfig({
     defaultLocale: 'de',
     strategy: 'prefix_except_default',
     lazy: true,
-    langDir: 'locales/',
+    langDir: 'locales',
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
       fallbackLocale: 'de',
     },
-    vueI18n: {
-      legacy: false,
-      locale: 'de',
-      fallbackLocale: 'de',
-    },
+    // Inline `vueI18n` config removed to avoid path-resolution issues
+    // (the module will use sensible defaults; provide a config file if needed)
   },
 })
