@@ -89,12 +89,13 @@ import { toiletTypeLabelKey } from '../../utils/toilet-type'
 
 defineProps<{ toilet: Toilet | ToiletListItem }>()
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 function formatDistance(km: number): string {
   if (km < 1) {
-    return `${Math.round(km * 1000)} m`
+    return t('toilets.distance_away', { distance: `${Math.round(km * 1000)} m` })
   }
-  return `${km.toFixed(1)} km`
+  return t('toilets.distance_away', { distance: `${km.toFixed(1)} km` })
 }
 
 function freshnessText(
@@ -123,6 +124,6 @@ function toiletTypeLabel(type: Toilet['type']): string {
 }
 
 function toiletDetailHref(id: string): string {
-  return `/toilets/${encodeURIComponent(id)}/`
+  return localePath(`/toilets/${encodeURIComponent(id)}/`)
 }
 </script>

@@ -16,15 +16,15 @@
 
         <div class="grid grid-cols-3 gap-3 text-center text-xs font-medium text-slate-600">
           <div class="rounded-2xl border border-white/80 bg-white/70 px-4 py-3 shadow-sm backdrop-blur">
-            <div class="text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">Route</div>
+            <div class="text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">{{ $t('game.metric_route') }}</div>
             <div class="mt-1 text-sm font-semibold text-brand">{{ config?.maxSteps ?? 20 }} {{ $t('game.steps') }}</div>
           </div>
           <div class="rounded-2xl border border-white/80 bg-white/70 px-4 py-3 shadow-sm backdrop-blur">
-            <div class="text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">Pressure</div>
+            <div class="text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">{{ $t('game.metric_pressure') }}</div>
             <div class="mt-1 text-sm font-semibold text-brand">+{{ config?.bladderIncreasePerStep ?? 14 }} {{ $t('game.each_step') }}</div>
           </div>
           <div class="rounded-2xl border border-white/80 bg-white/70 px-4 py-3 shadow-sm backdrop-blur">
-            <div class="text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">Milestone</div>
+            <div class="text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">{{ $t('game.metric_milestone') }}</div>
             <div class="mt-1 text-sm font-semibold text-brand">{{ $t('game.every_milestone', { steps: config?.stepsPerMilestone ?? 10 }) }}</div>
           </div>
         </div>
@@ -43,16 +43,16 @@
         </p>
         <div class="mt-6 grid gap-3 text-left sm:grid-cols-3">
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Public Toilet</p>
-            <p class="mt-2 text-sm text-slate-600">Solid relief, middling cleanliness.</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">{{ $t('toilet_type.public') }}</p>
+            <p class="mt-2 text-sm text-slate-600">{{ $t('game.ready_card_public_desc') }}</p>
           </div>
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Cafe</p>
-            <p class="mt-2 text-sm text-slate-600">Usually the best comfort and score mix.</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">{{ $t('toilet_type.cafe') }}</p>
+            <p class="mt-2 text-sm text-slate-600">{{ $t('game.ready_card_cafe_desc') }}</p>
           </div>
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Park</p>
-            <p class="mt-2 text-sm text-slate-600">Big relief, big igitt, pure desperation.</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">{{ $t('toilet_type.park') }}</p>
+            <p class="mt-2 text-sm text-slate-600">{{ $t('game.ready_card_park_desc') }}</p>
           </div>
         </div>
         <button class="btn-primary mt-8 px-8 py-3 text-base" @click="startGame">{{ $t('game.start_run') }}</button>
@@ -72,11 +72,11 @@
         </p>
         <p class="mt-5 text-4xl font-bold text-brand-accent">
           {{ gameState.score }}
-          <span class="text-base font-medium text-slate-400">pts</span>
+          <span class="text-base font-medium text-slate-400">{{ $t('game.score_unit_pts') }}</span>
         </p>
         <div class="mt-6 flex flex-wrap justify-center gap-3">
           <button class="btn-primary" @click="startGame">{{ $t('game.play_again') }}</button>
-          <NuxtLink to="/game/leaderboard" class="btn-secondary">{{ $t('game.leaderboard') }}</NuxtLink>
+          <NuxtLink :to="localePath('/game/leaderboard')" class="btn-secondary">{{ $t('game.leaderboard') }}</NuxtLink>
         </div>
       </div>
     </div>
@@ -86,14 +86,14 @@
         <section v-if="showMilestonePicker" class="card p-5">
           <div class="flex items-center justify-between gap-4">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Milestone Stop</p>
-              <h2 class="mt-1 font-semibold text-brand">Choose your sub-final bonus shop</h2>
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{{ $t('game.milestone_stop_title') }}</p>
+              <h2 class="mt-1 font-semibold text-brand">{{ $t('game.milestone_choose_shop_title') }}</h2>
               <p class="mt-1 text-sm text-slate-500">
-                You reached step {{ gameState.step }}. Pick one shop to gain an extra bonus and a score boost.
+                {{ $t('game.milestone_choose_shop_body', { step: gameState.step }) }}
               </p>
             </div>
             <div class="rounded-full bg-brand-accent/10 px-3 py-1 text-sm font-semibold text-brand-accent">
-              Shop Event
+              {{ $t('game.milestone_shop_event') }}
             </div>
           </div>
 
@@ -121,7 +121,7 @@
                     {{ badge }}
                   </span>
                   <span class="rounded-full bg-brand-accent/10 px-2.5 py-1 text-xs font-medium text-brand-accent">
-                    +{{ option.pointsBonus }} points
+                    +{{ option.pointsBonus }} {{ $t('game.option_stat_points') }}
                   </span>
                 </div>
               </div>
@@ -132,10 +132,10 @@
         <section v-else class="card p-5">
           <div class="flex items-end justify-between gap-4">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Next Step</p>
-              <h2 class="mt-1 font-semibold text-brand">Pick the toilet for this step</h2>
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{{ $t('game.next_step_title') }}</p>
+              <h2 class="mt-1 font-semibold text-brand">{{ $t('game.next_step_choose_toilet_title') }}</h2>
               <p class="mt-1 text-sm text-slate-500">
-                Use the 3D scene to choose the destination for this step. The bladder meter rises first, then your selected toilet changes the outcome.
+                {{ $t('game.next_step_choose_toilet_body') }}
               </p>
             </div>
           </div>
@@ -166,24 +166,24 @@
               <div class="flex items-center justify-between">
                 <div class="text-sm font-semibold text-brand">{{ option.label }}</div>
                 <span class="rounded-full px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.16em]" :class="optionTone(option.type)">
-                  {{ option.type }}
+                  {{ $t(`toilet_type.${option.type}`) }}
                 </span>
               </div>
               <div class="mt-4 space-y-2 text-sm text-slate-500">
                 <div class="flex justify-between">
-                  <span>Step pressure</span>
+                  <span>{{ $t('game.option_stat_step_pressure') }}</span>
                   <span class="font-semibold text-rose-600">+{{ config?.bladderIncreasePerStep ?? 14 }}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span>Relief</span>
+                  <span>{{ $t('game.option_stat_relief') }}</span>
                   <span class="font-semibold text-emerald-600">{{ signedValue(option.bladderEffect) }}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span>Igitt</span>
+                  <span>{{ $t('game.option_stat_igitt') }}</span>
                   <span class="font-semibold text-amber-600">{{ signedValue(option.igittEffect) }}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span>Points</span>
+                  <span>{{ $t('game.option_stat_points') }}</span>
                   <span class="font-semibold text-brand-accent">{{ signedValue(option.pointsBonus) }}</span>
                 </div>
               </div>
@@ -194,7 +194,7 @@
 
       <aside class="space-y-6">
         <section class="card p-5">
-          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Active Extras</p>
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{{ $t('game.active_extras_title') }}</p>
           <div v-if="gameState.equippedRewards.length > 0" class="mt-4 space-y-3">
             <div
               v-for="reward in gameState.equippedRewards"
@@ -218,30 +218,30 @@
             </div>
           </div>
           <p v-else class="mt-4 text-sm text-slate-500">
-            No extras yet. Reach the next milestone shop to power up the run.
+            {{ $t('game.no_extras_yet') }}
           </p>
         </section>
 
         <section class="card p-5">
-          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Last Step</p>
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{{ $t('game.last_step_title') }}</p>
           <div v-if="lastStepSummary" class="mt-4 space-y-3">
             <div>
               <div class="text-base font-semibold text-brand">{{ lastStepSummary.optionLabel }}</div>
               <p class="mt-1 text-sm text-slate-500">
-                Step pressure added {{ lastStepSummary.stepPressureGain }} bladder before the toilet effect kicked in.
+                {{ $t('game.last_step_pressure_note', { count: lastStepSummary.stepPressureGain }) }}
               </p>
             </div>
             <div class="grid grid-cols-3 gap-3 text-center text-xs font-medium">
               <div class="rounded-2xl bg-rose-50 px-3 py-3 text-rose-700">
-                <div class="uppercase tracking-[0.14em] text-rose-500">Pressure</div>
+                <div class="uppercase tracking-[0.14em] text-rose-500">{{ $t('game.metric_pressure') }}</div>
                 <div class="mt-1 text-sm font-semibold">+{{ lastStepSummary.stepPressureGain }}</div>
               </div>
               <div class="rounded-2xl bg-emerald-50 px-3 py-3 text-emerald-700">
-                <div class="uppercase tracking-[0.14em] text-emerald-500">Relief</div>
+                <div class="uppercase tracking-[0.14em] text-emerald-500">{{ $t('game.option_stat_relief') }}</div>
                 <div class="mt-1 text-sm font-semibold">{{ signedValue(lastStepSummary.bladderDelta) }}</div>
               </div>
               <div class="rounded-2xl bg-amber-50 px-3 py-3 text-amber-700">
-                <div class="uppercase tracking-[0.14em] text-amber-500">Igitt</div>
+                <div class="uppercase tracking-[0.14em] text-amber-500">{{ $t('game.option_stat_igitt') }}</div>
                 <div class="mt-1 text-sm font-semibold">{{ signedValue(lastStepSummary.igittDelta) }}</div>
               </div>
             </div>
@@ -255,11 +255,11 @@
               </span>
             </div>
             <p class="text-sm text-slate-500">
-              Current meters: {{ lastStepSummary.totalBladder }} bladder, {{ lastStepSummary.totalIgitt }} igitt.
+              {{ $t('game.last_step_current_meters', { bladder: lastStepSummary.totalBladder, igitt: lastStepSummary.totalIgitt }) }}
             </p>
           </div>
           <p v-else class="mt-4 text-sm text-slate-500">
-            No step taken yet. The first choice starts the whole route.
+            {{ $t('game.no_step_taken_yet') }}
           </p>
         </section>
       </aside>
@@ -271,6 +271,8 @@
 import type { GameConfig, Reward, ToiletOptionType } from '../../../shared/types/index'
 import { useGame } from '../../composables/useGame'
 
+const localePath = useLocalePath()
+const { t } = useI18n()
 const { data } = await useFetch<{ data: GameConfig }>('/api/game/config')
 const config = computed(() => data.value?.data)
 
@@ -299,9 +301,9 @@ function signedValue(value: number) {
 function rewardBadges(reward: Reward) {
   const badges: string[] = []
 
-  if (reward.bladderReliefBonus) badges.push(`${reward.bladderReliefBonus} bladder`)
-  if (reward.igittShieldBonus) badges.push(`-${reward.igittShieldBonus} igitt`)
-  if (reward.scoreBonus) badges.push(`+${reward.scoreBonus} score`)
+  if (reward.bladderReliefBonus) badges.push(t('game.badge_bladder', { value: reward.bladderReliefBonus }))
+  if (reward.igittShieldBonus) badges.push(t('game.badge_igitt', { value: reward.igittShieldBonus }))
+  if (reward.scoreBonus) badges.push(t('game.badge_score', { value: reward.scoreBonus }))
 
   return badges
 }

@@ -5,15 +5,15 @@
     <div class="fps-hud fps-hud-top">
       <div class="fps-status-row">
         <div class="fps-status-pill">
-          <span>Step</span>
+          <span>{{ $t('game.fps.step') }}</span>
           <strong>{{ currentStepLabel }}</strong>
         </div>
         <div class="fps-status-pill">
-          <span>Pressure</span>
+          <span>{{ $t('game.metric_pressure') }}</span>
           <strong>+{{ props.pressureGain }}</strong>
         </div>
         <div class="fps-status-pill fps-status-pill-score">
-          <span>Score</span>
+          <span>{{ $t('leaderboard.score') }}</span>
           <strong>{{ props.score }}</strong>
         </div>
       </div>
@@ -21,7 +21,7 @@
       <div class="fps-meter-stack">
         <div class="fps-meter-card">
           <div class="fps-meter-head">
-            <span class="fps-meter-label">Bladder</span>
+            <span class="fps-meter-label">{{ $t('game.fps.bladder') }}</span>
             <strong :class="roundedBladder >= props.danger ? 'fps-meter-value-danger' : ''">{{ roundedBladder }}%</strong>
           </div>
           <div class="fps-meter-track">
@@ -50,23 +50,23 @@
     </div>
 
     <div class="fps-hud fps-hud-left">
-      <p class="fps-hud-title">Controls</p>
-      <p v-if="isTouchDevice">Tap a destination card below</p>
-      <p v-else>Use 1-3 or arrow keys</p>
-      <p v-if="!isTouchDevice">Press Enter or E to confirm</p>
-      <p v-else>Then tap SELECT</p>
+      <p class="fps-hud-title">{{ $t('game.fps.controls_title') }}</p>
+      <p v-if="isTouchDevice">{{ $t('game.fps.controls_touch') }}</p>
+      <p v-else>{{ $t('game.fps.controls_keyboard') }}</p>
+      <p v-if="!isTouchDevice">{{ $t('game.fps.controls_keyboard_confirm') }}</p>
+      <p v-else>{{ $t('game.fps.controls_touch_confirm') }}</p>
     </div>
 
     <div class="fps-hud fps-hud-right">
-      <p class="fps-hud-title">Route</p>
+      <p class="fps-hud-title">{{ $t('game.metric_route') }}</p>
       <p>
-        Character:
+        {{ $t('game.fps.character_status') }}:
         {{
           characterStatus === 'ready'
-            ? 'Loaded'
+            ? $t('game.fps.character_loaded')
             : characterStatus === 'error'
-              ? 'Failed'
-              : 'Loading...'
+              ? $t('game.fps.character_failed')
+              : $t('game.fps.character_loading')
         }}
       </p>
       <p v-for="entry in optionDistanceEntries" :key="entry.type">
@@ -90,7 +90,7 @@
         <span class="fps-choice-meta">{{ option.type }}</span>
       </button>
       <button class="fps-interact-button" type="button" :disabled="!activeOption || !props.enabled" @click="handleUseAction">
-        Select
+        {{ $t('game.fps.select') }}
       </button>
     </div>
   </div>

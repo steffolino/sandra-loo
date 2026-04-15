@@ -1,25 +1,25 @@
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <NuxtLink to="/admin" class="text-sm text-brand-accent hover:underline">
-        ← Admin
+      <NuxtLink :to="localePath('/admin')" class="text-sm text-brand-accent hover:underline">
+        ← {{ $t('admin.title') }}
       </NuxtLink>
       <h1 class="text-xl font-bold text-brand">
-        Toilets
+        {{ $t('admin.toilets') }}
       </h1>
     </div>
 
     <div v-if="pending" class="text-center py-10 text-gray-400">
-      Loading…
+      {{ $t('common.loading') }}
     </div>
 
     <div v-else-if="!toilets?.length" class="card p-10 text-center">
       <div class="text-4xl mb-3">📥</div>
       <h2 class="font-semibold text-brand mb-2">
-        No data imported yet
+        {{ $t('admin.no_data_imported_yet') }}
       </h2>
       <p class="text-sm text-gray-500 mb-4">
-        Run the import scripts to populate the database.
+        {{ $t('admin.run_import_scripts_hint') }}
       </p>
       <div class="bg-gray-50 rounded-lg p-4 text-left text-sm font-mono text-gray-700 inline-block">
         <p>npm run import:osm</p>
@@ -33,16 +33,16 @@
 
     <div v-else class="card overflow-hidden">
       <div class="px-4 py-3 bg-gray-50 text-sm text-gray-500 border-b border-gray-200">
-        {{ toilets.length }} records
+        {{ $t('admin.records_count', { count: toilets.length }) }}
       </div>
       <table class="w-full text-sm">
         <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide">
           <tr>
-            <th class="px-4 py-3 text-left">Name</th>
-            <th class="px-4 py-3 text-left">City</th>
-            <th class="px-4 py-3 text-left">Type</th>
-            <th class="px-4 py-3 text-left">Source</th>
-            <th class="px-4 py-3 text-left">Updated</th>
+            <th class="px-4 py-3 text-left">{{ $t('common.name') }}</th>
+            <th class="px-4 py-3 text-left">{{ $t('common.city') }}</th>
+            <th class="px-4 py-3 text-left">{{ $t('common.type') }}</th>
+            <th class="px-4 py-3 text-left">{{ $t('common.source') }}</th>
+            <th class="px-4 py-3 text-left">{{ $t('common.updated') }}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -61,11 +61,14 @@
 
 <script setup lang="ts">
 import type { Toilet } from '../../../../shared/types/index'
+import { useI18n } from 'vue-i18n'
 
+const localePath = useLocalePath()
+const { locale } = useI18n()
 const { data, pending } = await useFetch<{ data: Toilet[] }>('/api/toilets')
 const toilets = computed(() => data.value?.data ?? [])
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('de-DE')
+  return new Date(iso).toLocaleDateString(locale.value)
 }
 </script>

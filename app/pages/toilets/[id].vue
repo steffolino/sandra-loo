@@ -309,8 +309,7 @@ async function refreshData() {
 }
 
 function formatDate(iso: string): string {
-  const localeCode = locale.value === 'en' ? 'en-US' : 'de-DE'
-  return new Date(iso).toLocaleDateString(localeCode)
+  return new Date(iso).toLocaleDateString(locale.value)
 }
 
 function toiletTypeLabel(type: Toilet['type']): string {
