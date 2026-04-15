@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <NuxtLink to="/admin" class="text-sm text-brand-accent hover:underline">
+      <NuxtLink :to="localePath('/admin')" class="text-sm text-brand-accent hover:underline">
         ← {{ $t('admin.title') }}
       </NuxtLink>
       <h1 class="text-xl font-bold text-brand">
@@ -19,8 +19,12 @@
         {{ $t('admin.no_reports_text') }}
       </p>
       <p class="text-xs text-gray-400 mt-4">
-        Full moderation workflow is planned for a future release.
+        {{ $t('admin.moderation_workflow_soon') }}
       </p>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const localePath = useLocalePath()
+</script>

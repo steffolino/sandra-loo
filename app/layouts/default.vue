@@ -36,14 +36,13 @@
     <footer class="bg-[var(--cube-base-card)] text-[color:var(--cube-text)] text-xs py-4 text-center border-t border-[color:color-mix(in_srgb,var(--cube-base)_80%,#9f9488)]">
       <p>{{ $t('footer.tagline') }}</p>
       <p class="mt-1">
-        Data from
         <a
           href="https://www.openstreetmap.org"
           target="_blank"
           rel="noopener noreferrer"
           class="underline text-[#5c4290] hover:text-[#3f6675] focus:outline-none focus:ring-2 focus:ring-[#3f6675]/40 rounded-sm"
         >{{ $t('footer.data_source', { source: 'OpenStreetMap' }) }}</a>
-        &middot; MIT License
+        &middot; {{ $t('footer.license_mit') }}
       </p>
       <p class="mt-1">
         {{ $t('footer.feedback') }}
@@ -62,6 +61,6 @@
 const route = useRoute()
 const localePath = useLocalePath()
 
-const isToiletsRoute = computed(() => /\/(?:en\/)?toilets(?:\/|$)/.test(route.path))
-const isGameRoute = computed(() => /\/(?:en\/)?game(?:\/|$)/.test(route.path))
+const isToiletsRoute = computed(() => /\/(?:[a-z]{2}\/)?toilets(?:\/|$)/.test(route.path))
+const isGameRoute = computed(() => /\/(?:[a-z]{2}\/)?game(?:\/|$)/.test(route.path))
 </script>

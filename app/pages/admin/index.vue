@@ -8,12 +8,12 @@
     </p>
 
     <div class="grid sm:grid-cols-3 gap-5">
-      <NuxtLink to="/admin/toilets" class="card p-5 hover:shadow-md transition-shadow">
+      <NuxtLink :to="localePath('/admin/toilets')" class="card p-5 hover:shadow-md transition-shadow">
         <div class="text-3xl mb-2">🚻</div>
         <div class="font-semibold text-brand">{{ $t('admin.toilets') }}</div>
         <div class="text-sm text-gray-500">{{ $t('admin.toilets_desc') }}</div>
       </NuxtLink>
-      <NuxtLink to="/admin/reports" class="card p-5 hover:shadow-md transition-shadow">
+      <NuxtLink :to="localePath('/admin/reports')" class="card p-5 hover:shadow-md transition-shadow">
         <div class="text-3xl mb-2">🚨</div>
         <div class="font-semibold text-brand">{{ $t('admin.reports') }}</div>
         <div class="text-sm text-gray-500">{{ $t('admin.reports_desc') }}</div>
@@ -26,3 +26,7 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const localePath = useLocalePath()
+</script>

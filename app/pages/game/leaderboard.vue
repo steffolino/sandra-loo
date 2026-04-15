@@ -4,7 +4,7 @@
       🏆 {{ $t('game.leaderboard') }}
     </h1>
     <div class="card p-4 mb-6 border-amber-200 bg-amber-50 text-amber-900 text-sm">
-      The game is still work in progress. Leaderboard behavior may change as gameplay evolves.
+      {{ $t('game.leaderboard_wip_notice') }}
     </div>
 
     <div class="flex gap-3 mb-6">
@@ -37,7 +37,7 @@
       <p class="text-sm text-gray-500 mb-4">
         {{ $t('game.no_scores_text') }}
       </p>
-      <NuxtLink to="/game" class="btn-primary">
+      <NuxtLink :to="localePath('/game')" class="btn-primary">
         {{ $t('game.play_now') }}
       </NuxtLink>
     </div>
@@ -48,7 +48,7 @@
         <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide">
           <tr>
             <th class="px-4 py-3 text-left">
-              Rank
+              {{ $t('leaderboard.rank') }}
             </th>
             <th class="px-4 py-3 text-left">
               {{ $t('leaderboard.player') }}
@@ -92,6 +92,7 @@
 <script setup lang="ts">
 import type { GameScore } from '../../../../shared/types/index'
 
+const localePath = useLocalePath()
 const scope = ref<'daily' | 'all-time'>('daily')
 
 const url = computed(() =>

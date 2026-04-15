@@ -9,10 +9,10 @@
         {{ $t('home.tagline') }}
       </p>
       <div class="flex flex-wrap justify-center gap-3">
-        <NuxtLink to="/toilets/" class="btn-primary text-base px-6 py-3">
+        <NuxtLink :to="localePath('/toilets/')" class="btn-primary text-base px-6 py-3">
           {{ $t('home.find_a_toilet') }}
         </NuxtLink>
-        <NuxtLink to="/game" class="btn-secondary text-base px-6 py-3">
+        <NuxtLink :to="localePath('/game')" class="btn-secondary text-base px-6 py-3">
           {{ $t('home.play_game') }}
         </NuxtLink>
       </div>
@@ -26,8 +26,7 @@
         {{ $t('home.getting_started_text') }}
       </p>
       <p class="text-sm text-gray-600">
-        No account needed. Anonymous usage is fully supported during this demo
-        phase, and social login is intentionally not enabled yet.
+        {{ $t('home.no_account_needed') }}
       </p>
     </section>
 
@@ -39,8 +38,7 @@
           {{ $t('home.feature.real_data') }}
         </h2>
         <p class="text-sm text-gray-500">
-          All toilet locations are imported from OpenStreetMap and official city
-          open-data portals. No invented data.
+          {{ $t('home.feature.real_data_desc') }}
         </p>
       </div>
       <div class="card p-6">
@@ -49,8 +47,7 @@
           {{ $t('home.feature.community_reviews') }}
         </h2>
         <p class="text-sm text-gray-500">
-          Rate cleanliness, lighting and paper supply. Report issues. Confirm
-          toilet status for other visitors.
+          {{ $t('home.feature.community_reviews_desc') }}
         </p>
       </div>
       <div class="card p-6">
@@ -59,8 +56,7 @@
           {{ $t('home.feature.awareness_game') }}
         </h2>
         <p class="text-sm text-gray-500">
-          A stylized run-based survival game from a female perspective. Manage
-          your bladder meter and avoid the igitt zone.
+          {{ $t('home.feature.awareness_game_desc') }}
         </p>
       </div>
     </section>
@@ -68,11 +64,11 @@
     <!-- Cities -->
     <section class="mt-12">
       <h2 class="text-xl font-bold text-brand mb-4">
-        Available Cities
+        {{ $t('home.available_cities_title') }}
       </h2>
       <div class="grid sm:grid-cols-2 gap-4">
         <NuxtLink
-          to="/toilets/?city=Leipzig"
+          :to="localePath({ path: '/toilets/', query: { city: 'Leipzig' } })"
           class="card p-5 flex items-center gap-4 hover:shadow-md transition-shadow"
         >
           <span class="text-2xl">🏙️</span>
@@ -81,12 +77,12 @@
               Leipzig
             </div>
             <div class="text-sm text-gray-500">
-              Saxony, Germany
+              {{ $t('home.city_leipzig_region') }}
             </div>
           </div>
         </NuxtLink>
         <NuxtLink
-          to="/toilets/?city=Frankfurt+am+Main"
+          :to="localePath({ path: '/toilets/', query: { city: 'Frankfurt am Main' } })"
           class="card p-5 flex items-center gap-4 hover:shadow-md transition-shadow"
         >
           <span class="text-2xl">🏙️</span>
@@ -95,7 +91,7 @@
               Frankfurt am Main
             </div>
             <div class="text-sm text-gray-500">
-              Hesse, Germany
+              {{ $t('home.city_frankfurt_region') }}
             </div>
           </div>
         </NuxtLink>
@@ -103,3 +99,7 @@
     </section>
   </div>
 </template>
+
+<script setup lang="ts">
+const localePath = useLocalePath()
+</script>
