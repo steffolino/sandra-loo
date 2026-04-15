@@ -200,7 +200,7 @@ export function normalizeAndMergeToilets(toilets: Toilet[]): Toilet[] {
   const sorted = [...valid].sort((a, b) => compareToiletPriority(a, b))
 
   for (const toilet of sorted) {
-    const cityKey = toilet.city.trim().toLowerCase()
+    const cityKey = (toilet.city ?? '').trim().toLowerCase()
     const cityList = mergedByCity.get(cityKey) ?? []
     let merged = false
 

@@ -157,8 +157,8 @@ function getFreshnessLabel(days: number): ToiletListItem['freshness_label'] {
 }
 
 function getSourceConfidenceScore(sourceName: string, source: string): number {
-  const sourceNameLc = sourceName.toLowerCase()
-  const sourceLc = source.toLowerCase()
+  const sourceNameLc = (sourceName ?? '').toLowerCase()
+  const sourceLc = (source ?? '').toLowerCase()
 
   if (
     sourceNameLc.includes('open data')

@@ -11,13 +11,13 @@
 
     <div class="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
       <p class="font-medium">
-        Toilet status can change fast.
+        {{ $t('toilets.status_changes_fast') }}
       </p>
       <p class="mt-1">
-        Some public toilets may be dirty, closed, or out of paper. In the future we want users to help track cleanliness and availability so the map stays current.
+        {{ $t('toilets.status_changes_body') }}
       </p>
       <p class="mt-1">
-        Institutional places like libraries, civic buildings, or universities are only suggestions based on public data. We do not guarantee they are always open, free to use, or suitable for toilet access. If you’re unsure, check with the people on site.
+        {{ $t('toilets.status_changes_institutional') }}
       </p>
     </div>
 
@@ -42,9 +42,7 @@
           {{ $t('toilets.trust_info.institutional_note') }}
         </p>
         <div class="mt-4">
-          <button class="btn-primary text-sm" @click="showTrustInfo = false">
-            Close
-          </button>
+          <button class="btn-primary text-sm" @click="showTrustInfo = false"> {{ $t('common.close') }} </button>
         </div>
       </div>
     </div>
@@ -74,20 +72,28 @@
           </option>
         </select>
 
-        <select
-          v-model="filters.type"
-          class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
-        >
-          <option value="">{{ $t('filters.all_place_types') }}</option>
-          <option
-            v-for="type in toiletTypes"
-            :key="type"
-            :value="type"
-            :disabled="isTypeDisabled(type)"
-          >
-            {{ toiletTypeLabel(type) }}
-          </option>
-        </select>
+        <div class="col-span-2 md:col-span-4 rounded-lg border border-gray-300 px-3 py-2">
+          <p class="text-xs text-gray-600 mb-2">
+            {{ $t('filters.all_place_types') }}
+          </p>
+          <div class="flex flex-wrap gap-1.5">
+            <button
+              v-for="type in toiletTypes"
+              :key="type"
+              type="button"
+              class="px-2 py-1 rounded-full text-xs border transition-colors"
+              :class="[
+                filters.types.includes(type) ? 'bg-brand-accent/10 border-brand-accent text-brand' : 'bg-white border-gray-300 text-gray-700',
+                isTypeDisabled(type) ? 'opacity-50 cursor-not-allowed' : 'hover:border-brand-accent/40',
+              ]"
+              :disabled="isTypeDisabled(type)"
+              :aria-pressed="filters.types.includes(type) ? 'true' : 'false'"
+              @click="toggleTypeFilter(type)"
+            >
+              {{ toiletTypeLabel(type) }}
+            </button>
+          </div>
+        </div>
 
         <select
           v-model="filters.reported"
@@ -103,9 +109,9 @@
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
           <option :value="0">{{ $t('filters.any_rating') }}</option>
-          <option :value="4" :disabled="!canFilterMinRating(4)">4.0 and up</option>
-          <option :value="3" :disabled="!canFilterMinRating(3)">3.0 and up</option>
-          <option :value="2" :disabled="!canFilterMinRating(2)">2.0 and up</option>
+          <option :value="4" :disabled="!canFilterMinRating(4)">{{ $t('filters.rating_and_up', { rating: '4.0' }) }}</option>
+          <option :value="3" :disabled="!canFilterMinRating(3)">{{ $t('filters.rating_and_up', { rating: '3.0' }) }}</option>
+          <option :value="2" :disabled="!canFilterMinRating(2)">{{ $t('filters.rating_and_up', { rating: '2.0' }) }}</option>
         </select>
 
         <select
@@ -124,7 +130,7 @@
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
           <option value="updated">{{ $t('filters.latest_updates') }}</option>
-          <option value="nearest" :disabled="!userLocation">Nearest</option>
+          <option value="nearest" :disabled="!userLocation">{{ $t('filters.nearest') }}</option>
           <option value="rating">{{ $t('filters.top_rated') }}</option>
         </select>
 
@@ -169,11 +175,9 @@
       <div class="card p-4 max-h-[88svh] overflow-y-auto">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-base font-semibold text-brand">
-            Filters
+            {{ $t('filters.title') }}
           </h2>
-          <button class="btn-secondary text-sm min-h-11" @click="showFilters = false">
-            Close
-          </button>
+          <button class="btn-secondary text-sm min-h-11" @click="showFilters = false"> {{ $t('common.close') }} </button>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -181,7 +185,7 @@
             v-model="filters.city"
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
-            <option value="">All cities</option>
+            <option value="">{{ $t('filters.all_cities') }}</option>
           <option
             v-for="city in availableCities"
             :key="`mobile-city-${city}`"
@@ -191,84 +195,88 @@
           </option>
         </select>
 
-          <select
-            v-model="filters.type"
-            class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
-          >
-            <option value="">All place types</option>
-            <option
-              v-for="type in toiletTypes"
-              :key="`mobile-${type}`"
-              :value="type"
-              :disabled="isTypeDisabled(type)"
-            >
-              {{ toiletTypeLabel(type) }}
-            </option>
-          </select>
+          <div class="col-span-2 rounded-lg border border-gray-300 px-3 py-2">
+            <p class="text-xs text-gray-600 mb-2">
+              {{ $t('filters.all_place_types') }}
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <button
+                v-for="type in toiletTypes"
+                :key="`mobile-${type}`"
+                type="button"
+                class="px-2 py-1 rounded-full text-xs border transition-colors"
+                :class="[
+                  filters.types.includes(type) ? 'bg-brand-accent/10 border-brand-accent text-brand' : 'bg-white border-gray-300 text-gray-700',
+                  isTypeDisabled(type) ? 'opacity-50 cursor-not-allowed' : 'hover:border-brand-accent/40',
+                ]"
+                :disabled="isTypeDisabled(type)"
+                :aria-pressed="filters.types.includes(type) ? 'true' : 'false'"
+                @click="toggleTypeFilter(type)"
+              >
+                {{ toiletTypeLabel(type) }}
+              </button>
+            </div>
+          </div>
 
           <select
             v-model="filters.reported"
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
-            <option value="any">All report states</option>
-            <option value="true" :disabled="!canFilterReportedTrue">Reported only</option>
-            <option value="false" :disabled="!canFilterReportedFalse">No reports</option>
+            <option value="any">{{ $t('filters.all_report_states') }}</option>
+            <option value="true" :disabled="!canFilterReportedTrue">{{ $t('filters.reported_only') }}</option>
+            <option value="false" :disabled="!canFilterReportedFalse">{{ $t('filters.no_reports') }}</option>
           </select>
 
           <select
             v-model="filters.min_rating"
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
-            <option :value="0">Any rating</option>
-            <option :value="4" :disabled="!canFilterMinRating(4)">4.0 and up</option>
-            <option :value="3" :disabled="!canFilterMinRating(3)">3.0 and up</option>
-            <option :value="2" :disabled="!canFilterMinRating(2)">2.0 and up</option>
+            <option :value="0">{{ $t('filters.any_rating') }}</option>
+            <option :value="4" :disabled="!canFilterMinRating(4)">{{ $t('filters.rating_and_up', { rating: '4.0' }) }}</option>
+            <option :value="3" :disabled="!canFilterMinRating(3)">{{ $t('filters.rating_and_up', { rating: '3.0' }) }}</option>
+            <option :value="2" :disabled="!canFilterMinRating(2)">{{ $t('filters.rating_and_up', { rating: '2.0' }) }}</option>
           </select>
 
           <select
             v-model.number="filters.radius"
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
-            <option :value="0">Any distance</option>
-            <option :value="1">Within 1 km</option>
-            <option :value="2">Within 2 km</option>
-            <option :value="5">Within 5 km</option>
-            <option :value="10">Within 10 km</option>
+            <option :value="0">{{ $t('filters.any_distance') }}</option>
+            <option :value="1">{{ $t('filters.within_km', { km: 1 }) }}</option>
+            <option :value="2">{{ $t('filters.within_km', { km: 2 }) }}</option>
+            <option :value="5">{{ $t('filters.within_km', { km: 5 }) }}</option>
+            <option :value="10">{{ $t('filters.within_km', { km: 10 }) }}</option>
           </select>
 
           <select
             v-model="filters.sort"
             class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
           >
-            <option value="updated">Latest updates</option>
-            <option value="nearest" :disabled="!userLocation">Nearest</option>
-            <option value="rating">Top rated</option>
+            <option value="updated">{{ $t('filters.latest_updates') }}</option>
+            <option value="nearest" :disabled="!userLocation">{{ $t('filters.nearest') }}</option>
+            <option value="rating">{{ $t('filters.top_rated') }}</option>
           </select>
         </div>
 
         <div class="grid grid-cols-2 gap-3 mt-3">
           <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterFree ? 'opacity-60' : ''">
-            <input v-model="filters.is_free" type="checkbox" class="rounded" :disabled="!canFilterFree">
-            Free only
-          </label>
+            <input v-model="filters.is_free" type="checkbox" class="rounded" :disabled="!canFilterFree"> {{ $t('filters.free_only') }} </label>
 
           <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterAccessible ? 'opacity-60' : ''">
-            <input v-model="filters.is_accessible" type="checkbox" class="rounded" :disabled="!canFilterAccessible">
-            Accessible only
-          </label>
+            <input v-model="filters.is_accessible" type="checkbox" class="rounded" :disabled="!canFilterAccessible"> {{ $t('filters.accessible_only') }} </label>
 
           <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterOpeningHours ? 'opacity-60' : ''">
             <input v-model="filters.has_opening_hours" type="checkbox" class="rounded" :disabled="!canFilterOpeningHours">
-            Hours shown only
+            {{ $t('filters.hours_shown_only') }}
           </label>
         </div>
 
         <div class="flex gap-2 mt-4">
           <button class="btn-primary text-sm min-h-11 flex-1" @click="applyFilters">
-            Apply filters
+            {{ $t('filters.apply') }}
           </button>
           <button class="btn-secondary text-sm min-h-11 flex-1" @click="resetFilters">
-            Reset
+            {{ $t('filters.reset') }}
           </button>
         </div>
       </div>
@@ -354,7 +362,7 @@
           v-if="isMapMarkerLimited"
           class="text-xs text-gray-500 px-1"
         >
-          Showing {{ mapToilets.length }} nearby markers on mobile for faster loading.
+          {{ $t('toilets.mobile_marker_limit_note', { count: mapToilets.length }) }}
         </p>
 
         <div
@@ -365,7 +373,7 @@
           <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
             <div>
               <h2 class="text-lg font-semibold text-brand">
-                {{ selectedToilet.name ?? 'Public Toilet' }}
+                {{ selectedToilet.name ?? $t('toilet.public') }}
               </h2>
               <p class="text-sm text-gray-500">
                 {{ selectedToilet.address ?? selectedToilet.city }}
@@ -390,7 +398,7 @@
               aria-hidden="true"
               class="inline-block text-base leading-none transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
               :class="showSelectedToiletDetails ? 'rotate-180' : 'rotate-0'"
-            >⌄</span>
+            >v</span>
           </button>
 
           <div
@@ -400,13 +408,13 @@
           <div class="flex flex-wrap gap-2 mb-3 text-xs">
             <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">{{ toiletTypeLabel(selectedToilet.type) }}</span>
             <span class="px-2 py-1 rounded-full" :class="selectedToilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
-              {{ selectedToilet.is_free ? 'Free' : 'Paid' }}
+              {{ selectedToilet.is_free ? $t('toilet.free') : $t('toilet.paid') }}
             </span>
-            <span v-if="selectedToilet.is_accessible" class="px-2 py-1 rounded-full bg-blue-100 text-blue-700">Accessible</span>
-            <span v-if="selectedToilet.opening_hours" class="px-2 py-1 rounded-full bg-violet-100 text-violet-700">Hours shown</span>
-            <span v-if="selectedToilet.avg_rating !== null" class="px-2 py-1 rounded-full bg-amber-100 text-amber-700">Rating {{ selectedToilet.avg_rating }}</span>
+            <span v-if="selectedToilet.is_accessible" class="px-2 py-1 rounded-full bg-blue-100 text-blue-700">{{ $t('toilet.accessible') }}</span>
+            <span v-if="selectedToilet.opening_hours" class="px-2 py-1 rounded-full bg-violet-100 text-violet-700">{{ $t('toilet.hours_shown') }}</span>
+            <span v-if="selectedToilet.avg_rating !== null" class="px-2 py-1 rounded-full bg-amber-100 text-amber-700">{{ $t('toilet.rating', { rating: selectedToilet.avg_rating }) }}</span>
             <span v-if="selectedToilet.distance_km !== undefined" class="px-2 py-1 rounded-full bg-slate-100 text-slate-700">
-              {{ formatDistance(selectedToilet.distance_km) }} away
+              {{ $t('toilets.distance_away', { distance: formatDistance(selectedToilet.distance_km) }) }}
             </span>
             <span
               v-if="selectedToilet.freshness_label"
@@ -416,13 +424,13 @@
               {{ freshnessText(selectedToilet.freshness_label, selectedToilet.freshness_days) }}
             </span>
             <span class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">
-              {{ selectedToilet.recent_confirmation_count }} recent confirmation{{ selectedToilet.recent_confirmation_count === 1 ? '' : 's' }}
+              {{ $t('toilet.recent_confirmations', selectedToilet.recent_confirmation_count, { count: selectedToilet.recent_confirmation_count }) }}
             </span>
             <span
               class="px-2 py-1 rounded-full"
               :class="confidenceClass(selectedToilet.source_confidence_level)"
             >
-              Source reliability {{ selectedToilet.source_confidence_score }}/100
+              {{ $t('toilet.source_reliability', { score: selectedToilet.source_confidence_score }) }}
             </span>
             </div>
 
@@ -463,13 +471,13 @@
             class="rounded-xl border border-brand-accent/20 bg-brand-accent/5 p-4 mb-3"
           >
             <p class="text-xs uppercase tracking-wide text-brand-accent mb-1">
-              Next maneuver
+              {{ $t('toilets.next_maneuver') }}
             </p>
             <p class="text-base md:text-lg font-semibold text-brand leading-snug">
               {{ currentStep ?? $t('toilets.continue_straight') }}
             </p>
             <p class="text-xs text-gray-500 mt-2">
-              Step {{ activeStepIndex + 1 }} of {{ routeInfo.steps.length }}
+              {{ $t('toilets.step_of', { current: activeStepIndex + 1, total: routeInfo.steps.length }) }}
             </p>
           </div>
 
@@ -506,12 +514,17 @@
         </div>
 
         <div v-if="!isMobile" class="card p-4">
-              <h3 class="font-semibold text-brand mb-2">
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <h3 class="font-semibold text-brand">
             {{ $t('toilets.list_fallback') }}
-          </h3>
+            </h3>
+            <p class="text-xs text-gray-500">
+              {{ $t('toilets.page_of', { current: mapListPage, total: mapListTotalPages }) }}
+            </p>
+          </div>
           <div class="space-y-2">
             <div
-              v-for="toilet in toilets"
+              v-for="toilet in paginatedMapList"
               :key="`map-list-${toilet.id}`"
               role="button"
               tabindex="0"
@@ -523,7 +536,7 @@
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                   <p class="text-sm font-semibold text-brand truncate">
-                    {{ toilet.name ?? 'Public Toilet' }}
+                    {{ toilet.name ?? $t('toilet.public') }}
                   </p>
                   <p class="text-xs text-gray-500 truncate">
                     {{ toilet.address ?? toilet.city }}
@@ -531,12 +544,12 @@
                   <div class="mt-1.5 flex flex-wrap items-center gap-1.5 text-[11px]">
                     <span class="rounded-full bg-gray-100 text-gray-700 px-2 py-0.5">{{ toiletTypeLabel(toilet.type) }}</span>
                     <span class="rounded-full px-2 py-0.5" :class="toilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
-                      {{ toilet.is_free ? 'Free' : 'Paid' }}
+                      {{ toilet.is_free ? $t('toilet.free') : $t('toilet.paid') }}
                     </span>
                     <span v-if="toilet.distance_km !== undefined" class="rounded-full bg-slate-100 text-slate-700 px-2 py-0.5">
                       {{ formatDistance(toilet.distance_km) }}
                     </span>
-                    <span v-if="toilet.avg_rating !== null" class="rounded-full bg-amber-100 text-amber-700 px-2 py-0.5">R {{ toilet.avg_rating }}</span>
+                      <span v-if="toilet.avg_rating !== null" class="rounded-full bg-amber-100 text-amber-700 px-2 py-0.5">{{ $t('toilet.rating', { rating: toilet.avg_rating }) }}</span>
                   </div>
                 </div>
                   <NuxtLink
@@ -548,6 +561,22 @@
                 </NuxtLink>
               </div>
             </div>
+          </div>
+          <div v-if="mapListTotalPages > 1" class="mt-3 flex gap-2">
+            <button
+              class="btn-secondary text-sm min-h-10 flex-1"
+              :disabled="mapListPage <= 1"
+              @click="mapListPage -= 1"
+            >
+              {{ $t('common.previous') }}
+            </button>
+            <button
+              class="btn-primary text-sm min-h-10 flex-1"
+              :disabled="mapListPage >= mapListTotalPages"
+              @click="mapListPage += 1"
+            >
+              {{ $t('common.next') }}
+            </button>
           </div>
         </div>
 
@@ -567,9 +596,30 @@
               v-if="showMobileToiletList"
               class="mt-2 max-h-[45svh] overflow-y-auto overscroll-contain rounded-lg border border-gray-200 bg-white p-2"
             >
+              <div v-if="mobileMapListTotalPages > 1" class="mb-2 flex items-center justify-between gap-2">
+                <p class="text-[11px] text-gray-500">
+                  {{ $t('toilets.page_of', { current: mobileMapListPage, total: mobileMapListTotalPages }) }}
+                </p>
+                <div class="flex gap-1.5">
+                  <button
+                    class="btn-secondary text-xs px-2 py-1.5 min-h-8"
+                    :disabled="mobileMapListPage <= 1"
+                    @click.stop="mobileMapListPage -= 1"
+                  >
+                    {{ $t('common.previous') }}
+                  </button>
+                  <button
+                    class="btn-primary text-xs px-2 py-1.5 min-h-8"
+                    :disabled="mobileMapListPage >= mobileMapListTotalPages"
+                    @click.stop="mobileMapListPage += 1"
+                  >
+                    {{ $t('common.next') }}
+                  </button>
+                </div>
+              </div>
               <div class="space-y-1.5">
                 <div
-                  v-for="toilet in toilets"
+                  v-for="toilet in paginatedMobileMapList"
                   :key="`mobile-bottom-${toilet.id}`"
                   role="button"
                   tabindex="0"
@@ -581,7 +631,7 @@
                   <div class="flex items-center justify-between gap-2">
                     <div class="min-w-0">
                       <p class="text-sm font-semibold text-brand truncate">
-                        {{ toilet.name ?? 'Public Toilet' }}
+                        {{ toilet.name ?? $t('toilet.public') }}
                       </p>
                       <p class="text-[11px] text-gray-500 truncate">
                         {{ toilet.address ?? toilet.city }}
@@ -589,10 +639,10 @@
                       <div class="mt-1 flex flex-wrap items-center gap-1 text-[11px]">
                         <span class="rounded-full bg-gray-100 text-gray-700 px-1.5 py-0.5">{{ toiletTypeLabel(toilet.type) }}</span>
                         <span class="rounded-full px-1.5 py-0.5" :class="toilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
-                          {{ toilet.is_free ? 'Free' : 'Paid' }}
+                          {{ toilet.is_free ? $t('toilet.free') : $t('toilet.paid') }}
                         </span>
                         <span v-if="toilet.opening_hours" class="rounded-full bg-violet-100 text-violet-700 px-1.5 py-0.5">
-                          Hours shown
+                          {{ $t('toilet.hours_shown') }}
                         </span>
                         <span v-if="toilet.distance_km !== undefined" class="rounded-full bg-slate-100 text-slate-700 px-1.5 py-0.5">
                           {{ formatDistance(toilet.distance_km) }}
@@ -604,7 +654,7 @@
                       class="btn-secondary text-xs px-2 py-1.5"
                       @click.stop
                     >
-                      Details
+                      {{ $t('common.details') }}
                     </NuxtLink>
                   </div>
                 </div>
@@ -628,7 +678,7 @@
 <script setup lang="ts">
 import 'leaflet/dist/leaflet.css'
 import type { ToiletListItem, ToiletType } from '../../../shared/types/index'
-import { toiletTypeIconHtml, toiletTypeMeta } from '../../utils/toilet-type'
+import { toiletTypeIconHtml, toiletTypeLabelKey, toiletTypeMeta } from '../../utils/toilet-type'
 
 interface ToiletsResponse {
   data: ToiletListItem[]
@@ -671,34 +721,107 @@ interface OsrmResponse {
 
 type SortMode = 'nearest' | 'rating' | 'updated'
 type ReportedFilter = 'any' | 'true' | 'false'
-type FilterKey = 'city' | 'type' | 'is_free' | 'is_accessible' | 'has_opening_hours' | 'reported' | 'min_rating' | 'radius'
+type FilterKey = 'city' | 'types' | 'is_free' | 'is_accessible' | 'has_opening_hours' | 'reported' | 'min_rating' | 'radius'
 const MOBILE_MARKER_LIMIT = 250
+const MAP_LIST_PAGE_SIZE = 12
+const MOBILE_MAP_LIST_PAGE_SIZE = 10
+const FILTERS_STORAGE_KEY = 'toilets.filters.v1'
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
 const runtimeConfig = useRuntimeConfig()
 const appBase = runtimeConfig.app.baseURL.endsWith('/')
   ? runtimeConfig.app.baseURL
   : `${runtimeConfig.app.baseURL}/`
 
 const toiletTypes: ToiletType[] = ['public', 'library', 'university', 'civic', 'culture', 'transit', 'cafe', 'restaurant', 'shopping_mall', 'park', 'petrol_station', 'other']
-const placeTypeLegend = toiletTypes.map(type => ({
-  type,
-  ...toiletTypeMeta(type),
-  iconHtml: toiletTypeIconHtml(type, 14),
+const placeTypeLegend = computed(() => toiletTypes.map((type) => {
+  const meta = toiletTypeMeta(type)
+  return {
+    type,
+    ...meta,
+    label: t(toiletTypeLabelKey(type)),
+    iconHtml: toiletTypeIconHtml(type, 14),
+  }
 }))
 
-const filters = ref({
-  city: String(route.query.city ?? ''),
-  type: String(route.query.type ?? ''),
-  is_free: route.query.is_free === 'true',
-  is_accessible: route.query.is_accessible === 'true',
-  has_opening_hours: route.query.has_opening_hours === 'true',
-  reported: ((route.query.reported as ReportedFilter) ?? 'any'),
-  min_rating: Number(route.query.min_rating ?? 0),
-  radius: Number(route.query.radius ?? 0),
-  sort: ((route.query.sort as SortMode) ?? 'updated'),
-})
+function parseTypesFromQuery(value: unknown): ToiletType[] {
+  if (!value) return []
+  const raw = Array.isArray(value) ? value.join(',') : String(value)
+  const types = raw.split(',').map(v => v.trim()).filter(Boolean)
+  return types.filter((type): type is ToiletType => toiletTypes.includes(type as ToiletType))
+}
+
+function hasExplicitRouteFilters(): boolean {
+  const keys = ['city', 'types', 'type', 'is_free', 'is_accessible', 'has_opening_hours', 'reported', 'min_rating', 'radius', 'sort']
+  return keys.some(key => route.query[key] !== undefined)
+}
+
+function loadSavedFilters(): Partial<{
+  city: string
+  types: ToiletType[]
+  is_free: boolean
+  is_accessible: boolean
+  has_opening_hours: boolean
+  reported: ReportedFilter
+  min_rating: number
+  radius: number
+  sort: SortMode
+}> | null {
+  if (!import.meta.client) return null
+  try {
+    const raw = localStorage.getItem(FILTERS_STORAGE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as Record<string, unknown>
+    const types = Array.isArray(parsed.types)
+      ? parsed.types.filter((type): type is ToiletType => toiletTypes.includes(type as ToiletType))
+      : []
+
+    return {
+      city: typeof parsed.city === 'string' ? parsed.city : '',
+      types,
+      is_free: parsed.is_free === true,
+      is_accessible: parsed.is_accessible === true,
+      has_opening_hours: parsed.has_opening_hours === true,
+      reported: ['any', 'true', 'false'].includes(String(parsed.reported)) ? parsed.reported as ReportedFilter : 'any',
+      min_rating: Number(parsed.min_rating ?? 0) || 0,
+      radius: Number(parsed.radius ?? 0) || 0,
+      sort: ['nearest', 'rating', 'updated'].includes(String(parsed.sort)) ? parsed.sort as SortMode : 'updated',
+    }
+  }
+  catch {
+    return null
+  }
+}
+
+const routeTypes = parseTypesFromQuery(route.query.types ?? route.query.type)
+const savedFilters = loadSavedFilters()
+const initialFilters = hasExplicitRouteFilters() || !savedFilters
+  ? {
+      city: String(route.query.city ?? ''),
+      types: routeTypes,
+      is_free: route.query.is_free === 'true',
+      is_accessible: route.query.is_accessible === 'true',
+      has_opening_hours: route.query.has_opening_hours === 'true',
+      reported: ((route.query.reported as ReportedFilter) ?? 'any'),
+      min_rating: Number(route.query.min_rating ?? 0),
+      radius: Number(route.query.radius ?? 0),
+      sort: ((route.query.sort as SortMode) ?? 'updated'),
+    }
+  : {
+      city: savedFilters.city ?? '',
+      types: savedFilters.types ?? [],
+      is_free: savedFilters.is_free ?? false,
+      is_accessible: savedFilters.is_accessible ?? false,
+      has_opening_hours: savedFilters.has_opening_hours ?? false,
+      reported: savedFilters.reported ?? 'any',
+      min_rating: savedFilters.min_rating ?? 0,
+      radius: savedFilters.radius ?? 0,
+      sort: savedFilters.sort ?? 'updated',
+    }
+
+const filters = ref(initialFilters)
 
 const userLocation = ref<UserLocation | null>(null)
 
@@ -706,7 +829,6 @@ const queryParams = computed(() => {
   const p: Record<string, string> = {}
 
   if (filters.value.city) p.city = filters.value.city
-  if (filters.value.type) p.type = filters.value.type
   if (filters.value.is_free) p.is_free = 'true'
   if (filters.value.is_accessible) p.is_accessible = 'true'
   if (filters.value.has_opening_hours) p.has_opening_hours = 'true'
@@ -804,8 +926,8 @@ function withAppliedFilters(source: ToiletListItem[], ignore: FilterKey[] = []):
     const city = filters.value.city.toLowerCase()
     list = list.filter(t => t.city.toLowerCase() === city)
   }
-  if (!ignore.includes('type') && filters.value.type) {
-    list = list.filter(t => t.type === filters.value.type)
+  if (!ignore.includes('types') && filters.value.types.length > 0) {
+    list = list.filter(t => filters.value.types.includes(t.type))
   }
   if (!ignore.includes('is_free') && filters.value.is_free) {
     list = list.filter(t => t.is_free)
@@ -837,7 +959,7 @@ const availableCities = computed(() => {
   return [...new Set(cities)].sort((a, b) => a.localeCompare(b))
 })
 
-const availableTypes = computed(() => new Set(withAppliedFilters(apiToilets.value, ['type']).map(t => t.type)))
+const availableTypes = computed(() => new Set(withAppliedFilters(apiToilets.value, ['types']).map(t => t.type)))
 const canFilterReportedTrue = computed(() => withAppliedFilters(apiToilets.value, ['reported']).some(t => t.has_reports))
 const canFilterReportedFalse = computed(() => withAppliedFilters(apiToilets.value, ['reported']).some(t => !t.has_reports))
 const canFilterFree = computed(() => withAppliedFilters(apiToilets.value, ['is_free']).some(t => t.is_free))
@@ -845,7 +967,16 @@ const canFilterAccessible = computed(() => withAppliedFilters(apiToilets.value, 
 const canFilterOpeningHours = computed(() => withAppliedFilters(apiToilets.value, ['has_opening_hours']).some(t => Boolean(t.opening_hours)))
 
 function isTypeDisabled(type: ToiletType): boolean {
-  return !availableTypes.value.has(type) && filters.value.type !== type
+  return !availableTypes.value.has(type) && !filters.value.types.includes(type)
+}
+
+function toggleTypeFilter(type: ToiletType) {
+  if (isTypeDisabled(type)) return
+  if (filters.value.types.includes(type)) {
+    filters.value.types = filters.value.types.filter(t => t !== type)
+    return
+  }
+  filters.value.types = [...filters.value.types, type]
 }
 
 function canFilterMinRating(threshold: number): boolean {
@@ -855,7 +986,8 @@ function canFilterMinRating(threshold: number): boolean {
 
 const toilets = computed(() => {
   if (!useStaticApiMode.value) {
-    return apiToilets.value
+    if (!filters.value.types.length) return apiToilets.value
+    return apiToilets.value.filter(t => filters.value.types.includes(t.type))
   }
 
   let list = apiToilets.value.map((toilet) => {
@@ -873,8 +1005,8 @@ const toilets = computed(() => {
     const city = filters.value.city.toLowerCase()
     list = list.filter(t => t.city.toLowerCase() === city)
   }
-  if (filters.value.type) {
-    list = list.filter(t => t.type === filters.value.type)
+  if (filters.value.types.length > 0) {
+    list = list.filter(t => filters.value.types.includes(t.type))
   }
   if (filters.value.is_free) {
     list = list.filter(t => t.is_free)
@@ -904,6 +1036,27 @@ const toilets = computed(() => {
   }
 
   return list
+})
+
+const mapListPage = ref(1)
+const mobileMapListPage = ref(1)
+
+const mapListTotalPages = computed(() => (
+  Math.max(1, Math.ceil(toilets.value.length / MAP_LIST_PAGE_SIZE))
+))
+
+const mobileMapListTotalPages = computed(() => (
+  Math.max(1, Math.ceil(toilets.value.length / MOBILE_MAP_LIST_PAGE_SIZE))
+))
+
+const paginatedMapList = computed(() => {
+  const start = (mapListPage.value - 1) * MAP_LIST_PAGE_SIZE
+  return toilets.value.slice(start, start + MAP_LIST_PAGE_SIZE)
+})
+
+const paginatedMobileMapList = computed(() => {
+  const start = (mobileMapListPage.value - 1) * MOBILE_MAP_LIST_PAGE_SIZE
+  return toilets.value.slice(start, start + MOBILE_MAP_LIST_PAGE_SIZE)
 })
 
 const mapToilets = computed(() => {
@@ -939,8 +1092,9 @@ watch(
     if (filters.value.city && !availableCities.value.includes(filters.value.city)) {
       filters.value.city = ''
     }
-    if (filters.value.type && isTypeDisabled(filters.value.type as ToiletType)) {
-      filters.value.type = ''
+    const validTypes = filters.value.types.filter(type => !isTypeDisabled(type))
+    if (validTypes.length !== filters.value.types.length) {
+      filters.value.types = validTypes
     }
     if (filters.value.reported === 'true' && !canFilterReportedTrue.value) {
       filters.value.reported = 'any'
@@ -996,6 +1150,8 @@ let mediaQuery: MediaQueryList | null = null
 watch(toilets, (next) => {
   if (!next.length) {
     selectedToilet.value = null
+    mapListPage.value = 1
+    mobileMapListPage.value = 1
     return
   }
 
@@ -1004,6 +1160,18 @@ watch(toilets, (next) => {
   }
 
   refreshMapMarkers()
+})
+
+watch([toilets, mapListTotalPages], () => {
+  if (mapListPage.value > mapListTotalPages.value) {
+    mapListPage.value = mapListTotalPages.value
+  }
+})
+
+watch([toilets, mobileMapListTotalPages], () => {
+  if (mobileMapListPage.value > mobileMapListTotalPages.value) {
+    mobileMapListPage.value = mobileMapListTotalPages.value
+  }
 })
 
 watch(activePending, (isPending) => {
@@ -1028,6 +1196,21 @@ watch(viewMode, (mode) => {
     showMobileToiletList.value = false
   }
 })
+
+watch(filters, (next) => {
+  if (!import.meta.client) return
+  localStorage.setItem(FILTERS_STORAGE_KEY, JSON.stringify({
+    city: next.city,
+    types: next.types,
+    is_free: next.is_free,
+    is_accessible: next.is_accessible,
+    has_opening_hours: next.has_opening_hours,
+    reported: next.reported,
+    min_rating: next.min_rating,
+    radius: next.radius,
+    sort: next.sort,
+  }))
+}, { deep: true })
 
 onMounted(async () => {
   setupMobileMode()
@@ -1133,7 +1316,7 @@ function refreshMapMarkers() {
       icon: createToiletMarkerIcon(toilet, isSelected),
       riseOnHover: true,
       keyboard: false,
-      title: `${describeUserMarker(toilet)}: ${toilet.name ?? 'Public Toilet'}`,
+      title: `${describeUserMarker(toilet)}: ${toilet.name ?? t('toilet.public')}`,
     })
     marker.bindPopup(buildMarkerPopup(toilet), {
       closeButton: false,
@@ -1156,7 +1339,7 @@ function refreshMapMarkers() {
     })
 
     if (!isMobile.value) {
-      marker.bindTooltip(toilet.name ?? 'Public Toilet')
+      marker.bindTooltip(toilet.name ?? t('toilet.public'))
     }
     marker.addTo(toiletsLayer)
   }
@@ -1217,19 +1400,23 @@ function describeUserMarker(toilet: ToiletListItem): string {
 }
 
 function toiletTypeLabel(type: ToiletType): string {
-  return toiletTypeMeta(type).label
+  return t(toiletTypeLabelKey(type))
 }
 
 function buildMarkerPopup(toilet: ToiletListItem): string {
   const typeLabel = escapeHtml(toiletTypeLabel(toilet.type))
-  const name = escapeHtml(toilet.name ?? 'Public Toilet')
+  const name = escapeHtml(toilet.name ?? t('toilet.public'))
   const address = escapeHtml(toilet.address ?? toilet.city)
-  const freeLabel = toilet.is_free ? 'Free' : 'Paid'
-  const accessLabel = toilet.is_accessible ? 'Accessible' : 'Not marked accessible'
-  const hoursLabel = toilet.opening_hours ? escapeHtml(toilet.opening_hours) : 'Hours not shown'
+  const freeLabel = toilet.is_free ? t('toilet.free') : t('toilet.paid')
+  const accessLabel = toilet.is_accessible
+    ? t('toilet.accessible')
+    : tSafe('toilets.not_marked_accessible', 'Not marked accessible')
+  const hoursLabel = toilet.opening_hours
+    ? escapeHtml(toilet.opening_hours)
+    : tSafe('toilets.hours_not_shown', 'Hours not shown')
   const ratingLabel = toilet.avg_rating !== null && toilet.avg_rating !== undefined
-    ? `Rating ${toilet.avg_rating}`
-    : 'No rating yet'
+    ? t('toilet.rating', { rating: toilet.avg_rating })
+    : tSafe('toilets.no_rating_yet', 'No rating yet')
 
   return `
     <div class="space-y-2 text-sm text-slate-700 min-w-[220px]">
@@ -1242,15 +1429,20 @@ function buildMarkerPopup(toilet: ToiletListItem): string {
       </div>
       <div class="text-xs text-slate-500">${address}</div>
       <div class="flex flex-wrap gap-1.5 text-xs">
-        <span class="rounded-full ${toilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'} px-2 py-0.5">${freeLabel}</span>
-        <span class="rounded-full ${toilet.is_accessible ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-500'} px-2 py-0.5">${accessLabel}</span>
+        <span class="rounded-full ${toilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'} px-2 py-0.5">${escapeHtml(freeLabel)}</span>
+        <span class="rounded-full ${toilet.is_accessible ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-500'} px-2 py-0.5">${escapeHtml(accessLabel)}</span>
       </div>
       <div class="flex flex-wrap gap-1.5 text-xs">
-        <span class="rounded-full bg-violet-100 text-violet-700 px-2 py-0.5">${hoursLabel}</span>
+        <span class="rounded-full bg-violet-100 text-violet-700 px-2 py-0.5">${escapeHtml(hoursLabel)}</span>
         <span class="rounded-full bg-amber-100 text-amber-700 px-2 py-0.5">${escapeHtml(ratingLabel)}</span>
       </div>
     </div>
   `
+}
+
+function tSafe(key: string, fallback: string): string {
+  const translated = t(key)
+  return translated === key ? fallback : translated
 }
 
 function escapeHtml(value: string): string {
@@ -1299,6 +1491,8 @@ function focusMapOnUserLocation() {
 }
 
 function applyFilters() {
+  mapListPage.value = 1
+  mobileMapListPage.value = 1
   router.replace({ query: buildRouteQuery() })
   if (!useStaticApiMode.value) {
     refresh()
@@ -1309,9 +1503,11 @@ function applyFilters() {
 }
 
 function resetFilters() {
+  mapListPage.value = 1
+  mobileMapListPage.value = 1
   filters.value = {
     city: '',
-    type: '',
+    types: [],
     is_free: false,
     is_accessible: false,
     has_opening_hours: false,
@@ -1329,7 +1525,7 @@ function resetFilters() {
 function buildRouteQuery(): Record<string, string | undefined> {
   return {
     city: filters.value.city || undefined,
-    type: filters.value.type || undefined,
+    types: filters.value.types.length ? filters.value.types.join(',') : undefined,
     is_free: filters.value.is_free ? 'true' : undefined,
     is_accessible: filters.value.is_accessible ? 'true' : undefined,
     has_opening_hours: filters.value.has_opening_hours ? 'true' : undefined,
@@ -1344,7 +1540,7 @@ function buildRouteQuery(): Record<string, string | undefined> {
 
 async function locateUser(): Promise<boolean> {
   if (!import.meta.client || !navigator.geolocation) {
-    locationError.value = 'Geolocation is not supported on this device.'
+    locationError.value = t('toilets.geolocation_not_supported')
     return false
   }
 
@@ -1384,7 +1580,7 @@ async function locateUser(): Promise<boolean> {
     return true
   }
   catch {
-    locationError.value = 'Could not access your location. Please allow location permission and try again.'
+    locationError.value = t('toilets.geolocation_permission_error')
     return false
   }
   finally {
@@ -1399,7 +1595,7 @@ async function startNavigation(toilet: ToiletListItem) {
   const hasLocation = await locateUser()
 
   if (!hasLocation || !userLocation.value || !leaflet || !map) {
-    routingError.value = 'Current location is required to calculate a route.'
+    routingError.value = t('toilets.route_requires_location')
     return
   }
 
@@ -1444,7 +1640,7 @@ async function startNavigation(toilet: ToiletListItem) {
     focusNextManeuverCard()
   }
   catch {
-    routingError.value = 'Routing service is currently unavailable. Please try again in a moment.'
+    routingError.value = t('toilets.routing_unavailable')
   }
   finally {
     routing.value = false
@@ -1486,8 +1682,31 @@ function formatStepInstruction(step: OsrmStep): string {
   const modifier = String(step?.maneuver?.modifier ?? '').trim()
   const name = String(step?.name ?? '').trim()
 
-  const action = modifier ? `${type} ${modifier}` : type
-  return name ? `${action} on ${name}` : action
+  const typeMap: Record<string, string> = {
+    continue: t('toilets.maneuver_type.continue'),
+    turn: t('toilets.maneuver_type.turn'),
+    depart: t('toilets.maneuver_type.depart'),
+    arrive: t('toilets.maneuver_type.arrive'),
+    merge: t('toilets.maneuver_type.merge'),
+    roundabout: t('toilets.maneuver_type.roundabout'),
+    'on ramp': t('toilets.maneuver_type.on_ramp'),
+    'off ramp': t('toilets.maneuver_type.off_ramp'),
+  }
+  const modifierMap: Record<string, string> = {
+    left: t('toilets.maneuver_modifier.left'),
+    right: t('toilets.maneuver_modifier.right'),
+    straight: t('toilets.maneuver_modifier.straight'),
+    slight_left: t('toilets.maneuver_modifier.slight_left'),
+    slight_right: t('toilets.maneuver_modifier.slight_right'),
+    sharp_left: t('toilets.maneuver_modifier.sharp_left'),
+    sharp_right: t('toilets.maneuver_modifier.sharp_right'),
+    uturn: t('toilets.maneuver_modifier.uturn'),
+  }
+
+  const typeLabel = typeMap[type] ?? type
+  const modifierLabel = modifier ? (modifierMap[modifier] ?? modifier) : ''
+  const action = modifierLabel ? `${typeLabel} ${modifierLabel}` : typeLabel
+  return name ? t('toilets.route_action_on', { action, street: name }) : action
 }
 
 function externalRouteUrl(toilet: ToiletListItem): string {
@@ -1533,9 +1752,9 @@ function freshnessText(
   label: ToiletListItem['freshness_label'],
   days: number,
 ): string {
-  if (label === 'fresh') return `Updated ${days}d ago`
-  if (label === 'aging') return `Updated ${days}d ago`
-  return `Data may be stale (${days}d)`
+  if (label === 'fresh') return t('toilet.updated_days', { days })
+  if (label === 'aging') return t('toilet.updated_days', { days })
+  return t('toilet.data_may_be_stale', { days })
 }
 
 function freshnessClass(label: ToiletListItem['freshness_label']): string {

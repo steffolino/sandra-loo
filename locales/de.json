@@ -27,7 +27,8 @@
         "details": "Details",
         "back_to_list": "Zurück zur Liste",
         "show_full_steps": "Alle Schritte anzeigen",
-        "hide_full_steps": "Alle Schritte verbergen"
+        "hide_full_steps": "Alle Schritte verbergen",
+        "close": "Schließen"
     },
     "home": {
         "tagline": "Finde verifizierte öffentliche Toiletten in Deutschland – und teste deine Überlebensfähigkeiten in unserem Awareness-Spiel.",
@@ -43,6 +44,7 @@
     },
     "toilets": {
         "title": "Toilette finden",
+        "my_location": "Mein Standort",
         "trust_info_button": "Wie wir Vertrauen bewerten",
         "trust_info_title": "Wie wir Vertrauen bewerten",
         "trust_info": {
@@ -76,7 +78,45 @@
         "detail_load_error": "Konnte Toilettendetails nicht laden.",
         "guide_not_guarantee": "Bitte als Richtwert verwenden, keine Garantie.",
         "confirm_status": "Status bestätigen",
-        "confirm_thanks": "Danke für deine Bestätigung!"
+        "confirm_thanks": "Danke für deine Bestätigung!",
+        "status_changes_fast": "Der Toilettenstatus kann sich schnell ändern.",
+        "status_changes_body": "Manche öffentlichen Toiletten können schmutzig, geschlossen oder ohne Papier sein. In Zukunft sollen Nutzer helfen, Sauberkeit und Verfügbarkeit zu melden, damit die Karte aktuell bleibt.",
+        "status_changes_institutional": "Institutionelle Orte wie Bibliotheken, Behörden oder Universitäten sind nur Vorschläge auf Basis öffentlicher Daten. Wir garantieren nicht, dass sie immer geöffnet, kostenlos nutzbar oder für den Toilettenzugang geeignet sind. Wenn du unsicher bist, frage vor Ort nach.",
+        "last_updated_label": "Zuletzt aktualisiert:",
+        "open_data_source": "Datenquelle öffnen",
+        "geolocation_not_supported": "Geolokalisierung wird auf diesem Gerät nicht unterstützt.",
+        "geolocation_permission_error": "Dein Standort konnte nicht abgerufen werden. Bitte erlaube den Standortzugriff und versuche es erneut.",
+        "route_requires_location": "Für die Routenberechnung wird dein aktueller Standort benötigt.",
+        "routing_unavailable": "Der Routing-Dienst ist derzeit nicht verfügbar. Bitte versuche es gleich noch einmal.",
+        "page_of": "Seite {current} von {total}",
+        "mobile_marker_limit_note": "Auf Mobilgeräten werden für schnelleres Laden {count} nahe Marker angezeigt.",
+        "distance_away": "{distance} entfernt",
+        "next_maneuver": "Nächstes Manöver",
+        "step_of": "Schritt {current} von {total}",
+        "not_marked_accessible": "Nicht als barrierefrei markiert",
+        "hours_not_shown": "Keine Öffnungszeiten angegeben",
+        "no_rating_yet": "Noch keine Bewertung",
+        "route_action_on": "{action} auf {street}",
+        "maneuver_type": {
+            "continue": "weiter",
+            "turn": "abbiegen",
+            "depart": "starten",
+            "arrive": "ankommen",
+            "merge": "einfädeln",
+            "roundabout": "Kreisverkehr",
+            "on_ramp": "Auffahrt",
+            "off_ramp": "Abfahrt"
+        },
+        "maneuver_modifier": {
+            "left": "links",
+            "right": "rechts",
+            "straight": "geradeaus",
+            "slight_left": "leicht links",
+            "slight_right": "leicht rechts",
+            "sharp_left": "scharf links",
+            "sharp_right": "scharf rechts",
+            "uturn": "wenden"
+        }
     },
     "toilet": {
         "public": "Öffentliche Toilette",
@@ -138,7 +178,10 @@
         "hours_shown_only": "Nur mit Öffnungszeiten",
         "apply": "Filter anwenden",
         "use_current_location": "Aktuellen Standort verwenden",
-        "reset": "Zurücksetzen"
+        "reset": "Zurücksetzen",
+        "nearest": "Nächste",
+        "rating_and_up": "{rating} und höher",
+        "title": "Filter"
     },
     "game": {
         "mode": "Step Run",
@@ -156,7 +199,7 @@
         "you_finished": "Du hast die Strecke beendet",
         "reason": {
             "bladder": "Der Blasenmeter war vor dem nächsten Stopp voll.",
-            "igitt": "Der Igitt-Wert wurde zu hoch.",
+            "igitt": "Der Igitt-Wert wurde zu hoch."
         },
         "cleared_steps": "Du hast alle {steps} Schritte geschafft und den Meilenstein erreicht.",
         "play_again": "Nochmal spielen",
@@ -186,5 +229,19 @@
         "import_runs_desc": "Demnächst – Importskripte ausführen",
         "no_reports": "Noch keine Meldungen",
         "no_reports_text": "Benutzerberichte erscheinen hier, sobald welche eingereicht wurden."
+    },
+    "toilet_type": {
+        "public": "Öffentliche Toilette",
+        "library": "Bibliothek",
+        "university": "Universität",
+        "civic": "Behördengebäude",
+        "culture": "Kultureinrichtung",
+        "transit": "Verkehrsknoten",
+        "cafe": "Café",
+        "restaurant": "Restaurant",
+        "shopping_mall": "Einkaufszentrum",
+        "park": "Park",
+        "petrol_station": "Tankstelle",
+        "other": "Sonstiger Ort"
     }
 }

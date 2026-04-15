@@ -7,26 +7,26 @@
 
     <div v-else-if="activeError" class="card p-8 text-center text-red-500">
       <p>{{ $t('toilets.detail_load_error') }}</p>
-      <NuxtLink to="/toilets/" class="btn-primary mt-4">
+      <NuxtLink :to="localePath('/toilets/')" class="btn-primary mt-4">
         {{ $t('common.back_to_list') }}
       </NuxtLink>
     </div>
 
     <!-- Not found -->
     <div v-else-if="!toilet" class="card p-10 text-center">
-      <div class="text-5xl mb-4">🔍</div>
+      <div class="text-5xl mb-4">?</div>
       <h2 class="text-xl font-semibold text-brand mb-2">
         {{ $t('toilets.not_found') }}
       </h2>
-      <NuxtLink to="/toilets/" class="btn-primary mt-4">
+      <NuxtLink :to="localePath('/toilets/')" class="btn-primary mt-4">
         {{ $t('common.back_to_list') }}
       </NuxtLink>
     </div>
 
     <!-- Detail view -->
     <div v-else>
-      <NuxtLink to="/toilets/" class="text-sm text-brand-accent hover:underline mb-4 inline-block">
-        ← Back
+      <NuxtLink :to="localePath('/toilets/')" class="text-sm text-brand-accent hover:underline mb-4 inline-block">
+        {{ $t('common.back_to_list') }}
       </NuxtLink>
 
       <div class="card p-6 mb-6">
@@ -47,13 +47,11 @@
           <span
             v-if="toilet.is_accessible"
             class="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-          >
-            ♿ {{ $t('toilet.accessible') }}
-          </span>
+          > {{ $t('toilet.accessible') }} </span>
           <span
             class="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
           >
-            {{ toilet.type }}
+            {{ toiletTypeLabel(toilet.type) }}
           </span>
         </div>
 
@@ -69,17 +67,17 @@
             {{ $t('toilets.guide_not_guarantee') }}
           </p>
           <p class="mt-1">
-            Public toilets can be dirty, closed, or missing supplies, and we rely on user reports and confirmations to track their current state over time.
+            {{ $t('toilets.status_changes_body') }}
           </p>
           <p class="mt-1">
-            Institutional places shown in the map are suggestions only. We do not guarantee toilet access, free use, or that the location is open right now. If you’re unsure, check with the people on site.
+            {{ $t('toilets.status_changes_institutional') }}
           </p>
         </div>
 
         <!-- Data details -->
         <div class="bg-gray-50 rounded-lg p-3 text-xs text-gray-500 mt-4">
           <p class="mt-1">
-            <strong>Last updated:</strong>
+            <strong>{{ $t('toilets.last_updated_label') }}</strong>
             {{ formatDate(toilet.last_updated_at) }}
           </p>
           <p class="mt-1">
@@ -88,7 +86,7 @@
               target="_blank"
               rel="noopener noreferrer"
               class="underline hover:text-brand"
-            >Open data source</a>
+            >{{ $t('toilets.open_data_source') }}</a>
           </p>
         </div>
       </div>
@@ -109,9 +107,7 @@
             {{ type.label }}
           </button>
         </div>
-        <p v-if="confirmSuccess" class="text-green-600 text-sm mt-2">
-          ✓ {{ $t('toilets.confirm_thanks') }}
-        </p>
+        <p v-if="confirmSuccess" class="text-green-600 text-sm mt-2"> {{ $t('toilets.confirm_thanks') }} </p>
       </div>
 
       <!-- Reviews -->
@@ -176,6 +172,7 @@
 <script setup lang="ts">
 import type { Toilet, Review, Report, Confirmation } from '../../../../shared/types/index'
 import { resolveSourceUrl } from '../../utils/provenance'
+import { toiletTypeLabelKey } from '../../utils/toilet-type'
 
 type ToiletDetail = Toilet & {
   reviews: Review[]
@@ -184,6 +181,7 @@ type ToiletDetail = Toilet & {
 }
 
 const route = useRoute()
+const localePath = useLocalePath()
 const id = route.params.id as string
 const runtimeConfig = useRuntimeConfig()
 const useStaticApiMode = runtimeConfig.app.baseURL !== '/'
@@ -267,13 +265,13 @@ const activePending = computed(() => (useStaticApiMode ? staticPending.value : p
 const activeError = computed(() => (useStaticApiMode ? staticError.value : error.value))
 const toilet = computed(() => (useStaticApiMode ? staticData.value?.data : data.value?.data) ?? null)
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const confirmationTypes = [
-  { value: 'open', label: `✓ ${t('confirmation.open')}` },
-  { value: 'clean', label: `✓ ${t('confirmation.clean')}` },
-  { value: 'accessible', label: `✓ ${t('toilet.accessible')}` },
-  { value: 'free', label: `✓ ${t('toilet.free')}` },
+  { value: 'open', label: t('confirmation.open') },
+  { value: 'clean', label: t('confirmation.clean') },
+  { value: 'accessible', label: t('toilet.accessible') },
+  { value: 'free', label: t('toilet.free') },
 ]
 
 const confirming = ref(false)
@@ -311,8 +309,11 @@ async function refreshData() {
 }
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('de-DE')
+  const localeCode = locale.value === 'en' ? 'en-US' : 'de-DE'
+  return new Date(iso).toLocaleDateString(localeCode)
+}
+
+function toiletTypeLabel(type: Toilet['type']): string {
+  return t(toiletTypeLabelKey(type))
 }
 </script>
-
-

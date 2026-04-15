@@ -3,7 +3,8 @@
     <label for="lang" class="sr-only">Language</label>
     <select
       id="lang"
-      v-model="current"
+      :value="current"
+      @change="onChange"
       class="px-2 py-1 rounded border bg-[var(--cube-base)] text-sm"
       aria-label="Select language"
     >
@@ -17,6 +18,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
 
 const locales = [
   { code: 'de', label: 'Deutsch' },
@@ -27,12 +29,13 @@ const locales = [
   { code: 'ru', label: 'Русский' },
 ]
 
-const current = computed({
-  get: () => locale.value as string,
-  set: (v: string) => {
-    locale.value = v
-    if (v === 'ar') document.documentElement.dir = 'rtl'
-    else document.documentElement.dir = 'ltr'
-  },
-})
+const current = computed(() => locale.value as string)
+
+async function onChange(e: Event) {
+  const v = (e.target as HTMLSelectElement).value
+  const target = switchLocalePath(v)
+  if (!target) return
+  await navigateTo(target)
+  document.documentElement.dir = v === 'ar' ? 'rtl' : 'ltr'
+}
 </script>
