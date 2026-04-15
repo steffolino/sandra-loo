@@ -4,43 +4,42 @@
       <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div class="max-w-2xl">
           <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-accent/80">
-            Step Run
+            {{ $t('game.mode') }}
           </p>
           <h1 class="mt-2 text-3xl font-bold text-brand">
-            Sandra Loo: The Game
+            {{ $t('header.appName') }}: {{ $t('game.title') }}
           </h1>
           <p class="mt-3 text-sm leading-6 text-slate-600">
-            Each step gives you three toilet choices. Every move raises the bladder meter first, then your
-            selected stop changes the situation. Every 10 steps, you hit a bonus shop milestone.
+            {{ $t('game.description') }}
           </p>
         </div>
 
         <div class="grid grid-cols-3 gap-3 text-center text-xs font-medium text-slate-600">
           <div class="rounded-2xl border border-white/80 bg-white/70 px-4 py-3 shadow-sm backdrop-blur">
             <div class="text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">Route</div>
-            <div class="mt-1 text-sm font-semibold text-brand">{{ config?.maxSteps ?? 20 }} steps</div>
+            <div class="mt-1 text-sm font-semibold text-brand">{{ config?.maxSteps ?? 20 }} {{ $t('game.steps') }}</div>
           </div>
           <div class="rounded-2xl border border-white/80 bg-white/70 px-4 py-3 shadow-sm backdrop-blur">
             <div class="text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">Pressure</div>
-            <div class="mt-1 text-sm font-semibold text-brand">+{{ config?.bladderIncreasePerStep ?? 14 }} each step</div>
+            <div class="mt-1 text-sm font-semibold text-brand">+{{ config?.bladderIncreasePerStep ?? 14 }} {{ $t('game.each_step') }}</div>
           </div>
           <div class="rounded-2xl border border-white/80 bg-white/70 px-4 py-3 shadow-sm backdrop-blur">
             <div class="text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">Milestone</div>
-            <div class="mt-1 text-sm font-semibold text-brand">Every {{ config?.stepsPerMilestone ?? 10 }}</div>
+            <div class="mt-1 text-sm font-semibold text-brand">{{ $t('game.every_milestone', { steps: config?.stepsPerMilestone ?? 10 }) }}</div>
           </div>
         </div>
       </div>
     </section>
 
     <div class="card border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-      The loop is now fully step-based. Free roaming is gone from the main flow so every decision pushes the run forward.
+      {{ $t('game.loop_note') }}
     </div>
 
     <div v-if="!gameState.isRunning && !gameState.isGameOver" class="card p-8 text-center">
       <div class="mx-auto max-w-2xl">
-        <h2 class="text-2xl font-semibold text-brand">Ready for a 20-step run?</h2>
+        <h2 class="text-2xl font-semibold text-brand">{{ $t('game.ready_title') }}</h2>
         <p class="mt-3 text-sm leading-6 text-slate-500">
-          Survive the route, manage bladder and igitt, and hit a shop milestone at step 10 before the final stretch.
+          {{ $t('game.ready_text') }}
         </p>
         <div class="mt-6 grid gap-3 text-left sm:grid-cols-3">
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
@@ -56,28 +55,28 @@
             <p class="mt-2 text-sm text-slate-600">Big relief, big igitt, pure desperation.</p>
           </div>
         </div>
-        <button class="btn-primary mt-8 px-8 py-3 text-base" @click="startGame">Start Run</button>
+        <button class="btn-primary mt-8 px-8 py-3 text-base" @click="startGame">{{ $t('game.start_run') }}</button>
       </div>
     </div>
 
     <div v-else-if="gameState.isGameOver" class="card p-8 text-center">
       <div class="mx-auto max-w-lg">
-        <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Run Complete</p>
+        <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">{{ $t('game.run_complete') }}</p>
         <h2 class="mt-3 text-2xl font-semibold text-brand">
-          {{ gameState.gameOverReason ? 'Game Over' : 'You finished the route' }}
+          {{ gameState.gameOverReason ? $t('game.game_over') : $t('game.you_finished') }}
         </h2>
         <p class="mt-3 text-sm leading-6 text-slate-500">
-          <span v-if="gameState.gameOverReason === 'bladder'">The bladder meter maxed out before the next stop.</span>
-          <span v-else-if="gameState.gameOverReason === 'igitt'">The igitt level got too high to keep going.</span>
-          <span v-else>You cleared all {{ config?.maxSteps ?? 20 }} steps and made it through the milestone stretch.</span>
+          <span v-if="gameState.gameOverReason === 'bladder'">{{ $t('game.reason.bladder') }}</span>
+          <span v-else-if="gameState.gameOverReason === 'igitt'">{{ $t('game.reason.igitt') }}</span>
+          <span v-else>{{ $t('game.cleared_steps', { steps: config?.maxSteps ?? 20 }) }}</span>
         </p>
         <p class="mt-5 text-4xl font-bold text-brand-accent">
           {{ gameState.score }}
           <span class="text-base font-medium text-slate-400">pts</span>
         </p>
         <div class="mt-6 flex flex-wrap justify-center gap-3">
-          <button class="btn-primary" @click="startGame">Play again</button>
-          <NuxtLink to="/game/leaderboard" class="btn-secondary">Leaderboard</NuxtLink>
+          <button class="btn-primary" @click="startGame">{{ $t('game.play_again') }}</button>
+          <NuxtLink to="/game/leaderboard" class="btn-secondary">{{ $t('game.leaderboard') }}</NuxtLink>
         </div>
       </div>
     </div>

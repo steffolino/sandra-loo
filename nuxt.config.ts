@@ -61,6 +61,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
     '@nuxt/eslint',
+    '@nuxtjs/i18n',
   ],
 
   css: ['~/assets/css/main.css'],
@@ -118,5 +119,30 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true,
+  },
+
+  i18n: {
+    locales: [
+      { code: 'de', file: 'de.json', iso: 'de-DE', name: 'Deutsch' },
+      { code: 'pl', file: 'pl.json', iso: 'pl-PL', name: 'Polski' },
+      { code: 'tr', file: 'tr.json', iso: 'tr-TR', name: 'Türkçe' },
+      { code: 'en', file: 'en.json', iso: 'en-US', name: 'English' },
+      { code: 'ar', file: 'ar.json', iso: 'ar-AR', name: 'العربية' },
+      { code: 'ru', file: 'ru.json', iso: 'ru-RU', name: 'Русский' },
+    ],
+    defaultLocale: 'de',
+    strategy: 'prefix_except_default',
+    lazy: true,
+    langDir: 'locales/',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      fallbackLocale: 'de',
+    },
+    vueI18n: {
+      legacy: false,
+      locale: 'de',
+      fallbackLocale: 'de',
+    },
   },
 })

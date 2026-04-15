@@ -6,7 +6,7 @@
     <div class="text-2xl mt-0.5">WC</div>
     <div class="flex-1 min-w-0">
       <div class="font-semibold text-brand truncate">
-        {{ toilet.name ?? 'Public Toilet' }}
+        {{ toilet.name ?? $t('toilet.public') }}
       </div>
       <div class="text-sm text-gray-500 truncate">
         {{ toilet.address ?? toilet.city }}
@@ -16,19 +16,19 @@
           class="px-2 py-0.5 rounded-full text-xs font-medium"
           :class="toilet.is_free ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'"
         >
-          {{ toilet.is_free ? 'Free' : 'Paid' }}
+          {{ toilet.is_free ? $t('toilet.free') : $t('toilet.paid') }}
         </span>
         <span
           v-if="toilet.is_accessible"
           class="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
         >
-          Accessible
+          {{ $t('toilet.accessible') }}
         </span>
         <span
           v-if="toilet.opening_hours"
           class="px-2 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800"
         >
-          Hours shown
+          {{ $t('toilet.hours_shown') }}
         </span>
         <span
           class="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600"
@@ -39,13 +39,13 @@
           v-if="toilet.avg_rating !== undefined && toilet.avg_rating !== null"
           class="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800"
         >
-          Rating {{ toilet.avg_rating }}
+          {{ $t('toilet.rating', { rating: toilet.avg_rating }) }}
         </span>
         <span
           v-if="toilet.report_count !== undefined && toilet.report_count > 0"
           class="px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700"
         >
-          {{ toilet.report_count }} report{{ toilet.report_count === 1 ? '' : 's' }}
+          {{ $tc('toilet.reports', toilet.report_count, { count: toilet.report_count }) }}
         </span>
         <span
           v-if="toilet.freshness_label !== undefined"
@@ -58,14 +58,14 @@
           v-if="toilet.recent_confirmation_count !== undefined"
           class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700"
         >
-          {{ toilet.recent_confirmation_count }} recent confirmation{{ toilet.recent_confirmation_count === 1 ? '' : 's' }}
+          {{ $tc('toilet.recent_confirmations', toilet.recent_confirmation_count, { count: toilet.recent_confirmation_count }) }}
         </span>
         <span
           v-if="toilet.source_confidence_score !== undefined"
           class="px-2 py-0.5 rounded-full text-xs font-medium"
           :class="confidenceClass(toilet.source_confidence_level)"
         >
-          Source reliability {{ toilet.source_confidence_score }}/100
+          {{ $t('toilet.source_reliability', { score: toilet.source_confidence_score }) }}
         </span>
       </div>
     </div>
@@ -100,9 +100,9 @@ function freshnessText(
   label: ToiletListItem['freshness_label'],
   days: number,
 ): string {
-  if (label === 'fresh') return `Updated ${days}d ago`
-  if (label === 'aging') return `Updated ${days}d ago`
-  return `Data may be stale (${days}d)`
+  if (label === 'fresh') return $t('toilet.updated_days', { days })
+  if (label === 'aging') return $t('toilet.updated_days', { days })
+  return $t('toilet.data_may_be_stale', { days })
 }
 
 function freshnessClass(label: ToiletListItem['freshness_label']): string {

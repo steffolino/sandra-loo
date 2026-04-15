@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="text-2xl font-bold text-brand mb-6">
-      🏆 Leaderboard
+      🏆 {{ $t('game.leaderboard') }}
     </h1>
     <div class="card p-4 mb-6 border-amber-200 bg-amber-50 text-amber-900 text-sm">
       The game is still work in progress. Leaderboard behavior may change as gameplay evolves.
@@ -13,32 +13,32 @@
         :class="scope === 'daily' ? 'bg-brand-accent text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
         @click="scope = 'daily'"
       >
-        Today
+        {{ $t('common.today') }}
       </button>
       <button
         class="text-sm px-4 py-1.5 rounded-full font-medium transition-all"
         :class="scope === 'all-time' ? 'bg-brand-accent text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
         @click="scope = 'all-time'"
       >
-        All Time
+        {{ $t('common.all_time') }}
       </button>
     </div>
 
     <div v-if="pending" class="text-center py-10 text-gray-400">
-      Loading…
+      {{ $t('common.loading') }}
     </div>
 
     <!-- Empty state -->
     <div v-else-if="!entries?.length" class="card p-10 text-center">
       <div class="text-4xl mb-4">🏅</div>
       <h2 class="font-semibold text-brand mb-2">
-        No scores yet
+        {{ $t('game.no_scores_title') }}
       </h2>
       <p class="text-sm text-gray-500 mb-4">
-        Be the first to complete a run and claim the top spot!
+        {{ $t('game.no_scores_text') }}
       </p>
       <NuxtLink to="/game" class="btn-primary">
-        Play now
+        {{ $t('game.play_now') }}
       </NuxtLink>
     </div>
 
@@ -51,13 +51,13 @@
               Rank
             </th>
             <th class="px-4 py-3 text-left">
-              Player
+              {{ $t('leaderboard.player') }}
             </th>
             <th class="px-4 py-3 text-right">
-              Steps
+              {{ $t('leaderboard.steps') }}
             </th>
             <th class="px-4 py-3 text-right">
-              Score
+              {{ $t('leaderboard.score') }}
             </th>
           </tr>
         </thead>
@@ -74,7 +74,7 @@
               <span v-else>{{ i + 1 }}</span>
             </td>
             <td class="px-4 py-3 font-medium text-brand">
-              {{ entry.user_id === 'anonymous' ? 'Anonymous' : entry.user_id }}
+              {{ entry.user_id === 'anonymous' ? $t('leaderboard.anonymous') : entry.user_id }}
             </td>
             <td class="px-4 py-3 text-right text-gray-500">
               {{ entry.steps_completed }}

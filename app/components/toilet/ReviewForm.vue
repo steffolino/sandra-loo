@@ -1,12 +1,12 @@
 <template>
   <form class="space-y-3" @submit.prevent="submit">
-    <h3 class="font-semibold text-brand text-sm">
-      Write a review
-    </h3>
+      <h3 class="font-semibold text-brand text-sm">
+        {{ $t('review.title') }}
+      </h3>
 
     <div class="grid grid-cols-2 gap-3">
       <label class="block text-xs text-gray-600">
-        Cleanliness (1–5)
+        {{ $t('review.cleanliness_label') }}
         <input
           v-model.number="form.cleanliness"
           type="number"
@@ -17,7 +17,7 @@
         >
       </label>
       <label class="block text-xs text-gray-600">
-        Lighting (1–5)
+        {{ $t('review.lighting_label') }}
         <input
           v-model.number="form.lighting"
           type="number"
@@ -32,18 +32,18 @@
     <div class="flex gap-4 text-sm">
       <label class="flex items-center gap-2 cursor-pointer">
         <input v-model="form.toilet_paper" type="checkbox" class="rounded">
-        Toilet paper available
+        {{ $t('review.toilet_paper_available') }}
       </label>
       <label class="flex items-center gap-2 cursor-pointer">
         <input v-model="form.accessibility" type="checkbox" class="rounded">
-        Accessible
+        {{ $t('toilet.accessible') }}
       </label>
     </div>
 
     <textarea
       v-model="form.comment"
       rows="2"
-      placeholder="Optional comment…"
+      :placeholder="$t('review.optional_comment')"
       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
     />
     <input
@@ -57,10 +57,10 @@
 
     <div class="flex items-center gap-3">
       <button type="submit" class="btn-primary text-sm" :disabled="submitting">
-        {{ submitting ? 'Submitting…' : 'Submit review' }}
+        {{ submitting ? $t('review.submitting') : $t('review.submit') }}
       </button>
       <p v-if="success" class="text-green-600 text-sm">
-        ✓ Review submitted!
+        ✓ {{ $t('review.submitted') }}
       </p>
       <p v-if="errorMsg" class="text-red-500 text-sm">
         {{ errorMsg }}
@@ -72,6 +72,8 @@
 <script setup lang="ts">
 const props = defineProps<{ toiletId: string }>()
 const emit = defineEmits<{ submitted: [] }>()
+
+const { t } = useI18n()
 
 const form = ref({
   cleanliness: 3,
@@ -114,7 +116,7 @@ async function submit() {
     setTimeout(() => { success.value = false }, 3000)
   }
   catch (e: unknown) {
-    errorMsg.value = (e as { message?: string })?.message ?? 'Error submitting review'
+    errorMsg.value = (e as { message?: string })?.message ?? t('review.error_submitting')
   }
   finally {
     submitting.value = false
