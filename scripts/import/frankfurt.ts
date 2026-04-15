@@ -24,7 +24,7 @@
  * Output: data/imports/frankfurt.json
  */
 
-import { writeFile, mkdir } from 'node:fs/promises'
+import { writeFile, mkdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { Toilet } from '../../shared/types/index'
 import { cleanNullableText, cleanText } from './text'
@@ -324,6 +324,19 @@ async function fetchAll(): Promise<Toilet[]> {
 
   return records
 }
+
+async function readExistingImport(): Promise<Toilet[] | null> {
+  try {
+    const raw = await readFile(OUTPUT_FILE, 'utf-8')
+    const parsed = JSON.parse(raw) as unknown
+    if (!Array.isArray(parsed)) return null
+    const records = parsed.filter(Boolean) as Toilet[]
+    return records.length > 0 ? records : null
+  }
+  catch {
+    return null
+  }
+}
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -333,7 +346,19 @@ async function main() {
   console.log(`Portal: ${PORTAL_BASE}`)
   console.log(`Dataset: ${DATASET_ID}\n`)
 
-  const records = await fetchAll()
+  let records: Toilet[]
+  try {
+    records = await fetchAll()
+  }
+  catch (error) {
+    const cached = await readExistingImport()
+    if (!cached) throw error
+
+    console.warn('\n⚠️  Frankfurt auto-import unavailable. Keeping cached import file.')
+    console.warn(`   Using existing ${OUTPUT_FILE} (${cached.length} records).`)
+    records = cached
+  }
+
   console.log(`\nTotal records: ${records.length}`)
 
   await mkdir(join(process.cwd(), 'data', 'imports'), { recursive: true })
