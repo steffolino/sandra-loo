@@ -1,0 +1,190 @@
+{
+    "header": {
+        "appName": "Sandra Loo"
+    },
+    "nav": {
+        "map_view": "Kartenansicht",
+        "play": "Spielen"
+    },
+    "footer": {
+        "tagline": "Sandra Loo - Civic Toilet Finder & Awareness Game",
+        "data_source": "Daten von {source}",
+        "feedback": "Feedback:",
+        "report_issue": "Fehler oder Vorschlag melden"
+    },
+    "common": {
+        "locating": "Suche...",
+        "hide_filters": "Filter verbergen",
+        "show_filters": "Filter anzeigen",
+        "map": "Karte",
+        "list": "Liste",
+        "results": "Ergebnisse",
+        "previous": "Zurück",
+        "next": "Weiter",
+        "loading": "Wird geladen…",
+        "today": "Heute",
+        "all_time": "Gesamt",
+        "details": "Details",
+        "back_to_list": "Zurück zur Liste",
+        "show_full_steps": "Alle Schritte anzeigen",
+        "hide_full_steps": "Alle Schritte verbergen"
+    },
+    "home": {
+        "tagline": "Finde verifizierte öffentliche Toiletten in Deutschland – und teste deine Überlebensfähigkeiten in unserem Awareness-Spiel.",
+        "find_a_toilet": "Toilette finden",
+        "play_game": "Spiel spielen",
+        "getting_started_title": "Neu hier? Starte in 30 Sekunden",
+        "getting_started_text": "Öffne die Karte, wähle eine nahe Toilette und hilf anderen mit einer kurzen Bewertung oder Bestätigung.",
+        "feature": {
+            "real_data": "Echte Daten",
+            "community_reviews": "Community-Bewertungen",
+            "awareness_game": "Awareness-Spiel"
+        }
+    },
+    "toilets": {
+        "title": "Toilette finden",
+        "trust_info_button": "Wie wir Vertrauen bewerten",
+        "trust_info_title": "Wie wir Vertrauen bewerten",
+        "trust_info": {
+            "why_details": "Wir zeigen die Details, die bei der Wahl einer Toilette wichtig sind: ob sie kostenlos oder kostenpflichtig ist, ob sie barrierefrei ist und ob Öffnungszeiten verfügbar sind.",
+            "freshness": "Frische zeigt, wie kürzlich der Eintrag aktualisiert wurde, und aktuelle Bestätigungen helfen einzuschätzen, wie aktiv das Listing ist.",
+            "source_reliability": "Quellzuverlässigkeit dient als technisches Backup, hauptsächlich für Sortierung und Wartung.",
+            "reports_help": "Öffentliche Toiletten können schmutzig, geschlossen oder ohne Vorräte sein. Wir wollen Nutzerberichte und Bestätigungen, um den Zustand über die Zeit zu verfolgen.",
+            "institutional_note": "Institutionelle Orte sind nur Vorschläge. Auch wenn Öffnungszeiten angezeigt werden, garantieren wir keinen Zugang oder kostenlose Nutzung vor Ort. Im Zweifel vor Ort nachfragen."
+        },
+        "loading": "Toiletten werden geladen...",
+        "load_error": "Konnte Toilettendaten nicht laden.",
+        "none_title": "Noch keine Toiletten gefunden",
+        "none_with_filters": "Keine Toiletten entsprechen den aktuellen Filtern. Versuche, Filter zurückzusetzen oder Stadt/Typ/Bewertung anzupassen.",
+        "none_no_data": "Für dieses Gebiet wurden noch keine Daten importiert. Führe die Import-Skripte aus, um die Datenbank zu füllen.",
+        "open_details": "Details öffnen",
+        "toilet_details": "Toilettendetails",
+        "building_route": "Route wird gebaut...",
+        "navigate": "Navigieren",
+        "clear_route": "Route löschen",
+        "open_in_osm": "In OSM öffnen",
+        "route_summary": "Routenübersicht",
+        "about_minutes": "ca. {minutes} Min zu Fuß",
+        "continue_straight": "Geradeaus weiter",
+        "list_fallback": "Listen-Ansicht",
+        "show_public_list": "Öffentliche Toilettenliste anzeigen ({count})",
+        "hide_public_list": "Öffentliche Toilettenliste verbergen ({count})",
+        "reviews_title": "Bewertungen",
+        "no_reviews_yet": "Noch keine Bewertungen. Sei der Erste!",
+        "reports_title": "Meldungen",
+        "no_reports_yet": "Noch keine Meldungen. Das garantiert nicht, dass die Toilette sauber oder geöffnet ist.",
+        "detail_load_error": "Konnte Toilettendetails nicht laden.",
+        "guide_not_guarantee": "Bitte als Richtwert verwenden, keine Garantie.",
+        "confirm_status": "Status bestätigen",
+        "confirm_thanks": "Danke für deine Bestätigung!"
+    },
+    "toilet": {
+        "public": "Öffentliche Toilette",
+        "free": "Kostenlos",
+        "paid": "Kostenpflichtig",
+        "accessible": "Barrierefrei",
+        "hours_shown": "Öffnungszeiten vorhanden",
+        "rating": "Bewertung {rating}",
+        "reports": "{count} Meldung | {count} Meldungen",
+        "recent_confirmations": "{count} aktuelle Bestätigung | {count} aktuelle Bestätigungen",
+        "source_reliability": "Quellzuverlässigkeit {score}/100",
+        "updated_days": "Aktualisiert vor {days}d",
+        "data_may_be_stale": "Daten könnten veraltet sein ({days}d)",
+        "opening_hours_label": "Öffnungszeiten:",
+        "notes_label": "Hinweise:"
+    },
+    "report": {
+        "title": "Problem melden",
+        "optional_description": "Optionale Beschreibung…",
+        "submitting": "Wird gesendet…",
+        "submit": "Meldung senden",
+        "submitted": "Meldung gesendet!",
+        "error_submitting": "Fehler beim Senden der Meldung",
+        "types": {
+            "closed": "Geschlossen",
+            "dirty": "Schmutzig",
+            "broken": "Defekt",
+            "unsafe": "Unsicher",
+            "missing": "Fehlt",
+            "other": "Andere"
+        }
+    },
+    "review": {
+        "title": "Bewertung schreiben",
+        "cleanliness_label": "Sauberkeit (1–5)",
+        "lighting_label": "Beleuchtung (1–5)",
+        "toilet_paper_available": "Toilettenpapier vorhanden",
+        "optional_comment": "Optionaler Kommentar…",
+        "submitting": "Wird gesendet…",
+        "submit": "Bewertung senden",
+        "submitted": "Bewertung gesendet!",
+        "error_submitting": "Fehler beim Senden der Bewertung",
+        "cleanliness_label_short": "Sauberkeit",
+        "lighting_label_short": "Beleuchtung"
+    },
+    "filters": {
+        "all_cities": "Alle Städte",
+        "all_place_types": "Alle Ortstypen",
+        "all_report_states": "Alle Meldestatus",
+        "reported_only": "Nur gemeldete",
+        "no_reports": "Keine Meldungen",
+        "any_rating": "Beliebige Bewertung",
+        "any_distance": "Beliebige Entfernung",
+        "within_km": "Innerhalb von {km} km",
+        "latest_updates": "Neueste Aktualisierungen",
+        "top_rated": "Top bewertet",
+        "free_only": "Nur kostenlos",
+        "accessible_only": "Nur barrierefrei",
+        "hours_shown_only": "Nur mit Öffnungszeiten",
+        "apply": "Filter anwenden",
+        "use_current_location": "Aktuellen Standort verwenden",
+        "reset": "Zurücksetzen"
+    },
+    "game": {
+        "mode": "Step Run",
+        "title": "Das Spiel",
+        "description": "Jeder Schritt gibt dir drei Toilettenwahlmöglichkeiten. Jeder Schritt erhöht zuerst den Blasenmeter, dann verändert der gewählte Stopp die Situation. Alle 10 Schritte erreichst du einen Shop-Meilenstein.",
+        "steps": "Schritte",
+        "each_step": "pro Schritt",
+        "every_milestone": "Alle {steps}",
+        "loop_note": "Der Ablauf ist jetzt vollständig schrittbasiert. Freies Umherlaufen ist nicht mehr Teil des Hauptflusses.",
+        "ready_title": "Bereit für einen 20-Schritte-Lauf?",
+        "ready_text": "Überlebe die Route, verwalte Blase und Igitt und erreiche den Shop-Meilenstein bei Schritt 10.",
+        "start_run": "Run starten",
+        "run_complete": "Lauf abgeschlossen",
+        "game_over": "Spiel vorbei",
+        "you_finished": "Du hast die Strecke beendet",
+        "reason": {
+            "bladder": "Der Blasenmeter war vor dem nächsten Stopp voll.",
+            "igitt": "Der Igitt-Wert wurde zu hoch.",
+        },
+        "cleared_steps": "Du hast alle {steps} Schritte geschafft und den Meilenstein erreicht.",
+        "play_again": "Nochmal spielen",
+        "leaderboard": "Bestenliste",
+        "play_now": "Jetzt spielen",
+        "no_scores_title": "Noch keine Wertungen",
+        "no_scores_text": "Sei der Erste, der einen Lauf abschließt und die Spitze erobert!"
+    },
+    "confirmation": {
+        "open": "Offen",
+        "clean": "Sauber"
+    },
+    "leaderboard": {
+        "player": "Spieler",
+        "steps": "Schritte",
+        "score": "Punkte",
+        "anonymous": "Anonym"
+    },
+    "admin": {
+        "title": "Admin",
+        "description": "Moderation und Import-Inspektion. Authentifizierung in Produktion erforderlich.",
+        "toilets": "Toiletten",
+        "toilets_desc": "Importierte Toiletten-Datensätze durchsuchen",
+        "reports": "Meldungen",
+        "reports_desc": "Benutzerberichte prüfen und sortieren",
+        "import_runs": "Importläufe",
+        "import_runs_desc": "Demnächst – Importskripte ausführen",
+        "no_reports": "Noch keine Meldungen",
+        "no_reports_text": "Benutzerberichte erscheinen hier, sobald welche eingereicht wurden."
+    }
+}

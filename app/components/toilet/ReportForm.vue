@@ -1,8 +1,8 @@
 <template>
   <form class="space-y-3" @submit.prevent="submit">
-    <h3 class="font-semibold text-brand text-sm">
-      Report an issue
-    </h3>
+      <h3 class="font-semibold text-brand text-sm">
+        {{ $t('report.title') }}
+      </h3>
 
     <div class="grid grid-cols-3 gap-2">
       <button
@@ -14,7 +14,7 @@
           ? 'border-brand-accent bg-brand-accent/10 text-brand-accent'
           : 'border-gray-300 text-gray-600 hover:border-gray-400'"
         @click="selected = type.value"
-      >
+        >
         {{ type.label }}
       </button>
     </div>
@@ -22,7 +22,7 @@
     <textarea
       v-model="description"
       rows="2"
-      placeholder="Optional description…"
+      :placeholder="$t('report.optional_description')"
       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
     />
     <input
@@ -40,13 +40,13 @@
         class="btn-primary text-sm"
         :disabled="submitting || !selected"
       >
-        {{ submitting ? 'Submitting…' : 'Submit report' }}
+        {{ submitting ? $t('report.submitting') : $t('report.submit') }}
       </button>
       <p v-if="success" class="text-green-600 text-sm">
-        ✓ Report submitted!
+        ✓ {{ $t('report.submitted') }}
       </p>
       <p v-if="errorMsg" class="text-red-500 text-sm">
-        {{ errorMsg }}
+        {{ errorMsg || $t('report.error_submitting') }}
       </p>
     </div>
   </form>
@@ -56,13 +56,15 @@
 const props = defineProps<{ toiletId: string }>()
 const emit = defineEmits<{ submitted: [] }>()
 
+const { t } = useI18n()
+
 const reportTypes = [
-  { value: 'closed', label: 'Closed' },
-  { value: 'dirty', label: 'Dirty' },
-  { value: 'broken', label: 'Broken' },
-  { value: 'unsafe', label: 'Unsafe' },
-  { value: 'missing', label: 'Missing' },
-  { value: 'other', label: 'Other' },
+  { value: 'closed', label: t('report.types.closed') },
+  { value: 'dirty', label: t('report.types.dirty') },
+  { value: 'broken', label: t('report.types.broken') },
+  { value: 'unsafe', label: t('report.types.unsafe') },
+  { value: 'missing', label: t('report.types.missing') },
+  { value: 'other', label: t('report.types.other') },
 ]
 
 const selected = ref('')

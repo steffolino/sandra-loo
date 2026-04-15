@@ -2,10 +2,10 @@
   <div>
     <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
       <h1 class="text-2xl font-bold text-brand">
-        Find a Toilet
+        {{ $t('toilets.title') }}
       </h1>
       <button class="btn-secondary text-sm" @click="showTrustInfo = true">
-        How we judge trust
+        {{ $t('toilets.trust_info_button') }}
       </button>
     </div>
 
@@ -24,22 +24,22 @@
     <div v-if="showTrustInfo" class="fixed inset-0 z-[1300] bg-black/40 p-3" @click.self="showTrustInfo = false">
       <div class="card p-5 max-w-lg mx-auto mt-10">
         <h2 class="text-lg font-semibold text-brand mb-2">
-          How we judge trust
+          {{ $t('toilets.trust_info_title') }}
         </h2>
         <p class="text-sm text-gray-600">
-          We surface the details that matter most when choosing a toilet: whether it is free or paid, whether it is accessible, and whether opening hours are available.
+          {{ $t('toilets.trust_info.why_details') }}
         </p>
         <p class="text-sm text-gray-600 mt-2">
-          Freshness shows how recently the record was updated, and recent confirmations help you gauge how active the listing is.
+          {{ $t('toilets.trust_info.freshness') }}
         </p>
         <p class="text-sm text-gray-600 mt-2">
-          Source reliability is still available as a technical backstop, mainly for sorting and maintenance. It is not the main thing to read when you just want a usable toilet.
+          {{ $t('toilets.trust_info.source_reliability') }}
         </p>
         <p class="text-sm text-gray-600 mt-2">
-          Public toilets may still be dirty, closed, or missing supplies. We want user reports and confirmations to help track toilet state over time.
+          {{ $t('toilets.trust_info.reports_help') }}
         </p>
         <p class="text-sm text-gray-600 mt-2">
-          Institutional places are suggestions only. Even when opening hours are shown, we cannot guarantee toilet access, free use, or public availability on site. If you’re unsure, check with the people on site.
+          {{ $t('toilets.trust_info.institutional_note') }}
         </p>
         <div class="mt-4">
           <button class="btn-primary text-sm" @click="showTrustInfo = false">
@@ -50,11 +50,11 @@
     </div>
 
     <div class="md:hidden flex gap-2 mb-3">
-      <button class="btn-secondary flex-1" :disabled="locating" @click="locateUser">
-        {{ locating ? 'Locating...' : 'My location' }}
+          <button class="btn-secondary flex-1" :disabled="locating" @click="locateUser">
+        {{ locating ? $t('common.locating') : $t('toilets.my_location') }}
       </button>
       <button class="btn-secondary flex-1" @click="showFilters = !showFilters">
-        {{ showFilters ? 'Hide filters' : 'Show filters' }}
+        {{ showFilters ? $t('common.hide_filters') : $t('common.show_filters') }}
       </button>
     </div>
 
@@ -64,7 +64,7 @@
           v-model="filters.city"
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
-          <option value="">All cities</option>
+          <option value="">{{ $t('filters.all_cities') }}</option>
           <option
             v-for="city in availableCities"
             :key="`city-${city}`"
@@ -78,7 +78,7 @@
           v-model="filters.type"
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
-          <option value="">All place types</option>
+          <option value="">{{ $t('filters.all_place_types') }}</option>
           <option
             v-for="type in toiletTypes"
             :key="type"
@@ -93,16 +93,16 @@
           v-model="filters.reported"
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
-          <option value="any">All report states</option>
-          <option value="true" :disabled="!canFilterReportedTrue">Reported only</option>
-          <option value="false" :disabled="!canFilterReportedFalse">No reports</option>
+          <option value="any">{{ $t('filters.all_report_states') }}</option>
+          <option value="true" :disabled="!canFilterReportedTrue">{{ $t('filters.reported_only') }}</option>
+          <option value="false" :disabled="!canFilterReportedFalse">{{ $t('filters.no_reports') }}</option>
         </select>
 
         <select
           v-model="filters.min_rating"
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
-          <option :value="0">Any rating</option>
+          <option :value="0">{{ $t('filters.any_rating') }}</option>
           <option :value="4" :disabled="!canFilterMinRating(4)">4.0 and up</option>
           <option :value="3" :disabled="!canFilterMinRating(3)">3.0 and up</option>
           <option :value="2" :disabled="!canFilterMinRating(2)">2.0 and up</option>
@@ -112,47 +112,47 @@
           v-model.number="filters.radius"
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
-          <option :value="0">Any distance</option>
-          <option :value="1">Within 1 km</option>
-          <option :value="2">Within 2 km</option>
-          <option :value="5">Within 5 km</option>
-          <option :value="10">Within 10 km</option>
+          <option :value="0">{{ $t('filters.any_distance') }}</option>
+          <option :value="1">{{ $t('filters.within_km', { km: 1 }) }}</option>
+          <option :value="2">{{ $t('filters.within_km', { km: 2 }) }}</option>
+          <option :value="5">{{ $t('filters.within_km', { km: 5 }) }}</option>
+          <option :value="10">{{ $t('filters.within_km', { km: 10 }) }}</option>
         </select>
 
         <select
           v-model="filters.sort"
           class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-accent/50"
         >
-          <option value="updated">Latest updates</option>
+          <option value="updated">{{ $t('filters.latest_updates') }}</option>
           <option value="nearest" :disabled="!userLocation">Nearest</option>
-          <option value="rating">Top rated</option>
+          <option value="rating">{{ $t('filters.top_rated') }}</option>
         </select>
 
-        <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterFree ? 'opacity-60' : ''">
+          <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterFree ? 'opacity-60' : ''">
           <input v-model="filters.is_free" type="checkbox" class="rounded" :disabled="!canFilterFree">
-          Free only
+          {{ $t('filters.free_only') }}
         </label>
 
-        <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterAccessible ? 'opacity-60' : ''">
+          <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterAccessible ? 'opacity-60' : ''">
           <input v-model="filters.is_accessible" type="checkbox" class="rounded" :disabled="!canFilterAccessible">
-          Accessible only
+          {{ $t('filters.accessible_only') }}
         </label>
 
-        <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterOpeningHours ? 'opacity-60' : ''">
+          <label class="flex items-center gap-2 text-sm cursor-pointer" :class="!canFilterOpeningHours ? 'opacity-60' : ''">
           <input v-model="filters.has_opening_hours" type="checkbox" class="rounded" :disabled="!canFilterOpeningHours">
-          Hours shown only
+          {{ $t('filters.hours_shown_only') }}
         </label>
       </div>
 
       <div class="flex flex-wrap gap-2 mt-4">
         <button class="btn-primary text-sm" @click="applyFilters">
-          Apply filters
+          {{ $t('filters.apply') }}
         </button>
         <button class="btn-secondary text-sm hidden md:inline-flex" :disabled="locating" @click="locateUser">
-          {{ locating ? 'Locating...' : 'Use current location' }}
+          {{ locating ? $t('common.locating') : $t('filters.use_current_location') }}
         </button>
         <button class="btn-secondary text-sm" @click="resetFilters">
-          Reset
+          {{ $t('filters.reset') }}
         </button>
       </div>
 
@@ -281,18 +281,18 @@
           :class="viewMode === 'map' ? 'bg-brand-accent text-white' : 'bg-white text-gray-700'"
           @click="viewMode = 'map'"
         >
-          Map
+          {{ $t('common.map') }}
         </button>
         <button
           class="px-4 py-2 text-sm min-h-11"
           :class="viewMode === 'list' ? 'bg-brand-accent text-white' : 'bg-white text-gray-700'"
           @click="viewMode = 'list'"
         >
-          List
+          {{ $t('common.list') }}
         </button>
       </div>
       <p class="text-sm text-gray-500">
-        {{ toilets.length }} results
+        {{ toilets.length }} {{ $t('common.results') }}
       </p>
     </div>
 
@@ -309,11 +309,11 @@
     </div>
 
     <div v-if="activePending && !hasLoadedOnce" class="text-center py-16 text-gray-400">
-      Loading toilets...
+      {{ $t('toilets.loading') }}
     </div>
 
     <div v-else-if="activeError" class="card p-8 text-center text-red-500">
-      <p>Could not load toilet data.</p>
+      <p>{{ $t('toilets.load_error') }}</p>
     </div>
 
     <div
@@ -321,15 +321,13 @@
       class="card p-10 text-center"
     >
       <h2 class="text-xl font-semibold text-brand mb-2">
-        No toilets found yet
+        {{ $t('toilets.none_title') }}
       </h2>
       <p v-if="hasImportedData" class="text-gray-500 mb-4 max-w-md mx-auto">
-        No toilets match your current filters. Try resetting filters or adjusting
-        city/type/rating.
+        {{ $t('toilets.none_with_filters') }}
       </p>
       <p v-else class="text-gray-500 mb-4 max-w-md mx-auto">
-        No data has been imported for this area yet. Run the import scripts to
-        populate the database with real OpenStreetMap and city open-data.
+        {{ $t('toilets.none_no_data') }}
       </p>
       <div v-if="!hasImportedData" class="bg-gray-50 rounded-lg p-4 text-left text-sm font-mono text-gray-700 inline-block">
         <p>npm run import:osm</p>
@@ -371,23 +369,23 @@
               </h2>
               <p class="text-sm text-gray-500">
                 {{ selectedToilet.address ?? selectedToilet.city }}
-              </p>
+                    </p>
             </div>
             <div class="flex items-center gap-2">
               <NuxtLink :to="toiletDetailHref(selectedToilet.id)" class="btn-secondary text-sm">
-                Open details
+                {{ $t('toilets.open_details') }}
               </NuxtLink>
             </div>
           </div>
 
-          <button
+            <button
             v-if="isMobile"
             type="button"
             class="w-full mb-2 rounded-lg border border-gray-200 bg-[var(--cube-base-card)] px-3 py-2 text-sm font-medium text-brand flex items-center justify-between"
             :aria-expanded="showSelectedToiletDetails ? 'true' : 'false'"
             @click="showSelectedToiletDetails = !showSelectedToiletDetails"
           >
-            <span>Toilet details</span>
+            <span>{{ $t('toilets.toilet_details') }}</span>
             <span
               aria-hidden="true"
               class="inline-block text-base leading-none transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
@@ -429,20 +427,20 @@
             </div>
 
             <div class="flex flex-wrap gap-2">
-              <button class="btn-primary text-sm min-h-11" :disabled="routing" @click="startNavigation(selectedToilet)">
-                {{ routing ? 'Building route...' : 'Navigate' }}
+                <button class="btn-primary text-sm min-h-11" :disabled="routing" @click="startNavigation(selectedToilet)">
+                {{ routing ? $t('toilets.building_route') : $t('toilets.navigate') }}
               </button>
               <button class="btn-secondary text-sm min-h-11" @click="clearRoute">
-                Clear route
+                {{ $t('toilets.clear_route') }}
               </button>
-              <a
+                <a
                 v-if="userLocation"
                 class="btn-secondary text-sm min-h-11"
                 :href="externalRouteUrl(selectedToilet)"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Open in OSM directions
+                {{ $t('toilets.open_in_osm') }}
               </a>
             </div>
 
@@ -454,10 +452,10 @@
 
         <div v-if="routeInfo" class="card p-4">
           <h3 class="font-semibold text-brand mb-2">
-            Route summary
+            {{ $t('toilets.route_summary') }}
           </h3>
           <p class="text-sm text-gray-600 mb-3">
-            {{ routeInfo.distanceKm.toFixed(1) }} km, about {{ Math.round(routeInfo.durationMin) }} min walking
+            {{ routeInfo.distanceKm.toFixed(1) }} km, {{ $t('toilets.about_minutes', { minutes: Math.round(routeInfo.durationMin) }) }}
           </p>
 
           <div
@@ -468,7 +466,7 @@
               Next maneuver
             </p>
             <p class="text-base md:text-lg font-semibold text-brand leading-snug">
-              {{ currentStep ?? 'Continue straight' }}
+              {{ currentStep ?? $t('toilets.continue_straight') }}
             </p>
             <p class="text-xs text-gray-500 mt-2">
               Step {{ activeStepIndex + 1 }} of {{ routeInfo.steps.length }}
@@ -481,19 +479,19 @@
               :disabled="activeStepIndex <= 0"
               @click="prevStep"
             >
-              Previous
+              {{ $t('common.previous') }}
             </button>
             <button
               class="btn-primary text-sm min-h-11 flex-1"
               :disabled="activeStepIndex >= routeInfo.steps.length - 1"
               @click="nextStep"
             >
-              Next
+              {{ $t('common.next') }}
             </button>
           </div>
 
           <button class="btn-secondary text-sm min-h-11 w-full" @click="showAllSteps = !showAllSteps">
-            {{ showAllSteps ? 'Hide full steps' : 'Show full steps' }}
+            {{ showAllSteps ? $t('common.hide_full_steps') : $t('common.show_full_steps') }}
           </button>
 
           <ol v-if="showAllSteps" class="list-decimal list-inside text-sm text-gray-700 space-y-1 mt-3">
@@ -508,8 +506,8 @@
         </div>
 
         <div v-if="!isMobile" class="card p-4">
-          <h3 class="font-semibold text-brand mb-2">
-            List fallback
+              <h3 class="font-semibold text-brand mb-2">
+            {{ $t('toilets.list_fallback') }}
           </h3>
           <div class="space-y-2">
             <div
@@ -541,12 +539,12 @@
                     <span v-if="toilet.avg_rating !== null" class="rounded-full bg-amber-100 text-amber-700 px-2 py-0.5">R {{ toilet.avg_rating }}</span>
                   </div>
                 </div>
-                <NuxtLink
+                  <NuxtLink
                   :to="toiletDetailHref(toilet.id)"
                   class="btn-secondary text-xs px-2.5 py-1.5"
                   @click.stop
                 >
-                  Details
+                  {{ $t('common.details') }}
                 </NuxtLink>
               </div>
             </div>
@@ -562,7 +560,7 @@
               class="btn-secondary w-full text-sm min-h-11"
               @click="toggleMobileToiletList"
             >
-              {{ showMobileToiletList ? `Hide public toilet list (${toilets.length})` : `Show public toilet list (${toilets.length})` }}
+              {{ showMobileToiletList ? $t('toilets.hide_public_list', { count: toilets.length }) : $t('toilets.show_public_list', { count: toilets.length }) }}
             </button>
 
             <div

@@ -3,29 +3,27 @@
     <!-- Hero -->
     <section class="text-center py-16 px-4">
       <h1 class="text-4xl font-bold text-brand mb-3">
-        Sandra Loo 🚻
+        {{ $t('header.appName') }} 🚻
       </h1>
       <p class="text-lg text-gray-600 max-w-xl mx-auto mb-8">
-        Find verified public toilets in Germany — and test your survival skills
-        in our awareness game.
+        {{ $t('home.tagline') }}
       </p>
       <div class="flex flex-wrap justify-center gap-3">
         <NuxtLink to="/toilets/" class="btn-primary text-base px-6 py-3">
-          Find a Toilet
+          {{ $t('home.find_a_toilet') }}
         </NuxtLink>
         <NuxtLink to="/game" class="btn-secondary text-base px-6 py-3">
-          Play the Game
+          {{ $t('home.play_game') }}
         </NuxtLink>
       </div>
     </section>
 
     <section class="card p-6 mb-8 bg-brand/5 border-brand/10">
       <h2 class="text-lg font-semibold text-brand mb-2">
-        New here? Start in 30 seconds
+        {{ $t('home.getting_started_title') }}
       </h2>
       <p class="text-sm text-gray-600 mb-3">
-        Open the map, pick a nearby toilet, and help others by leaving a quick
-        review or confirmation.
+        {{ $t('home.getting_started_text') }}
       </p>
       <p class="text-sm text-gray-600">
         No account needed. Anonymous usage is fully supported during this demo
@@ -38,7 +36,7 @@
       <div class="card p-6">
         <div class="text-3xl mb-3">📍</div>
         <h2 class="font-semibold text-brand mb-1">
-          Real Data Only
+          {{ $t('home.feature.real_data') }}
         </h2>
         <p class="text-sm text-gray-500">
           All toilet locations are imported from OpenStreetMap and official city
@@ -48,7 +46,7 @@
       <div class="card p-6">
         <div class="text-3xl mb-3">⭐</div>
         <h2 class="font-semibold text-brand mb-1">
-          Community Reviews
+          {{ $t('home.feature.community_reviews') }}
         </h2>
         <p class="text-sm text-gray-500">
           Rate cleanliness, lighting and paper supply. Report issues. Confirm
@@ -58,7 +56,7 @@
       <div class="card p-6">
         <div class="text-3xl mb-3">🎮</div>
         <h2 class="font-semibold text-brand mb-1">
-          Awareness Game
+          {{ $t('home.feature.awareness_game') }}
         </h2>
         <p class="text-sm text-gray-500">
           A stylized run-based survival game from a female perspective. Manage

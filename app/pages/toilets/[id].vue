@@ -2,13 +2,13 @@
   <div>
     <!-- Loading -->
     <div v-if="activePending" class="text-center py-16 text-gray-400">
-      Loading…
+      {{ $t('toilets.loading') }}
     </div>
 
     <div v-else-if="activeError" class="card p-8 text-center text-red-500">
-      <p>Could not load toilet details.</p>
+      <p>{{ $t('toilets.detail_load_error') }}</p>
       <NuxtLink to="/toilets/" class="btn-primary mt-4">
-        Back to list
+        {{ $t('common.back_to_list') }}
       </NuxtLink>
     </div>
 
@@ -16,10 +16,10 @@
     <div v-else-if="!toilet" class="card p-10 text-center">
       <div class="text-5xl mb-4">🔍</div>
       <h2 class="text-xl font-semibold text-brand mb-2">
-        Toilet not found
+        {{ $t('toilets.not_found') }}
       </h2>
       <NuxtLink to="/toilets/" class="btn-primary mt-4">
-        Back to list
+        {{ $t('common.back_to_list') }}
       </NuxtLink>
     </div>
 
@@ -31,7 +31,7 @@
 
       <div class="card p-6 mb-6">
         <h1 class="text-2xl font-bold text-brand mb-1">
-          {{ toilet.name ?? 'Public Toilet' }}
+          {{ toilet.name ?? $t('toilet.public') }}
         </h1>
         <p v-if="toilet.address" class="text-gray-500 text-sm mb-3">
           {{ toilet.address }}, {{ toilet.city }}
@@ -42,13 +42,13 @@
             class="px-2 py-1 rounded-full text-xs font-medium"
             :class="toilet.is_free ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'"
           >
-            {{ toilet.is_free ? 'Free' : 'Paid' }}
+              {{ toilet.is_free ? $t('toilet.free') : $t('toilet.paid') }}
           </span>
           <span
             v-if="toilet.is_accessible"
             class="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
           >
-            ♿ Accessible
+            ♿ {{ $t('toilet.accessible') }}
           </span>
           <span
             class="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
@@ -58,15 +58,15 @@
         </div>
 
         <p v-if="toilet.opening_hours" class="text-sm text-gray-600 mb-2">
-          <strong>Opening hours:</strong> {{ toilet.opening_hours }}
+          <strong>{{ $t('toilet.opening_hours_label') }}</strong> {{ toilet.opening_hours }}
         </p>
         <p v-if="toilet.notes" class="text-sm text-gray-600 mb-4">
-          <strong>Notes:</strong> {{ toilet.notes }}
+          <strong>{{ $t('toilet.notes_label') }}</strong> {{ toilet.notes }}
         </p>
 
         <div class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900 mb-4">
           <p class="font-medium">
-            Please use as a guide, not a guarantee.
+            {{ $t('toilets.guide_not_guarantee') }}
           </p>
           <p class="mt-1">
             Public toilets can be dirty, closed, or missing supplies, and we rely on user reports and confirmations to track their current state over time.
@@ -96,7 +96,7 @@
       <!-- Confirmation actions -->
       <div class="card p-5 mb-6">
         <h2 class="font-semibold text-brand mb-3">
-          Confirm status
+          {{ $t('toilets.confirm_status') }}
         </h2>
         <div class="flex flex-wrap gap-2">
           <button
@@ -110,19 +110,19 @@
           </button>
         </div>
         <p v-if="confirmSuccess" class="text-green-600 text-sm mt-2">
-          ✓ Thank you for confirming!
+          ✓ {{ $t('toilets.confirm_thanks') }}
         </p>
       </div>
 
       <!-- Reviews -->
       <div class="card p-5 mb-6">
         <h2 class="font-semibold text-brand mb-3">
-          Reviews
+          {{ $t('toilets.reviews_title') }}
           <span class="text-gray-400 font-normal text-sm">({{ toilet.reviews?.length ?? 0 }})</span>
         </h2>
 
         <div v-if="!toilet.reviews?.length" class="text-sm text-gray-400 py-4 text-center">
-          No reviews yet. Be the first!
+          {{ $t('toilets.no_reviews_yet') }}
         </div>
 
         <div v-else class="space-y-3 mb-4">
@@ -132,8 +132,8 @@
             class="bg-gray-50 rounded-lg p-3 text-sm"
           >
             <div class="flex gap-4 mb-1">
-              <span>Cleanliness: {{ review.cleanliness }}/5</span>
-              <span>Lighting: {{ review.lighting }}/5</span>
+              <span>{{ $t('review.cleanliness_label_short') }}: {{ review.cleanliness }}/5</span>
+              <span>{{ $t('review.lighting_label_short') }}: {{ review.lighting }}/5</span>
             </div>
             <p v-if="review.comment" class="text-gray-600">
               {{ review.comment }}
@@ -148,12 +148,12 @@
       <!-- Reports -->
       <div class="card p-5">
         <h2 class="font-semibold text-brand mb-3">
-          Reports
+          {{ $t('toilets.reports_title') }}
           <span class="text-gray-400 font-normal text-sm">({{ toilet.reports?.length ?? 0 }})</span>
         </h2>
 
         <div v-if="!toilet.reports?.length" class="text-sm text-gray-400 py-4 text-center">
-          No reports yet. That does not guarantee the toilet is clean, open, or fully stocked.
+          {{ $t('toilets.no_reports_yet') }}
         </div>
 
         <div v-else class="space-y-2 mb-4">
@@ -267,11 +267,13 @@ const activePending = computed(() => (useStaticApiMode ? staticPending.value : p
 const activeError = computed(() => (useStaticApiMode ? staticError.value : error.value))
 const toilet = computed(() => (useStaticApiMode ? staticData.value?.data : data.value?.data) ?? null)
 
+const { t } = useI18n()
+
 const confirmationTypes = [
-  { value: 'open', label: '✓ Open' },
-  { value: 'clean', label: '✓ Clean' },
-  { value: 'accessible', label: '✓ Accessible' },
-  { value: 'free', label: '✓ Free' },
+  { value: 'open', label: `✓ ${t('confirmation.open')}` },
+  { value: 'clean', label: `✓ ${t('confirmation.clean')}` },
+  { value: 'accessible', label: `✓ ${t('toilet.accessible')}` },
+  { value: 'free', label: `✓ ${t('toilet.free')}` },
 ]
 
 const confirming = ref(false)

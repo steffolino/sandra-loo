@@ -1,0 +1,190 @@
+{
+    "header": {
+        "appName": "Sandra Loo"
+    },
+    "nav": {
+        "map_view": "Map View",
+        "play": "Play"
+    },
+    "footer": {
+        "tagline": "Sandra Loo - Civic Toilet Finder & Awareness Game",
+        "data_source": "Data from {source}",
+        "feedback": "Feedback:",
+        "report_issue": "Report an issue or suggestion"
+    },
+    "common": {
+        "locating": "Locating...",
+        "hide_filters": "Hide filters",
+        "show_filters": "Show filters",
+        "map": "Map",
+        "list": "List",
+        "results": "results",
+        "previous": "Previous",
+        "next": "Next",
+        "loading": "Loading…",
+        "today": "Today",
+        "all_time": "All Time",
+        "details": "Details",
+        "back_to_list": "Back to list",
+        "show_full_steps": "Show full steps",
+        "hide_full_steps": "Hide full steps"
+    },
+    "home": {
+        "tagline": "Find verified public toilets in Germany — and test your survival skills in our awareness game.",
+        "find_a_toilet": "Find a Toilet",
+        "play_game": "Play the Game",
+        "getting_started_title": "New here? Start in 30 seconds",
+        "getting_started_text": "Open the map, pick a nearby toilet, and help others by leaving a quick review or confirmation.",
+        "feature": {
+            "real_data": "Real Data Only",
+            "community_reviews": "Community Reviews",
+            "awareness_game": "Awareness Game"
+        }
+    },
+    "toilets": {
+        "title": "Find a Toilet",
+        "trust_info_button": "How we judge trust",
+        "trust_info_title": "How we judge trust",
+        "trust_info": {
+            "why_details": "We surface the details that matter most when choosing a toilet: whether it is free or paid, whether it is accessible, and whether opening hours are available.",
+            "freshness": "Freshness shows how recently the record was updated, and recent confirmations help you gauge how active the listing is.",
+            "source_reliability": "Source reliability is still available as a technical backstop, mainly for sorting and maintenance.",
+            "reports_help": "Public toilets may still be dirty, closed, or missing supplies. We want user reports and confirmations to help track toilet state over time.",
+            "institutional_note": "Institutional places are suggestions only. Even when opening hours are shown, we cannot guarantee toilet access, free use, or public availability on site. If you’re unsure, check with the people on site."
+        },
+        "loading": "Loading toilets...",
+        "load_error": "Could not load toilet data.",
+        "none_title": "No toilets found yet",
+        "none_with_filters": "No toilets match your current filters. Try resetting filters or adjusting city/type/rating.",
+        "none_no_data": "No data has been imported for this area yet. Run the import scripts to populate the database with real OpenStreetMap and city open-data.",
+        "open_details": "Open details",
+        "toilet_details": "Toilet details",
+        "building_route": "Building route...",
+        "navigate": "Navigate",
+        "clear_route": "Clear route",
+        "open_in_osm": "Open in OSM directions",
+        "route_summary": "Route summary",
+        "about_minutes": "about {minutes} min walking",
+        "continue_straight": "Continue straight",
+        "list_fallback": "List fallback",
+        "show_public_list": "Show public toilet list ({count})",
+        "hide_public_list": "Hide public toilet list ({count})",
+        "reviews_title": "Reviews",
+        "no_reviews_yet": "No reviews yet. Be the first!",
+        "reports_title": "Reports",
+        "no_reports_yet": "No reports yet. That does not guarantee the toilet is clean, open, or fully stocked.",
+        "detail_load_error": "Could not load toilet details.",
+        "guide_not_guarantee": "Please use as a guide, not a guarantee.",
+        "confirm_status": "Confirm status",
+        "confirm_thanks": "Thank you for confirming!"
+    },
+    "toilet": {
+        "public": "Public Toilet",
+        "free": "Free",
+        "paid": "Paid",
+        "accessible": "Accessible",
+        "hours_shown": "Hours shown",
+        "rating": "Rating {rating}",
+        "reports": "{count} report | {count} reports",
+        "recent_confirmations": "{count} recent confirmation | {count} recent confirmations",
+        "source_reliability": "Source reliability {score}/100",
+        "updated_days": "Updated {days}d ago",
+        "data_may_be_stale": "Data may be stale ({days}d)",
+        "opening_hours_label": "Opening hours:",
+        "notes_label": "Notes:"
+    },
+    "report": {
+        "title": "Report an issue",
+        "optional_description": "Optional description…",
+        "submitting": "Submitting…",
+        "submit": "Submit report",
+        "submitted": "Report submitted!",
+        "error_submitting": "Error submitting report",
+        "types": {
+            "closed": "Closed",
+            "dirty": "Dirty",
+            "broken": "Broken",
+            "unsafe": "Unsafe",
+            "missing": "Missing",
+            "other": "Other"
+        }
+    },
+    "review": {
+        "title": "Write a review",
+        "cleanliness_label": "Cleanliness (1–5)",
+        "lighting_label": "Lighting (1–5)",
+        "toilet_paper_available": "Toilet paper available",
+        "optional_comment": "Optional comment…",
+        "submitting": "Submitting…",
+        "submit": "Submit review",
+        "submitted": "Review submitted!",
+        "error_submitting": "Error submitting review",
+        "cleanliness_label_short": "Cleanliness",
+        "lighting_label_short": "Lighting"
+    },
+    "filters": {
+        "all_cities": "All cities",
+        "all_place_types": "All place types",
+        "all_report_states": "All report states",
+        "reported_only": "Reported only",
+        "no_reports": "No reports",
+        "any_rating": "Any rating",
+        "any_distance": "Any distance",
+        "within_km": "Within {km} km",
+        "latest_updates": "Latest updates",
+        "top_rated": "Top rated",
+        "free_only": "Free only",
+        "accessible_only": "Accessible only",
+        "hours_shown_only": "Hours shown only",
+        "apply": "Apply filters",
+        "use_current_location": "Use current location",
+        "reset": "Reset"
+    },
+    "game": {
+        "mode": "Step Run",
+        "title": "The Game",
+        "description": "Each step gives you three toilet choices. Every move raises the bladder meter first, then your selected stop changes the situation. Every 10 steps, you hit a bonus shop milestone.",
+        "steps": "steps",
+        "each_step": "each step",
+        "every_milestone": "Every {steps}",
+        "loop_note": "The loop is now fully step-based. Free roaming is gone from the main flow so every decision pushes the run forward.",
+        "ready_title": "Ready for a 20-step run?",
+        "ready_text": "Survive the route, manage bladder and igitt, and hit a shop milestone at step 10 before the final stretch.",
+        "start_run": "Start Run",
+        "run_complete": "Run Complete",
+        "game_over": "Game Over",
+        "you_finished": "You finished the route",
+        "reason": {
+            "bladder": "The bladder meter maxed out before the next stop.",
+            "igitt": "The igitt level got too high to keep going."
+        },
+        "cleared_steps": "You cleared all {steps} steps and made it through the milestone stretch.",
+        "play_again": "Play again",
+        "leaderboard": "Leaderboard",
+        "play_now": "Play now",
+        "no_scores_title": "No scores yet",
+        "no_scores_text": "Be the first to complete a run and claim the top spot!"
+    },
+    "confirmation": {
+        "open": "Open",
+        "clean": "Clean"
+    },
+    "leaderboard": {
+        "player": "Player",
+        "steps": "Steps",
+        "score": "Score",
+        "anonymous": "Anonymous"
+    },
+    "admin": {
+        "title": "Admin",
+        "description": "Moderation and import inspection. Authentication required in production.",
+        "toilets": "Toilets",
+        "toilets_desc": "Browse imported toilet records",
+        "reports": "Reports",
+        "reports_desc": "Review and triage user reports",
+        "import_runs": "Import Runs",
+        "import_runs_desc": "Coming soon – run import scripts",
+        "no_reports": "No reports yet",
+        "no_reports_text": "User reports will appear here once users start submitting them."
+    }
+}
