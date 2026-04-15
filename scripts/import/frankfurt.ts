@@ -27,6 +27,7 @@
 import { writeFile, mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { Toilet } from '../../shared/types/index'
+import { cleanNullableText, cleanText } from './text'
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -114,13 +115,13 @@ function parseCsvAsGeoJSON(text: string): GeoJSONCollection {
   if (lines.length < 2) return { type: 'FeatureCollection', features: [] }
 
   const sep = lines[0].split(';').length > lines[0].split(',').length ? ';' : ','
-  const fields = splitCsvLine(lines[0], sep).map(f => f.toLowerCase().replace(/^["']|["']$/g, ''))
+  const fields = splitCsvLine(lines[0], sep).map(f => cleanText(f).toLowerCase().replace(/^["']|["']$/g, ''))
 
   const features: GeoJSONFeature[] = []
   for (let i = 1; i < lines.length; i++) {
     const values = splitCsvLine(lines[i], sep)
     const props: Record<string, string> = {}
-    fields.forEach((f, idx) => { props[f] = values[idx] ?? '' })
+    fields.forEach((f, idx) => { props[f] = cleanText(values[idx] ?? '') })
 
     // Try to find lat/lng columns (handle German decimal comma)
     const latRaw = props.lat ?? props.latitude ?? props.y ?? ''
@@ -158,9 +159,9 @@ function normalizeFeature(feature: GeoJSONFeature, index: number): Toilet | null
 
   return {
     id: `frankfurt-${feature.id ?? index}`,
-    name: String(props.name ?? props.Name ?? props.bezeichnung ?? 'Öffentliche Toilette'),
+    name: cleanText(props.name ?? props.Name ?? props.bezeichnung ?? 'Oeffentliche Toilette'),
     type: 'public',
-    address: buildAddress(props),
+    address: cleanNullableText(buildAddress(props)),
     city: CITY,
     lat,
     lng,
@@ -169,8 +170,8 @@ function normalizeFeature(feature: GeoJSONFeature, index: number): Toilet | null
     source_url: `${PORTAL_BASE}/dataset/${DATASET_ID}`,
     is_accessible: Boolean(props.rollstuhl ?? props.wheelchair ?? props.barrierefrei ?? false),
     is_free: !(props.kostenpflichtig ?? props.gebuehr ?? false),
-    opening_hours: String(props.oeffnungszeiten ?? props.opening_hours ?? '') || null,
-    notes: String(props.hinweise ?? props.notes ?? '') || null,
+    opening_hours: cleanNullableText(props.oeffnungszeiten ?? props.opening_hours ?? ''),
+    notes: cleanNullableText(props.hinweise ?? props.notes ?? ''),
     created_at: now,
     last_updated_at: now,
   }
@@ -178,7 +179,7 @@ function normalizeFeature(feature: GeoJSONFeature, index: number): Toilet | null
 
 function buildAddress(props: Record<string, unknown>): string | null {
   const parts: string[] = []
-  const street = props.strasse ?? props.street ?? props.adresse
+  const street = props.strasse ?? props.straße ?? props.street ?? props.adresse
   const number = props.hausnummer ?? props.house_number
   if (street) parts.push(number ? `${street} ${number}` : String(street))
   const postcode = props.plz ?? props.postleitzahl
@@ -328,16 +329,16 @@ async function fetchAll(): Promise<Toilet[]> {
 // ---------------------------------------------------------------------------
 
 async function main() {
-  console.log('🚻 Sandra Loo – Frankfurt am Main Open Data Import')
+  console.log('Sandra Loo - Frankfurt am Main Open Data Import')
   console.log(`Portal: ${PORTAL_BASE}`)
   console.log(`Dataset: ${DATASET_ID}\n`)
 
   const records = await fetchAll()
-  console.log(`\n✅ Total records: ${records.length}`)
+  console.log(`\nTotal records: ${records.length}`)
 
   await mkdir(join(process.cwd(), 'data', 'imports'), { recursive: true })
   await writeFile(OUTPUT_FILE, JSON.stringify(records, null, 2), 'utf-8')
-  console.log(`✅ Written to: ${OUTPUT_FILE}`)
+  console.log(`Written to: ${OUTPUT_FILE}`)
 }
 
 main().catch((err) => {

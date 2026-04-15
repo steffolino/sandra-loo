@@ -12,6 +12,8 @@
 | `scripts/import/osm.ts`        | OpenStreetMap (Overpass API)  | `data/imports/osm.json`  |
 | `scripts/import/institutional.ts` | OSM-derived public institutions | `data/imports/institutional.json` |
 | `scripts/import/leipzig.ts`    | Leipzig Open Data (CKAN)      | `data/imports/leipzig.json` |
+| `scripts/import/leipzig-institutional.ts` | Leipzig Open Data (joined hours + coordinates) | `data/imports/leipzig-institutional.json` |
+| `scripts/import/leipzig-civic.ts` | Leipzig Open Data (polling-place geodata, experimental) | `data/imports/leipzig-civic.json` |
 | `scripts/import/frankfurt.ts`  | Frankfurt am Main Open Data   | `data/imports/frankfurt.json` |
 
 The public UI is now trait-first:
@@ -19,6 +21,12 @@ The public UI is now trait-first:
 - users see `Free`, `Paid`, `Accessible`, `Hours shown`, and place-type markers
 - source provenance remains in the data model for maintenance and debugging
 - source-kind filters are no longer part of the main public map experience
+- public toilets are not assumed to be clean or in perfect working order; we want user reports and confirmations to help track toilet state over time
+- institutional places are treated as suggestions only and must not be presented as guaranteed free, open, or toilet-ready locations; if you’re unsure, check with the people on site
+
+The Leipzig civic polling-place layer remains an experimental sidecar for
+analysis and admin use. It is not part of the default merged toilet feed unless
+we later prove verified toilet access and opening hours.
 
 ---
 
@@ -108,6 +116,7 @@ The institutional layer is still incomplete. Next priority items:
 - Preserve the original OSM object URL in `source`
 - Mark the layer clearly in `source_name`
 - Let users filter it via `source_kind=institutional`
+- Phrase all public-facing copy carefully: these are suggested destinations, not guaranteed public toilets, and opening hours do not guarantee free toilet access; if you’re unsure, check with the people on site
 
 The last point is mainly for internal maintenance and API consumers; the public map should continue to focus on place traits rather than source categories.
 
@@ -159,7 +168,81 @@ update `normalizeRow()` in `scripts/import/leipzig.ts`.
 
 ---
 
-## 4. Frankfurt am Main Open Data
+## 4. Leipzig Institutional Join
+
+### Purpose
+This is the first official-source institutional import. It combines two Leipzig
+Open Data resources into one building layer:
+
+- `Kontaktdaten und Öffnungszeiten der Bibliotheken`
+- `Geo-Koordinaten der Bibliotheken`
+
+The importer keeps only rows that have both coordinates and opening hours.
+
+### Why this pattern matters
+This is the repeatable approach we should use for other cities:
+
+1. find one dataset with opening hours or contact details
+2. find one dataset with coordinates or another stable location field
+3. join on a stable name or ID
+4. keep only rows with both location and hours
+5. expose the result as a separate layer that users can disable
+
+### Inputs
+- **Contacts / hours CSV**: `https://opendata.leipzig.de/dataset/62cdd44d-a98b-4666-8e87-e5cd7d8c1a44/resource/6000018a-2007-4f29-b62a-b41b9c211ff2/download/bibliothekenkontaktdaten.csv`
+- **Coordinates CSV**: `https://opendata.leipzig.de/dataset/2a43ed7d-5e0a-4cf3-ac06-1f601b4f6c3b/resource/c3304312-0dd8-4b12-99ee-524737aeef0c/download/bibliothekengeodaten.csv`
+
+### Running
+
+```bash
+npm run import:leipzig-institutional
+```
+
+### Output rules
+- `type` is `library`
+- `source_name` is `Leipzig Open Data – Libraries`
+- opening hours are preserved in a compact human-readable form
+- `notes` explain that the record is a joined official-source building candidate
+
+### ID Format
+`leipzig-institutional-{index}`
+
+---
+
+## 5. Leipzig Civic Buildings
+
+### Purpose
+This layer uses Leipzig's official polling-place geodata as a separate civic
+building source. It is not a toilet dataset, and it should stay outside the
+default public toilet feed unless we can verify actual toilet access and
+opening hours. It is currently best treated as an experimental/admin sidecar.
+Do not present it as a guaranteed toilet location.
+
+### Inputs
+- **Shapefile**: `https://opendata.leipzig.de/dataset/72f1f5fc-dad9-44a2-b3a8-67b3fad88abd/resource/c9b77a0e-b0ac-4eed-8a3e-803c31309ffe/download/wahllokale_2025.zip`
+- **CSV**: `https://opendata.leipzig.de/dataset/72f1f5fc-dad9-44a2-b3a8-67b3fad88abd/resource/0316b420-dcec-49e1-a635-4b05764351a4/download/wbz_bundestag_mit_wahlobj.csv`
+
+### Why it helps
+This is the kind of source we should look for in other cities when an open-data
+portal does not publish toilet hours directly:
+
+1. a geodata layer with coordinates
+2. a companion table with accessibility or building-use details
+3. a stable building label that can be classified into a user-facing type
+4. a separate layer users can switch off
+
+### Output rules
+- `type` is inferred from the building label
+- `is_accessible` uses the official barrierefrei flag when available
+- `opening_hours` remains empty because this source does not publish hours
+- `notes` make clear that regular toilet access is not verified
+
+### ID Format
+`leipzig-civic-{index}`
+
+---
+
+## 6. Frankfurt am Main Open Data
 
 ### Source
 - **Portal**: https://offenedaten.frankfurt.de
@@ -177,6 +260,7 @@ Status note:
 
 - the official metadata record for `Öffentliche Toiletten Frankfurt am Main` is confirmed
 - the advertised WFS endpoint still needs a working public download path before the importer can use it directly
+- `Kulturelle Einrichtungen Frankfurt am Main` and `Points of Interest Frankfurt am Main` are also confirmed in the GeoNetwork catalog, but the public WFS/download path still needs to be pinned down
 - until then, do not treat any fallback dataset as official Frankfurt open data
 
 ### Configuration
@@ -210,12 +294,16 @@ npm run import:frankfurt
 | OSM        | Weekly                | Re-run `npm run import:osm`     |
 | Institutional | Weekly             | Re-run `npm run import:institutional` |
 | Leipzig    | Monthly               | Re-run `npm run import:leipzig` |
+| Leipzig institutional | Monthly      | Re-run `npm run import:leipzig-institutional` |
+| Leipzig civic (experimental) | On demand          | Re-run `npm run import:leipzig-civic` only for analysis |
 | Frankfurt  | Monthly               | Re-run `npm run import:frankfurt`|
 
 Planned next import work:
 
 - expand Leipzig with more institutional datasets beyond libraries
 - add university buildings and other public institutions as explicit, verifiable candidate POIs
+- use the Leipzig join pattern for future city open-data catalogs that expose hours + coordinates separately
+- use the Leipzig civic pattern only when the public-use signal is strong enough and the records will not be exposed as toilet destinations by default
 - finish the Frankfurt official geodata connector once the live feed URL is confirmed
 
 For production, consider setting up a scheduled GitHub Actions workflow.

@@ -4,7 +4,7 @@
 
 Sandra Loo is a Nuxt-based PWA with two primary product areas:
 
-- civic toilet discovery
+- toilet discovery
 - a step-based awareness game
 
 The architecture is intentionally simple for MVP so the team can validate product value before adding persistent database complexity.
@@ -24,21 +24,22 @@ PWA Client
        |     - /api/game/config
        |
        +--> imported JSON data
-             - data/imports/osm.json
-             - data/imports/leipzig.json
-             - data/imports/frankfurt.json
+            - data/imports/osm.json
+            - data/imports/leipzig.json
+            - data/imports/leipzig-institutional.json
+            - data/imports/frankfurt.json
 ```
 
 ## Frontend
 
 ### Pages
 
-- `app/pages/toilets/*` handles civic discovery flows
+- `app/pages/toilets/*` handles toilet discovery flows
 - `app/pages/game/index.vue` hosts the current game experience
 
 ### Components
 
-- `app/components/toilet/*` contains civic UI pieces
+- `app/components/toilet/*` contains toilet UI pieces
 - `app/components/game/*` contains game HUD, scene, and summary components
 
 ### Game state
@@ -57,7 +58,7 @@ This keeps the game loop easy to change during MVP iteration.
 
 Nitro route handlers expose the app's data and game configuration.
 
-- Civic routes serve toilet data and user submission endpoints
+- Toilet routes serve toilet data and user submission endpoints
 - Leaderboard routes expose score submission and ranking data
 - `GET /api/game/config` exposes run balancing values and toilet option effects
 
@@ -88,7 +89,7 @@ Core pieces:
 
 The project is deliberately staying JSON-first for now because:
 
-- imported civic data only covers two cities in the current MVP
+- imported toilet data only covers two cities in the current MVP
 - iteration speed matters more than relational complexity
 - the team wants to validate the product before adding database setup and migration work
 

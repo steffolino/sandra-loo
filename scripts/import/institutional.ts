@@ -12,7 +12,8 @@
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import type { Toilet } from '../../shared/types/index'
+import type { Toilet, ToiletType } from '../../shared/types/index'
+import { cleanNullableText, cleanText } from './text'
 
 const CITIES = (process.env.CITIES ?? 'Leipzig,Frankfurt am Main')
   .split(',')
@@ -89,13 +90,14 @@ function normalizeElement(el: OverpassElement, city: string): Toilet | null {
 
   const now = new Date().toISOString()
   const category = describeInstitution(tags)
+  const type = classifyInstitutionType(tags)
   const sourceUrl = `https://www.openstreetmap.org/${el.type}/${el.id}`
 
   return {
     id: `institutional-${el.type}-${el.id}`,
-    name: pickName(tags, category),
-    type: 'public',
-    address: buildAddress(tags),
+    name: cleanNullableText(pickName(tags, category)),
+    type,
+    address: cleanNullableText(buildAddress(tags)),
     city,
     lat,
     lng,
@@ -105,22 +107,41 @@ function normalizeElement(el: OverpassElement, city: string): Toilet | null {
     is_accessible: parseAccessible(tags),
     is_free: parseIsFree(tags),
     opening_hours: openingHours,
-    notes: `Derived from public institution access: ${category}. Verify toilet access on site.`,
+    notes: cleanNullableText(`Derived from public institution access: ${category}. Verify toilet access on site.`),
     created_at: now,
     last_updated_at: now,
   }
 }
 
+function classifyInstitutionType(tags: Record<string, string>): ToiletType {
+  const amenity = (tags.amenity ?? '').toLowerCase()
+  const building = (tags.building ?? '').toLowerCase()
+
+  if (amenity === 'library') return 'library'
+  if (amenity === 'university' || amenity === 'college' || building === 'university' || building === 'college') return 'university'
+  if (amenity === 'townhall' || amenity === 'community_centre' || building === 'civic' || building === 'government' || building === 'public') {
+    return 'civic'
+  }
+  if (amenity === 'museum' || amenity === 'arts_centre' || amenity === 'theatre' || amenity === 'cinema') {
+    return 'culture'
+  }
+  if (amenity === 'bus_station' || amenity === 'ferry_terminal' || amenity === 'train_station') {
+    return 'transit'
+  }
+
+  return 'public'
+}
+
 function pickName(tags: Record<string, string>, category: string): string {
-  return tags.name
-    ?? tags['name:de']
-    ?? tags.operator
-    ?? category
+  return cleanText(tags.name)
+    || cleanText(tags['name:de'])
+    || cleanText(tags.operator)
+    || category
 }
 
 function describeInstitution(tags: Record<string, string>): string {
-  const amenity = tags.amenity?.replace(/_/g, ' ') ?? ''
-  const building = tags.building?.replace(/_/g, ' ') ?? ''
+  const amenity = cleanText(tags.amenity).replace(/_/g, ' ')
+  const building = cleanText(tags.building).replace(/_/g, ' ')
   const label = amenity || building || 'public institution'
   return label.charAt(0).toUpperCase() + label.slice(1)
 }
@@ -157,11 +178,11 @@ function parseIsFree(tags: Record<string, string>): boolean {
 function buildAddress(tags: Record<string, string>): string | null {
   const parts: string[] = []
   if (tags['addr:street']) {
-    parts.push(tags['addr:street'])
-    if (tags['addr:housenumber']) parts[0] += ` ${tags['addr:housenumber']}`
+    parts.push(cleanText(tags['addr:street']))
+    if (tags['addr:housenumber']) parts[0] += ` ${cleanText(tags['addr:housenumber'])}`
   }
-  if (tags['addr:postcode']) parts.push(tags['addr:postcode'])
-  if (tags['addr:city']) parts.push(tags['addr:city'])
+  if (tags['addr:postcode']) parts.push(cleanText(tags['addr:postcode']))
+  if (tags['addr:city']) parts.push(cleanText(tags['addr:city']))
   return parts.length > 0 ? parts.join(', ') : null
 }
 
@@ -176,7 +197,7 @@ async function fetchCity(city: string): Promise<Toilet[]> {
       try { return new URL(apiUrl).hostname } catch { return apiUrl }
     })()
 
-    for (let attempt = 1; attempt <= 2; attempt++) {
+    for (let attempt = 1; attempt <= 3; attempt++) {
       try {
         const response = await fetch(apiUrl, {
           method: 'POST',
@@ -193,17 +214,22 @@ async function fetchCity(city: string): Promise<Toilet[]> {
           .map(el => normalizeElement(el, city))
           .filter((t): t is Toilet => t !== null)
 
-        console.log(`  [${host} attempt ${attempt}/2] -> ${records.length} records for ${city}`)
+        console.log(`  [${host} attempt ${attempt}/3] -> ${records.length} records for ${city}`)
         return records
       }
       catch (err) {
         lastError = err
-        console.warn(`  [${host} attempt ${attempt}/2] failed: ${err}`)
+        console.warn(`  [${host} attempt ${attempt}/3] failed: ${err}`)
+        await sleep(1500 * attempt)
       }
     }
   }
 
   throw new Error(`All Overpass endpoints failed for ${city}: ${String(lastError)}`)
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 async function readExistingSnapshot(): Promise<Toilet[]> {

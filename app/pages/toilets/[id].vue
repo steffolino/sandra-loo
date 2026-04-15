@@ -64,6 +64,18 @@
           <strong>Notes:</strong> {{ toilet.notes }}
         </p>
 
+        <div class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900 mb-4">
+          <p class="font-medium">
+            Please use as a guide, not a guarantee.
+          </p>
+          <p class="mt-1">
+            Public toilets can be dirty, closed, or missing supplies, and we rely on user reports and confirmations to track their current state over time.
+          </p>
+          <p class="mt-1">
+            Institutional places shown in the map are suggestions only. We do not guarantee toilet access, free use, or that the location is open right now. If you’re unsure, check with the people on site.
+          </p>
+        </div>
+
         <!-- Data details -->
         <div class="bg-gray-50 rounded-lg p-3 text-xs text-gray-500 mt-4">
           <p class="mt-1">
@@ -141,7 +153,7 @@
         </h2>
 
         <div v-if="!toilet.reports?.length" class="text-sm text-gray-400 py-4 text-center">
-          No reports. Toilet seems OK!
+          No reports yet. That does not guarantee the toilet is clean, open, or fully stocked.
         </div>
 
         <div v-else class="space-y-2 mb-4">

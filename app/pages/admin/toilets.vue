@@ -23,7 +23,10 @@
       </p>
       <div class="bg-gray-50 rounded-lg p-4 text-left text-sm font-mono text-gray-700 inline-block">
         <p>npm run import:osm</p>
+        <p>npm run import:institutional</p>
         <p>npm run import:leipzig</p>
+        <p>npm run import:leipzig-institutional</p>
+        <p>npm run import:leipzig-institutional</p>
         <p>npm run import:frankfurt</p>
       </div>
     </div>

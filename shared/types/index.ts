@@ -6,6 +6,11 @@
 
 export type ToiletType =
   | 'public'
+  | 'library'
+  | 'university'
+  | 'civic'
+  | 'culture'
+  | 'transit'
   | 'cafe'
   | 'restaurant'
   | 'shopping_mall'

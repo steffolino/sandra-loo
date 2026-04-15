@@ -25,7 +25,7 @@ List and filter toilets.
 | `is_free`       | boolean | `true` to show only free toilets           |
 | `is_accessible` | boolean | `true` to show only accessible toilets     |
 | `has_opening_hours` | boolean | `true` to show only records with opening hours |
-| `type`          | string  | Toilet type (e.g. `public`, `cafe`)        |
+| `type`          | string  | Place type (e.g. `public`, `library`, `cafe`) |
 | `reported`      | boolean | `true` only with reports, `false` without  |
 | `min_rating`    | number  | Minimum average rating (1-5)               |
 | `sort`          | string  | `nearest`, `rating`, or `updated`          |
