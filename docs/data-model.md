@@ -20,7 +20,7 @@ should not dominate the main browsing experience.
 | ----------------- | ------- | -------- | ------------------------------------- |
 | `id`              | string  | yes      | Unique ID, usually prefixed by source |
 | `name`            | string? | no       | Display name, if available           |
-| `type`            | enum    | yes      | `public`, `cafe`, `restaurant`, ...  |
+| `type`            | enum    | yes      | `public`, `library`, `university`, `civic`, `culture`, `transit`, ...  |
 | `address`         | string? | no       | Street address                       |
 | `city`            | string  | yes      | City name                            |
 | `lat`             | number  | yes      | Latitude (WGS 84)                    |
@@ -97,6 +97,8 @@ Leaderboard entry.
 | OpenStreetMap way    | `osm-way-`       | `osm-way-789012`          |
 | Institutional layer  | `institutional-`  | `institutional-way-42`    |
 | Leipzig Open Data    | `leipzig-`       | `leipzig-42`              |
+| Leipzig institutions | `leipzig-institutional-` | `leipzig-institutional-3` |
+| Leipzig civic (experimental) | `leipzig-civic-` | `leipzig-civic-12`        |
 | Frankfurt Open Data  | `frankfurt-`     | `frankfurt-7`             |
 
 ## UI Guidance
@@ -109,4 +111,8 @@ Use these signals for the map and filters:
 - `Hours shown`
 - rating, freshness, and confirmations as supporting context
 
-Treat source kind as backend metadata rather than a primary public filter.
+Treat source kind as backend metadata rather than a primary public filter. Experimental civic layers should stay outside the default merged toilet feed unless they have verified toilet access and opening hours.
+
+Public-facing copy should be careful not to promise cleanliness, uptime, or free access. Public toilets can still be dirty, closed, or missing supplies, and future user reports/confirmations should be treated as the mechanism for tracking current state.
+
+Institutional candidates are suggestions only. If they are shown publicly, we should avoid language that implies guaranteed toilet access or guaranteed free use. If you’re unsure, check with the people on site.

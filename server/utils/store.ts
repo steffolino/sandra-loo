@@ -30,7 +30,7 @@ export async function getToilets(): Promise<Toilet[]> {
   if (toiletCache !== null) return toiletCache
 
   const dataDir = join(process.cwd(), 'data', 'imports')
-  const files = ['osm.json', 'institutional.json', 'leipzig.json', 'frankfurt.json']
+  const files = ['osm.json', 'institutional.json', 'leipzig-institutional.json', 'leipzig.json', 'frankfurt.json']
   const all: Toilet[] = []
 
   for (const file of files) {

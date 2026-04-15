@@ -39,13 +39,20 @@ const ALLOW_STALE = process.env.OSM_IMPORT_ALLOW_STALE === 'true'
 // Overpass QL query builder
 // ---------------------------------------------------------------------------
 
-function buildQuery(city: string): string {
+function buildQuery(city: string, kinds: Array<'node' | 'way'> = ['node', 'way']): string {
+  const parts: string[] = []
+  if (kinds.includes('node')) {
+    parts.push('  node["amenity"="toilets"](area.searchArea);')
+  }
+  if (kinds.includes('way')) {
+    parts.push('  way["amenity"="toilets"](area.searchArea);')
+  }
+
   return `
-[out:json][timeout:30];
+[out:json][timeout:60];
 area["name"="${city}"]["boundary"="administrative"]->.searchArea;
 (
-  node["amenity"="toilets"](area.searchArea);
-  way["amenity"="toilets"](area.searchArea);
+${parts.join('\n')}
 );
 out center tags;
 `.trim()
@@ -113,43 +120,55 @@ function buildAddress(tags: Record<string, string>): string | null {
 
 async function fetchCity(city: string): Promise<Toilet[]> {
   console.log(`  Fetching OSM toilets for: ${city}...`)
-
-  const query = buildQuery(city)
   let lastError: unknown
+  const queryPlans: Array<{ label: string, kinds: Array<'node' | 'way'> }> = [
+    { label: 'node+way', kinds: ['node', 'way'] },
+    { label: 'node-only', kinds: ['node'] },
+    { label: 'way-only', kinds: ['way'] },
+  ]
 
   for (const apiUrl of OVERPASS_APIS) {
     const host = (() => {
       try { return new URL(apiUrl).hostname } catch { return apiUrl }
     })()
 
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      try {
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: `data=${encodeURIComponent(query)}`,
-        })
+    for (const plan of queryPlans) {
+      const query = buildQuery(city, plan.kinds)
 
-        if (!response.ok) {
-          throw new Error(`Overpass API error: ${response.status} ${response.statusText}`)
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `data=${encodeURIComponent(query)}`,
+          })
+
+          if (!response.ok) {
+            throw new Error(`Overpass API error: ${response.status} ${response.statusText}`)
+          }
+
+          const json = (await response.json()) as OverpassResponse
+          const records = json.elements
+            .map(el => normalizeElement(el, city))
+            .filter((t): t is Toilet => t !== null)
+
+          console.log(`  [${host} ${plan.label} attempt ${attempt}/3] -> ${records.length} records for ${city}`)
+          return records
         }
-
-        const json = (await response.json()) as OverpassResponse
-        const records = json.elements
-          .map(el => normalizeElement(el, city))
-          .filter((t): t is Toilet => t !== null)
-
-        console.log(`  [${host} attempt ${attempt}/2] -> ${records.length} records for ${city}`)
-        return records
-      }
-      catch (err) {
-        lastError = err
-        console.warn(`  [${host} attempt ${attempt}/2] failed: ${err}`)
+        catch (err) {
+          lastError = err
+          console.warn(`  [${host} ${plan.label} attempt ${attempt}/3] failed: ${err}`)
+          await sleep(1500 * attempt)
+        }
       }
     }
   }
 
   throw new Error(`All Overpass endpoints failed for ${city}: ${String(lastError)}`)
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 // ---------------------------------------------------------------------------

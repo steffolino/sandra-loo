@@ -12,6 +12,16 @@ export function toiletTypeMeta(type: ToiletType): ToiletTypeMeta {
   switch (type) {
     case 'public':
       return { label: 'Public toilet', iconName: 'toilet', background: '#0f766e', foreground: '#ffffff' }
+    case 'library':
+      return { label: 'Library', iconName: 'book-open', background: '#92400e', foreground: '#ffffff' }
+    case 'university':
+      return { label: 'University', iconName: 'graduation-cap', background: '#1d4ed8', foreground: '#ffffff' }
+    case 'civic':
+      return { label: 'Civic building', iconName: 'landmark', background: '#0f766e', foreground: '#ffffff' }
+    case 'culture':
+      return { label: 'Culture venue', iconName: 'landmark', background: '#be185d', foreground: '#ffffff' }
+    case 'transit':
+      return { label: 'Transit hub', iconName: 'train-front', background: '#0369a1', foreground: '#ffffff' }
     case 'cafe':
       return { label: 'Cafe', iconName: 'coffee', background: '#b45309', foreground: '#ffffff' }
     case 'restaurant':

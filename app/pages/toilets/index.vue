@@ -9,6 +9,18 @@
       </button>
     </div>
 
+    <div class="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+      <p class="font-medium">
+        Toilet status can change fast.
+      </p>
+      <p class="mt-1">
+        Some public toilets may be dirty, closed, or out of paper. In the future we want users to help track cleanliness and availability so the map stays current.
+      </p>
+      <p class="mt-1">
+        Institutional places like libraries, civic buildings, or universities are only suggestions based on public data. We do not guarantee they are always open, free to use, or suitable for toilet access. If you’re unsure, check with the people on site.
+      </p>
+    </div>
+
     <div v-if="showTrustInfo" class="fixed inset-0 z-[1300] bg-black/40 p-3" @click.self="showTrustInfo = false">
       <div class="card p-5 max-w-lg mx-auto mt-10">
         <h2 class="text-lg font-semibold text-brand mb-2">
@@ -22,6 +34,12 @@
         </p>
         <p class="text-sm text-gray-600 mt-2">
           Source reliability is still available as a technical backstop, mainly for sorting and maintenance. It is not the main thing to read when you just want a usable toilet.
+        </p>
+        <p class="text-sm text-gray-600 mt-2">
+          Public toilets may still be dirty, closed, or missing supplies. We want user reports and confirmations to help track toilet state over time.
+        </p>
+        <p class="text-sm text-gray-600 mt-2">
+          Institutional places are suggestions only. Even when opening hours are shown, we cannot guarantee toilet access, free use, or public availability on site. If you’re unsure, check with the people on site.
         </p>
         <div class="mt-4">
           <button class="btn-primary text-sm" @click="showTrustInfo = false">
@@ -315,7 +333,10 @@
       </p>
       <div v-if="!hasImportedData" class="bg-gray-50 rounded-lg p-4 text-left text-sm font-mono text-gray-700 inline-block">
         <p>npm run import:osm</p>
+        <p>npm run import:institutional</p>
         <p>npm run import:leipzig</p>
+        <p>npm run import:leipzig-institutional</p>
+        <p>npm run import:leipzig-institutional</p>
         <p>npm run import:frankfurt</p>
       </div>
     </div>
@@ -662,7 +683,7 @@ const appBase = runtimeConfig.app.baseURL.endsWith('/')
   ? runtimeConfig.app.baseURL
   : `${runtimeConfig.app.baseURL}/`
 
-const toiletTypes: ToiletType[] = ['public', 'cafe', 'restaurant', 'shopping_mall', 'park', 'petrol_station', 'other']
+const toiletTypes: ToiletType[] = ['public', 'library', 'university', 'civic', 'culture', 'transit', 'cafe', 'restaurant', 'shopping_mall', 'park', 'petrol_station', 'other']
 const placeTypeLegend = toiletTypes.map(type => ({
   type,
   ...toiletTypeMeta(type),

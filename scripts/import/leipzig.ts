@@ -24,6 +24,7 @@
 import { writeFile, mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { Toilet } from '../../shared/types/index'
+import { cleanNullableText, cleanText } from './text'
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -123,7 +124,7 @@ function parseCsv(text: string): CKANRow[] {
   const headerLine = lines[0]
   const sep = headerLine.split(';').length > headerLine.split(',').length ? ';' : ','
 
-  const fields = splitCsvLine(headerLine, sep).map(f => f.toLowerCase().replace(/^["']|["']$/g, ''))
+  const fields = splitCsvLine(headerLine, sep).map(f => cleanText(f).toLowerCase().replace(/^["']|["']$/g, ''))
 
   const rows: CKANRow[] = []
   for (let i = 1; i < lines.length; i++) {
@@ -136,10 +137,10 @@ function parseCsv(text: string): CKANRow[] {
       if (lf === 'lat' || lf === 'lon' || lf === 'lng'
         || lf === 'latitude' || lf === 'longitude'
         || lf === 'x' || lf === 'y') {
-        row[field] = raw.replace(',', '.')
+        row[field] = cleanText(raw).replace(',', '.')
       }
       else {
-        row[field] = raw
+        row[field] = cleanText(raw)
       }
     })
     rows.push(row)
@@ -167,7 +168,7 @@ function normalizeRow(row: CKANRow, index: number): Toilet | null {
 
   return {
     id: `leipzig-${row._id ?? index}`,
-    name: String(row.name ?? row.bezeichnung ?? row.ort ?? row.Name ?? 'Öffentliche Toilette'),
+    name: cleanText(row.name ?? row.bezeichnung ?? row.ort ?? row.Name ?? 'Öffentliche Toilette'),
     type: 'public',
     address: buildAddress(row),
     city: CITY,
@@ -178,8 +179,8 @@ function normalizeRow(row: CKANRow, index: number): Toilet | null {
     source_url: `https://opendata.leipzig.de/dataset/${DATASET_ID}`,
     is_accessible: parseLeipzigAccessibility(row),
     is_free: parseLeipzigIsFree(row),
-    opening_hours: String(row.oeffnungszeiten ?? row.opening_hours ?? '') || null,
-    notes: String(row.hinweise ?? row.notes ?? row.ausstattung ?? '') || null,
+    opening_hours: cleanNullableText(row.oeffnungszeiten ?? row.opening_hours ?? ''),
+    notes: cleanNullableText(row.hinweise ?? row.notes ?? row.ausstattung ?? ''),
     created_at: now,
     last_updated_at: now,
   }
@@ -187,13 +188,13 @@ function normalizeRow(row: CKANRow, index: number): Toilet | null {
 
 function buildAddress(row: CKANRow): string | null {
   const parts: string[] = []
-  const street = row.strasse ?? row.street ?? row.adresse ?? row.Strasse ?? row.ort
+  const street = cleanText(row.strasse ?? row.straße ?? row.street ?? row.adresse ?? row.Strasse ?? row.ort)
   const number = row.hausnummer ?? row.house_number
   if (street) {
-    parts.push(number ? `${street} ${number}` : String(street))
+    parts.push(number ? `${street} ${number}` : street)
   }
   const postcode = row.plz ?? row.postleitzahl
-  if (postcode) parts.push(String(postcode))
+  if (postcode) parts.push(cleanText(postcode))
   parts.push(CITY)
   return parts.join(', ')
 }
