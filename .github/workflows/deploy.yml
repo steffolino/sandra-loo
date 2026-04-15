@@ -24,7 +24,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: "22"
           cache: npm
 
       - name: Install dependencies
@@ -34,7 +34,7 @@ jobs:
         run: npm run import:osm
         env:
           CITIES: Leipzig,Frankfurt am Main
-          OSM_IMPORT_ALLOW_STALE: 'true'
+          OSM_IMPORT_ALLOW_STALE: "true"
 
       - name: Import Leipzig Open Data
         run: npm run import:leipzig
@@ -70,6 +70,21 @@ jobs:
         run: npm run generate
         env:
           NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
+
+      - name: List generated output (debug)
+        run: |
+          echo "Listing .output/public top-level files"
+          ls -la .output/public || true
+          echo "Listing .output/public/api (if present)"
+          ls -la .output/public/api || true
+          echo "Listing .output/public/api/toilets (if present)"
+          ls -la .output/public/api/toilets || true
+          echo "Show .output/public/api/toilets/index content (first 200 lines)"
+          if [ -f .output/public/api/toilets/index ]; then
+            echo "=== INDEX START ==="
+            head -n 200 .output/public/api/toilets/index || true
+            echo "=== INDEX END ==="
+          fi
 
       - name: Run deploy smoke check
         run: npm run smoke:deploy
