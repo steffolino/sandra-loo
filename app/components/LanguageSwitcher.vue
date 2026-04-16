@@ -1,11 +1,11 @@
 <template>
-  <div class="flex items-center">
+  <div class="flex items-center w-full">
     <label for="lang" class="sr-only">{{ $t('common.language') }}</label>
     <select
       id="lang"
       :value="current"
       @change="onChange"
-      class="px-2 py-1 rounded border bg-[var(--cube-base)] text-sm"
+      class="w-full max-w-full px-2.5 py-2 rounded-lg border bg-[var(--cube-base-card)] text-xs sm:text-sm leading-5"
       :aria-label="$t('common.select_language')"
     >
       <option v-for="l in locales" :key="l.code" :value="l.code">{{ l.label }}</option>

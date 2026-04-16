@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --cube-primary: #845ec2;
-  --cube-secondary: #4e8397;
-  --cube-base: #ece6df;
-  --cube-base-soft: #f7f4f1;
-  --cube-base-card: #fcfaf8;
+  --cube-primary: #9874cc;
+  --cube-secondary: #6799ac;
+  --cube-base: #fcf8f3;
+  --cube-base-soft: #fbf9f6;
+  --cube-base-card: #fffdfb;
   --cube-text: #2f2a26;
 }
 

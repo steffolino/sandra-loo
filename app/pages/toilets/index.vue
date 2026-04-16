@@ -9,16 +9,26 @@
       </button>
     </div>
 
-    <div class="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-      <p class="font-medium">
-        {{ $t('toilets.status_changes_fast') }}
-      </p>
-      <p class="mt-1">
-        {{ $t('toilets.status_changes_body') }}
-      </p>
-      <p class="mt-1">
-        {{ $t('toilets.status_changes_institutional') }}
-      </p>
+    <div class="mb-4">
+      <div class="md:hidden mb-2">
+        <button class="btn-secondary w-full text-sm min-h-11" @click="showStatusAdvisory = !showStatusAdvisory">
+          {{ showStatusAdvisory ? tSafe('toilets.hide_status_notes', 'Hide notes') : tSafe('toilets.show_status_notes', 'Show notes') }}
+        </button>
+      </div>
+      <div
+        v-if="!isMobile || showStatusAdvisory"
+        class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+      >
+        <p class="font-medium">
+          {{ $t('toilets.status_changes_fast') }}
+        </p>
+        <p class="mt-1">
+          {{ $t('toilets.status_changes_body') }}
+        </p>
+        <p class="mt-1">
+          {{ $t('toilets.status_changes_institutional') }}
+        </p>
+      </div>
     </div>
 
     <div v-if="showTrustInfo" class="fixed inset-0 z-[1300] bg-black/40 p-3" @click.self="showTrustInfo = false">
@@ -47,12 +57,50 @@
       </div>
     </div>
 
-    <div class="md:hidden flex gap-2 mb-3">
-          <button class="btn-secondary flex-1" :disabled="locating" @click="locateUser">
+    <div class="md:hidden grid grid-cols-3 gap-2 mb-3">
+      <button class="btn-secondary w-full" :disabled="locating" @click="locateUser">
         {{ locating ? $t('common.locating') : $t('toilets.my_location') }}
       </button>
-      <button class="btn-secondary flex-1" @click="showFilters = !showFilters">
+      <button class="btn-secondary w-full" @click="showFilters = !showFilters">
         {{ showFilters ? $t('common.hide_filters') : $t('common.show_filters') }}
+      </button>
+      <button class="btn-secondary w-full" @click="showStatusAdvisory = !showStatusAdvisory">
+        {{ showStatusAdvisory ? tSafe('toilets.hide_notes_short', 'Hide') : tSafe('toilets.show_notes_short', 'Notes') }}
+      </button>
+    </div>
+
+    <div class="mb-3 flex flex-wrap gap-2 text-xs">
+      <button
+        type="button"
+        class="rounded-full bg-slate-100 text-slate-700 px-2.5 py-1 transition-colors hover:bg-slate-200"
+        @click="handleDataStatusAction"
+      >
+        {{ dataStatusText }}
+      </button>
+      <button
+        v-if="mapCoverageStatusText"
+        type="button"
+        class="rounded-full bg-blue-100 text-blue-700 px-2.5 py-1 transition-colors hover:bg-blue-200"
+        @click="handleCoverageStatusAction"
+      >
+        {{ mapCoverageStatusText }}
+      </button>
+      <button
+        type="button"
+        class="rounded-full px-2.5 py-1 transition-colors"
+        :class="`${locationStatusClass} hover:brightness-95`"
+        @click="handleLocationStatusAction"
+      >
+        {{ locationStatusText }}
+      </button>
+      <button
+        v-if="routing || routeInfo || routingError"
+        type="button"
+        class="rounded-full px-2.5 py-1 transition-colors"
+        :class="routeStatusClass"
+        @click="handleRouteStatusAction"
+      >
+        {{ routeStatusText }}
       </button>
     </div>
 
@@ -304,16 +352,25 @@
       </p>
     </div>
 
-    <div v-if="viewMode === 'map'" class="flex flex-wrap gap-2 mb-4 text-xs">
-      <span
-        v-for="legend in placeTypeLegend"
-        :key="legend.type"
-        class="px-2 py-1 rounded-full flex items-center gap-1"
-        :style="{ backgroundColor: `${legend.background}22`, color: legend.background }"
+    <div v-if="viewMode === 'map'" class="mb-4 text-xs">
+      <button
+        v-if="isMobile"
+        class="btn-secondary w-full text-sm min-h-11 mb-2"
+        @click="showMapLegend = !showMapLegend"
       >
-        <span aria-hidden="true" class="inline-flex items-center" v-html="legend.iconHtml"></span>
-        <span>{{ legend.label }}</span>
-      </span>
+        {{ showMapLegend ? tSafe('toilets.hide_map_legend', 'Hide map legend') : tSafe('toilets.show_map_legend', 'Show map legend') }}
+      </button>
+      <div v-if="!isMobile || showMapLegend" class="flex flex-wrap gap-2">
+        <span
+          v-for="legend in placeTypeLegend"
+          :key="legend.type"
+          class="px-2 py-1 rounded-full flex items-center gap-1"
+          :style="{ backgroundColor: `${legend.background}22`, color: legend.background }"
+        >
+          <span aria-hidden="true" class="inline-flex items-center" v-html="legend.iconHtml"></span>
+          <span>{{ legend.label }}</span>
+        </span>
+      </div>
     </div>
 
     <div v-if="activePending && !hasLoadedOnce" class="text-center py-16 text-gray-400">
@@ -354,7 +411,7 @@
             <div
               ref="mapContainer"
               class="w-full"
-              :class="isMobile ? 'h-[78svh] min-h-[520px]' : 'h-[58vh] min-h-[420px]'"
+              :class="isMobile ? 'h-[82svh] min-h-[460px]' : 'h-[58vh] min-h-[420px]'"
             />
           </div>
         </ClientOnly>
@@ -364,6 +421,26 @@
         >
           {{ $t('toilets.mobile_marker_limit_note', { count: mapToilets.length }) }}
         </p>
+
+        <div
+          v-if="isMobile && showMapGestureHint"
+          class="rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2 text-xs text-cyan-900"
+        >
+          <p class="font-medium">
+            {{ tSafe('toilets.map_hint_title', 'Map quick tip') }}
+          </p>
+          <p class="mt-0.5">
+            {{ tSafe('toilets.map_hint_body', 'Drag the map to explore nearby toilets. The details card collapses while moving so navigation stays in focus.') }}
+          </p>
+          <div class="mt-2 flex gap-2">
+            <button class="btn-secondary text-xs px-2.5 py-1.5 min-h-8" @click="dismissMapGestureHint">
+              {{ tSafe('toilets.map_hint_close', 'Got it') }}
+            </button>
+            <button class="btn-secondary text-xs px-2.5 py-1.5 min-h-8" @click="focusMapOnUserLocation">
+              {{ $t('toilets.my_location') }}
+            </button>
+          </div>
+        </div>
 
         <div
           v-if="selectedToilet"
@@ -723,9 +800,13 @@ type SortMode = 'nearest' | 'rating' | 'updated'
 type ReportedFilter = 'any' | 'true' | 'false'
 type FilterKey = 'city' | 'types' | 'is_free' | 'is_accessible' | 'has_opening_hours' | 'reported' | 'min_rating' | 'radius'
 const MOBILE_MARKER_LIMIT = 250
+const MOBILE_LOW_ZOOM_MARKER_LIMIT = 160
+const MOBILE_MID_ZOOM_MARKER_LIMIT = 220
 const MAP_LIST_PAGE_SIZE = 12
 const MOBILE_MAP_LIST_PAGE_SIZE = 10
 const FILTERS_STORAGE_KEY = 'toilets.filters.v1'
+const MAP_HINT_STORAGE_KEY = 'toilets.map.hint.dismissed.v1'
+const MOBILE_FILTER_DEBOUNCE_MS = 380
 
 const route = useRoute()
 const router = useRouter()
@@ -1059,24 +1140,33 @@ const paginatedMobileMapList = computed(() => {
   return toilets.value.slice(start, start + MOBILE_MAP_LIST_PAGE_SIZE)
 })
 
+function effectiveMobileMarkerLimit(): number {
+  if (mapZoom.value <= 12) return MOBILE_LOW_ZOOM_MARKER_LIMIT
+  if (mapZoom.value <= 14) return MOBILE_MID_ZOOM_MARKER_LIMIT
+  return MOBILE_MARKER_LIMIT
+}
+
 const mapToilets = computed(() => {
   const base = toilets.value
 
-  if (!isMobile.value || base.length <= MOBILE_MARKER_LIMIT) {
+  if (!isMobile.value) {
     return base
   }
+
+  const markerLimit = effectiveMobileMarkerLimit()
+  if (base.length <= markerLimit) return base
 
   let limited = userLocation.value
     ? [...base]
       .sort((a, b) => (a.distance_km ?? Number.POSITIVE_INFINITY) - (b.distance_km ?? Number.POSITIVE_INFINITY))
-      .slice(0, MOBILE_MARKER_LIMIT)
-    : base.slice(0, MOBILE_MARKER_LIMIT)
+      .slice(0, markerLimit)
+    : base.filter((_, index) => index % Math.ceil(base.length / markerLimit) === 0).slice(0, markerLimit)
 
   if (
     selectedToilet.value
     && !limited.some(t => t.id === selectedToilet.value?.id)
   ) {
-    limited = [selectedToilet.value, ...limited.slice(0, MOBILE_MARKER_LIMIT - 1)]
+    limited = [selectedToilet.value, ...limited.slice(0, markerLimit - 1)]
   }
 
   return limited
@@ -1122,7 +1212,11 @@ const isMobile = ref(false)
 const showFilters = ref(false)
 const showMobileToiletList = ref(false)
 const showTrustInfo = ref(false)
+const showStatusAdvisory = ref(true)
+const showMapLegend = ref(false)
 const showSelectedToiletDetails = ref(true)
+const showMapGestureHint = ref(false)
+const mapZoom = ref(12)
 
 const locating = ref(false)
 const locationError = ref('')
@@ -1141,11 +1235,119 @@ let tileLayer: import('leaflet').TileLayer | null = null
 let toiletsLayer: import('leaflet').LayerGroup | null = null
 let userMarker: import('leaflet').CircleMarker | null = null
 let routeLayer: import('leaflet').Polyline | null = null
+let userAccuracyCircle: import('leaflet').Circle | null = null
 let hasAutoFitted = false
+let userPositionWatchId: number | null = null
+let markerByToiletId = new Map<string, import('leaflet').Marker>()
+let selectedMarkerId: string | null = null
 
 const mapContainer = ref<HTMLElement | null>(null)
 const nextManeuverCard = ref<HTMLElement | null>(null)
 let mediaQuery: MediaQueryList | null = null
+let mobileFilterApplyTimeout: ReturnType<typeof setTimeout> | null = null
+let geoRefreshTimeout: ReturnType<typeof setTimeout> | null = null
+
+const dataStatusText = computed(() => {
+  if (activePending.value) {
+    return tSafe('toilets.status_loading_data', 'Loading map data')
+  }
+  if (activeError.value) {
+    return tSafe('toilets.status_data_error', 'Map data unavailable')
+  }
+  return `${toilets.value.length} ${t('common.results')}`
+})
+
+const locationStatusText = computed(() => {
+  if (locating.value) return t('common.locating')
+  if (locationError.value) return tSafe('toilets.status_location_error', 'Location unavailable')
+  if (userLocation.value) return tSafe('toilets.status_location_ready', 'Location active')
+  return tSafe('toilets.status_location_idle', 'Location off')
+})
+
+const locationStatusClass = computed(() => {
+  if (locating.value) return 'bg-amber-100 text-amber-700'
+  if (locationError.value) return 'bg-rose-100 text-rose-700'
+  if (userLocation.value) return 'bg-emerald-100 text-emerald-700'
+  return 'bg-gray-100 text-gray-700'
+})
+
+const routeStatusText = computed(() => {
+  if (routing.value) return t('toilets.building_route')
+  if (routingError.value) return tSafe('toilets.status_route_error', 'Route unavailable')
+  if (routeInfo.value) return tSafe('toilets.status_route_ready', 'Route ready')
+  return tSafe('toilets.status_route_idle', 'Route idle')
+})
+
+const routeStatusClass = computed(() => {
+  if (routing.value) return 'bg-amber-100 text-amber-700'
+  if (routingError.value) return 'bg-rose-100 text-rose-700'
+  if (routeInfo.value) return 'bg-teal-100 text-teal-700'
+  return 'bg-gray-100 text-gray-700'
+})
+
+const mapCoverageStatusText = computed(() => {
+  if (viewMode.value !== 'map') return ''
+  if (mapToilets.value.length >= toilets.value.length) return ''
+  return tSafe('toilets.status_map_density', `Showing ${mapToilets.value.length}/${toilets.value.length} markers`)
+})
+
+function isMapHintDismissed(): boolean {
+  if (!import.meta.client) return true
+  return localStorage.getItem(MAP_HINT_STORAGE_KEY) === '1'
+}
+
+function dismissMapGestureHint() {
+  showMapGestureHint.value = false
+  if (!import.meta.client) return
+  localStorage.setItem(MAP_HINT_STORAGE_KEY, '1')
+}
+
+function handleDataStatusAction() {
+  if (activeError.value) {
+    if (useStaticApiMode.value) {
+      loadStaticToilets()
+      return
+    }
+    refresh()
+    return
+  }
+
+  if (viewMode.value === 'map') {
+    if (isMobile.value) {
+      toggleMobileToiletList()
+      return
+    }
+    viewMode.value = 'list'
+    return
+  }
+
+  viewMode.value = 'map'
+}
+
+function handleCoverageStatusAction() {
+  if (!map || viewMode.value !== 'map') return
+  map.setZoom(Math.min(18, map.getZoom() + 1))
+}
+
+function handleLocationStatusAction() {
+  if (userLocation.value) {
+    focusMapOnUserLocation()
+    return
+  }
+  void locateUser()
+}
+
+function handleRouteStatusAction() {
+  if (routingError.value) {
+    clearRoute()
+    return
+  }
+
+  if (!routeInfo.value) return
+
+  showAllSteps.value = true
+  focusNextManeuverCard()
+}
 
 watch(toilets, (next) => {
   if (!next.length) {
@@ -1194,8 +1396,26 @@ watch(mapToilets, () => {
 watch(viewMode, (mode) => {
   if (mode !== 'map') {
     showMobileToiletList.value = false
+    showMapGestureHint.value = false
+    return
+  }
+
+  if (isMobile.value && !isMapHintDismissed()) {
+    showMapGestureHint.value = true
   }
 })
+
+watch(filters, () => {
+  if (!isMobile.value || !showFilters.value) return
+
+  if (mobileFilterApplyTimeout) {
+    clearTimeout(mobileFilterApplyTimeout)
+  }
+
+  mobileFilterApplyTimeout = setTimeout(() => {
+    applyFilters({ closeOnMobile: false })
+  }, MOBILE_FILTER_DEBOUNCE_MS)
+}, { deep: true })
 
 watch(filters, (next) => {
   if (!import.meta.client) return
@@ -1225,6 +1445,17 @@ onBeforeUnmount(() => {
   if (map) {
     map.remove()
     map = null
+  }
+
+  stopUserPositionWatch()
+
+  if (mobileFilterApplyTimeout) {
+    clearTimeout(mobileFilterApplyTimeout)
+    mobileFilterApplyTimeout = null
+  }
+  if (geoRefreshTimeout) {
+    clearTimeout(geoRefreshTimeout)
+    geoRefreshTimeout = null
   }
 })
 
@@ -1273,10 +1504,18 @@ function updateMobileMode() {
   if (!isMobile.value) {
     showFilters.value = true
     showMobileToiletList.value = false
+    showMapLegend.value = true
+    showStatusAdvisory.value = true
     showSelectedToiletDetails.value = true
+    showMapGestureHint.value = false
   }
   else {
+    showMapLegend.value = false
+    showStatusAdvisory.value = false
     showSelectedToiletDetails.value = false
+    if (viewMode.value === 'map' && !isMapHintDismissed()) {
+      showMapGestureHint.value = true
+    }
   }
 }
 
@@ -1290,6 +1529,7 @@ async function initMap() {
     attributionControl: false,
     preferCanvas: true,
   }).setView([51.34, 12.37], 12)
+  mapZoom.value = map.getZoom()
 
   tileLayer = leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -1303,46 +1543,70 @@ async function initMap() {
     position: 'topleft',
     prefix: false,
   }).addTo(map)
+
+  map.on('zoomend', () => {
+    if (!map) return
+    mapZoom.value = map.getZoom()
+  })
+
+  map.on('movestart', () => {
+    if (!isMobile.value) return
+
+    if (showMobileToiletList.value) {
+      showMobileToiletList.value = false
+    }
+    if (showSelectedToiletDetails.value) {
+      showSelectedToiletDetails.value = false
+    }
+    if (showMapGestureHint.value) {
+      dismissMapGestureHint()
+    }
+  })
 }
 
 function refreshMapMarkers() {
   if (!map || !leaflet || !toiletsLayer) return
 
-  toiletsLayer.clearLayers()
+  const nextById = new Map(mapToilets.value.map(toilet => [toilet.id, toilet]))
+
+  for (const [toiletId, marker] of markerByToiletId.entries()) {
+    if (nextById.has(toiletId)) continue
+    toiletsLayer.removeLayer(marker)
+    markerByToiletId.delete(toiletId)
+    if (selectedMarkerId === toiletId) {
+      selectedMarkerId = null
+    }
+  }
 
   for (const toilet of mapToilets.value) {
-    const isSelected = selectedToilet.value?.id === toilet.id
-    const marker = leaflet.marker([toilet.lat, toilet.lng], {
-      icon: createToiletMarkerIcon(toilet, isSelected),
-      riseOnHover: true,
-      keyboard: false,
-      title: `${describeUserMarker(toilet)}: ${toilet.name ?? t('toilet.public')}`,
-    })
-    marker.bindPopup(buildMarkerPopup(toilet), {
-      closeButton: false,
-      autoPanPadding: [24, 24],
-      className: 'toilet-marker-popup',
-      maxWidth: 260,
-    })
+    const shouldBeSelected = selectedToilet.value?.id === toilet.id
+    const marker = markerByToiletId.get(toilet.id)
 
-    marker.on('click', () => {
-      selectedToilet.value = toilet
-      if (isMobile.value) {
-        showSelectedToiletDetails.value = true
-        showMobileToiletList.value = false
-      }
-      if (map) {
-        const targetZoom = Math.max(map.getZoom(), 16)
-        map.flyTo([toilet.lat, toilet.lng], targetZoom, { animate: true, duration: 0.35 })
-      }
-      marker.openPopup()
-    })
+    if (!marker) {
+      const created = createToiletMarker(toilet, shouldBeSelected)
+      markerByToiletId.set(toilet.id, created)
+      toiletsLayer.addLayer(created)
+      continue
+    }
+
+    marker.setPopupContent(buildMarkerPopup(toilet))
+    marker.setLatLng([toilet.lat, toilet.lng])
+    marker.options.title = `${describeUserMarker(toilet)}: ${toilet.name ?? t('toilet.public')}`
 
     if (!isMobile.value) {
       marker.bindTooltip(toilet.name ?? t('toilet.public'))
     }
-    marker.addTo(toiletsLayer)
+    else {
+      marker.unbindTooltip()
+    }
+
+    const wasSelected = selectedMarkerId === toilet.id
+    if (wasSelected !== shouldBeSelected) {
+      marker.setIcon(createToiletMarkerIcon(toilet, shouldBeSelected))
+    }
   }
+
+  selectedMarkerId = selectedToilet.value?.id ?? null
 
   if (!hasAutoFitted && mapToilets.value.length > 0) {
     const bounds = leaflet.latLngBounds(mapToilets.value.map(t => [t.lat, t.lng] as [number, number]))
@@ -1350,6 +1614,42 @@ function refreshMapMarkers() {
     hasAutoFitted = true
   }
 
+}
+
+function createToiletMarker(toilet: ToiletListItem, selected: boolean): import('leaflet').Marker {
+  const marker = leaflet!.marker([toilet.lat, toilet.lng], {
+    icon: createToiletMarkerIcon(toilet, selected),
+    riseOnHover: true,
+    keyboard: false,
+    title: `${describeUserMarker(toilet)}: ${toilet.name ?? t('toilet.public')}`,
+  })
+
+  marker.bindPopup(buildMarkerPopup(toilet), {
+    closeButton: false,
+    autoPanPadding: [24, 24],
+    className: 'toilet-marker-popup',
+    maxWidth: 260,
+  })
+
+  marker.on('click', () => {
+    const selectedItem = mapToilets.value.find(item => item.id === toilet.id)
+    selectedToilet.value = selectedItem ?? toilet
+    if (isMobile.value) {
+      showSelectedToiletDetails.value = true
+      showMobileToiletList.value = false
+    }
+    if (map) {
+      const targetZoom = Math.max(map.getZoom(), 16)
+      map.flyTo([toilet.lat, toilet.lng], targetZoom, { animate: true, duration: 0.35 })
+    }
+    marker.openPopup()
+  })
+
+  if (!isMobile.value) {
+    marker.bindTooltip(toilet.name ?? t('toilet.public'))
+  }
+
+  return marker
 }
 
 function createToiletMarkerIcon(
@@ -1472,6 +1772,11 @@ function renderUserLocationMarker() {
     userMarker = null
   }
 
+  if (userAccuracyCircle) {
+    userAccuracyCircle.remove()
+    userAccuracyCircle = null
+  }
+
   userMarker = leaflet.circleMarker([userLocation.value.lat, userLocation.value.lng], {
     radius: 7,
     color: '#3e6a79',
@@ -1479,6 +1784,62 @@ function renderUserLocationMarker() {
     fillOpacity: 0.95,
     weight: 2,
   }).addTo(map)
+
+  userAccuracyCircle = leaflet.circle([userLocation.value.lat, userLocation.value.lng], {
+    radius: 35,
+    color: '#4e8397',
+    fillColor: '#4e8397',
+    fillOpacity: 0.14,
+    weight: 1,
+    interactive: false,
+  }).addTo(map)
+}
+
+function startUserPositionWatch() {
+  if (!import.meta.client || !navigator.geolocation || userPositionWatchId !== null) return
+
+  userPositionWatchId = navigator.geolocation.watchPosition(
+    (position) => {
+      const nextPosition = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      }
+
+      const hasMeaningfulMove = !userLocation.value
+        || haversineKm(userLocation.value.lat, userLocation.value.lng, nextPosition.lat, nextPosition.lng) >= 0.05
+
+      userLocation.value = nextPosition
+      renderUserLocationMarker()
+
+      if (!hasMeaningfulMove) return
+
+      if (filters.value.sort === 'nearest' || filters.value.radius > 0) {
+        router.replace({ query: buildRouteQuery() })
+        if (!useStaticApiMode.value) {
+          if (geoRefreshTimeout) {
+            clearTimeout(geoRefreshTimeout)
+          }
+          geoRefreshTimeout = setTimeout(() => {
+            refresh()
+          }, 320)
+        }
+      }
+    },
+    () => {
+      // Silent failure for watch updates; explicit "Locate me" already gives actionable errors.
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 12000,
+      maximumAge: 20000,
+    },
+  )
+}
+
+function stopUserPositionWatch() {
+  if (!import.meta.client || !navigator.geolocation || userPositionWatchId === null) return
+  navigator.geolocation.clearWatch(userPositionWatchId)
+  userPositionWatchId = null
 }
 
 function focusMapOnUserLocation() {
@@ -1490,14 +1851,15 @@ function focusMapOnUserLocation() {
   })
 }
 
-function applyFilters() {
+function applyFilters(options: { closeOnMobile?: boolean } = {}) {
+  const { closeOnMobile = true } = options
   mapListPage.value = 1
   mobileMapListPage.value = 1
   router.replace({ query: buildRouteQuery() })
   if (!useStaticApiMode.value) {
     refresh()
   }
-  if (isMobile.value) {
+  if (isMobile.value && closeOnMobile) {
     showFilters.value = false
   }
 }
@@ -1560,6 +1922,7 @@ async function locateUser(): Promise<boolean> {
       lat: position.coords.latitude,
       lng: position.coords.longitude,
     }
+    startUserPositionWatch()
 
     filters.value.sort = 'nearest'
     renderUserLocationMarker()
