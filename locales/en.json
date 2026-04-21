@@ -4,7 +4,8 @@
     },
     "nav": {
         "map_view": "Map View",
-        "play": "Play"
+        "play": "Play",
+        "about": "About"
     },
     "footer": {
         "tagline": "Sandra Loo - Civic Toilet Finder & Awareness Game",
@@ -36,7 +37,9 @@
         "hide_full_steps": "Hide full steps",
         "close": "Close",
         "language": "Language",
-        "select_language": "Select language"
+        "select_language": "Select language",
+        "emergency_call": "Notruf 110",
+        "emergency_call_aria": "Call German police emergency line 110"
     },
     "home": {
         "tagline": "Find verified public toilets in Germany — and test your survival skills in our awareness game.",
@@ -56,6 +59,18 @@
             "community_reviews_desc": "Rate cleanliness, lighting and paper supply. Report issues. Confirm toilet status for other visitors.",
             "awareness_game_desc": "A stylized run-based survival game from a female perspective. Manage your bladder meter and avoid the igitt zone."
         }
+    },
+    "about": {
+        "title": "About This Project",
+        "subtitle": "Sandra Loo is a community-first map project to help people find toilets faster and with fewer surprises.",
+        "non_profit_title": "Non-profit and public-interest",
+        "non_profit_body": "This app is built as a non-profit public-interest project. The goal is practical help, better visibility, and safer everyday mobility.",
+        "validate_title": "How we validate data",
+        "status_title": "Why toilet status can change quickly",
+        "engage_title": "How you can engage",
+        "engage_body": "You can help us improve this project by reporting issues, suggesting ideas, and contributing on GitHub.",
+        "github_repo": "Open GitHub repository",
+        "github_issues": "Report an issue"
     },
     "toilets": {
         "title": "Find a Toilet",
@@ -79,6 +94,9 @@
         "navigate": "Navigate",
         "clear_route": "Clear route",
         "open_in_osm": "Open in OSM directions",
+        "context_menu_aria": "More actions",
+        "not_available_yet": "not available yet",
+        "help_button_aria": "Map help",
         "route_summary": "Route summary",
         "about_minutes": "about {minutes} min walking",
         "continue_straight": "Continue straight",
@@ -119,6 +137,17 @@
         "status_route_error": "Route unavailable",
         "status_route_ready": "Route ready",
         "status_route_idle": "Route idle",
+        "navigation_help_location": "Location is required. Use My location first.",
+        "help_title": "Map help",
+        "help_location_status_label": "Location status",
+        "help_location_searching": "Searching location...",
+        "help_location_active": "Current location found",
+        "help_location_error": "Current location not found",
+        "help_location_missing": "Location not active yet",
+        "help_controls": "Drag with one finger to move the map. Pinch with two fingers to zoom. Tap a marker to select a toilet.",
+        "help_consistency": "Navigate and Open in OSM require location. If disabled, tap My location first.",
+        "help_stuck_title": "If the map feels stuck",
+        "help_stuck_body": "Try tapping My location, then zoom out and drag again. If it still does not respond, close the filter panel and reload the page.",
         "status_map_density": "Tap to zoom in for denser map details",
         "map_hint_title": "Map quick tip",
         "map_hint_body": "Drag the map to explore nearby toilets. The details card collapses while moving so navigation stays focused.",

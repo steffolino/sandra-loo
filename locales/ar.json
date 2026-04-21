@@ -4,7 +4,8 @@
     },
     "nav": {
         "map_view": "عرض الخريطة",
-        "play": "يلعب"
+        "play": "يلعب",
+        "about": "عن المشروع"
     },
     "footer": {
         "tagline": "ساندرا لو - لعبة التوعية والبحث عن المراحيض المدنية",
@@ -36,7 +37,9 @@
         "hide_full_steps": "إخفاء الخطوات الكاملة",
         "close": "يغلق",
         "language": "اللغة",
-        "select_language": "اختر اللغة"
+        "select_language": "اختر اللغة",
+        "emergency_call": "طوارئ 110",
+        "emergency_call_aria": "الاتصال بشرطة ألمانيا على رقم الطوارئ 110"
     },
     "home": {
         "tagline": "ابحث عن المراحيض العامة التي تم التحقق منها في ألمانيا - واختبر مهاراتك في البقاء على قيد الحياة في لعبة التوعية الخاصة بنا.",
@@ -56,6 +59,18 @@
             "community_reviews_desc": "قيّم النظافة والإضاءة وتوفر الورق. أبلِغ عن المشكلات. أكّد حالة المرحاض للزوار الآخرين.",
             "awareness_game_desc": "لعبة بقاء بأسلوب جري من منظور نسائي. أدِر مؤشر المثانة وتجنب منطقة igitt."
         }
+    },
+    "about": {
+        "title": "عن المشروع",
+        "subtitle": "Sandra Loo مشروع خريطة مجتمعي يساعد الناس على العثور على المراحيض بسرعة وبشكل أوضح.",
+        "non_profit_title": "مشروع غير ربحي",
+        "non_profit_body": "هذا التطبيق مشروع غير ربحي يخدم المصلحة العامة. هدفنا تقديم مساعدة عملية في الحياة اليومية.",
+        "validate_title": "كيف نتحقق من البيانات",
+        "status_title": "لماذا قد تتغير حالة المرحاض بسرعة",
+        "engage_title": "كيف يمكنك المساهمة",
+        "engage_body": "يمكنك دعم المشروع عبر الإبلاغ عن المشاكل، مشاركة الأفكار، والمساهمة عبر GitHub.",
+        "github_repo": "فتح مستودع GitHub",
+        "github_issues": "الإبلاغ عن مشكلة"
     },
     "toilets": {
         "title": "ابحث عن مرحاض",
@@ -78,7 +93,10 @@
         "building_route": "طريق البناء...",
         "navigate": "انتقل",
         "clear_route": "طريق واضح",
-        "open_in_osm": "فتح في اتجاهات OSM",
+        "open_in_osm": "فتح في تنقّل OSM",
+        "context_menu_aria": "إجراءات إضافية",
+        "not_available_yet": "سيتوفر قريبًا",
+        "help_button_aria": "مساعدة الخريطة",
         "route_summary": "ملخص الطريق",
         "about_minutes": "حوالي {minutes} دقيقة سيرًا على الأقدام",
         "continue_straight": "استمر بشكل مستقيم",
@@ -105,6 +123,32 @@
         "routing_unavailable": "خدمة التوجيه غير متاحة حاليًا. الرجاء المحاولة مرة أخرى في لحظة.",
         "page_of": "الصفحة {current} من {total}",
         "mobile_marker_limit_note": "عرض {count} العلامات القريبة على الهاتف المحمول للتحميل بشكل أسرع.",
+        "show_status_notes": "إظهار التفاصيل",
+        "hide_status_notes": "إخفاء التفاصيل",
+        "show_notes_short": "تفاصيل",
+        "hide_notes_short": "إخفاء",
+        "show_map_legend": "إظهار شرح الخريطة",
+        "hide_map_legend": "إخفاء شرح الخريطة",
+        "status_loading_data": "جارٍ تحميل بيانات الخريطة",
+        "status_data_error": "بيانات الخريطة غير متاحة",
+        "status_location_error": "الموقع غير متاح",
+        "status_location_ready": "الموقع نشط",
+        "status_location_idle": "الموقع متوقف",
+        "status_route_error": "المسار غير متاح",
+        "status_route_ready": "المسار جاهز",
+        "status_route_idle": "المسار غير نشط",
+        "navigation_help_location": "للتنقل، فعّل موقعك أولًا.",
+        "help_title": "مساعدة الخريطة",
+        "help_location_status_label": "حالة الموقع",
+        "help_location_searching": "جارٍ البحث عن موقعك...",
+        "help_location_active": "تم العثور على موقعك",
+        "help_location_error": "تعذر العثور على الموقع",
+        "help_location_missing": "الموقع غير مُفعّل بعد",
+        "help_controls": "حرّك الخريطة بإصبع واحد. قرّب أو بعّد بإصبعين. اضغط على العلامة لاختيار المرحاض.",
+        "help_consistency": "خيارا التنقل وفتح في OSM يحتاجان إلى الموقع. إذا كانا معطلين، اضغط أولًا على موقعي.",
+        "help_stuck_title": "إذا بدت الخريطة عالقة",
+        "help_stuck_body": "جرّب الضغط على موقعي، ثم التصغير قليلًا وتحريك الخريطة من جديد. إذا استمرت المشكلة، أغلق الفلاتر وأعد تحميل الصفحة.",
+        "status_map_density": "قرّب الخريطة لرؤية تفاصيل أكثر",
         "distance_away": "{distance} بعيدًا",
         "next_maneuver": "المناورة القادمة",
         "step_of": "الخطوة {current} من {total}",

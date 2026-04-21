@@ -4,7 +4,8 @@
     },
     "nav": {
         "map_view": "Harita Görünümü",
-        "play": "Oynamak"
+        "play": "Oynamak",
+        "about": "Proje"
     },
     "footer": {
         "tagline": "Sandra Loo - Sivil Tuvalet Bulma ve Farkındalık Oyunu",
@@ -36,7 +37,9 @@
         "hide_full_steps": "Tüm adımları gizle",
         "close": "Kapalı",
         "language": "Dil",
-        "select_language": "Dil seç"
+        "select_language": "Dil seç",
+        "emergency_call": "Acil 110",
+        "emergency_call_aria": "Alman polis acil hattı 110'u ara"
     },
     "home": {
         "tagline": "Almanya'da doğrulanmış umumi tuvaletleri bulun ve farkındalık oyunumuzda hayatta kalma becerilerinizi test edin.",
@@ -56,6 +59,18 @@
             "community_reviews_desc": "Temizlik, aydınlatma ve tuvalet kağıdı durumunu puanlayın. Sorun bildirin. Diğer ziyaretçiler için tuvalet durumunu onaylayın.",
             "awareness_game_desc": "Kadın perspektifinden stilize bir koşu tabanlı hayatta kalma oyunu. Mesane seviyenizi yönetin ve igitt bölgesinden kaçının."
         }
+    },
+    "about": {
+        "title": "Proje Hakkında",
+        "subtitle": "Sandra Loo, insanların tuvaletleri daha hızlı ve daha güvenle bulabilmesi için topluluk odaklı bir harita projesidir.",
+        "non_profit_title": "Kâr amacı gütmeyen proje",
+        "non_profit_body": "Bu uygulama, kamu yararı için geliştirilen kâr amacı gütmeyen bir projedir. Amacımız günlük hayatta pratik destek sunmaktır.",
+        "validate_title": "Verileri nasıl doğruluyoruz",
+        "status_title": "Tuvalet durumu neden hızlı değişebilir",
+        "engage_title": "Nasıl katkı sunabilirsiniz",
+        "engage_body": "Hata bildirerek, fikir paylaşarak ve GitHub üzerinden katkı vererek projeyi geliştirmemize yardımcı olabilirsiniz.",
+        "github_repo": "GitHub deposunu aç",
+        "github_issues": "Sorun bildir"
     },
     "toilets": {
         "title": "Tuvalet Bul",
@@ -78,7 +93,10 @@
         "building_route": "İnşaat güzergahı...",
         "navigate": "Gezin",
         "clear_route": "Rotayı temizle",
-        "open_in_osm": "OSM yönlerinde aç",
+        "open_in_osm": "OSM navigasyonunda aç",
+        "context_menu_aria": "Daha fazla işlem",
+        "not_available_yet": "yakında gelecek",
+        "help_button_aria": "Harita yardımı",
         "route_summary": "Rota özeti",
         "about_minutes": "yaklaşık {minutes} dk yürüyüş",
         "continue_straight": "Düz devam et",
@@ -105,6 +123,32 @@
         "routing_unavailable": "Yönlendirme hizmeti şu anda kullanılamıyor. Lütfen kısa bir süre sonra tekrar deneyin.",
         "page_of": "{total} sayfasının {current} sayfası",
         "mobile_marker_limit_note": "Daha hızlı yükleme için mobil cihazda {count} yakındaki işaretçiler gösteriliyor.",
+        "show_status_notes": "Detayları göster",
+        "hide_status_notes": "Detayları gizle",
+        "show_notes_short": "Detaylar",
+        "hide_notes_short": "Gizle",
+        "show_map_legend": "Harita açıklamasını göster",
+        "hide_map_legend": "Harita açıklamasını gizle",
+        "status_loading_data": "Harita verileri yükleniyor",
+        "status_data_error": "Harita verileri kullanılamıyor",
+        "status_location_error": "Konum kullanılamıyor",
+        "status_location_ready": "Konum aktif",
+        "status_location_idle": "Konum kapalı",
+        "status_route_error": "Rota kullanılamıyor",
+        "status_route_ready": "Rota hazır",
+        "status_route_idle": "Rota boşta",
+        "navigation_help_location": "Navigasyon için önce konumunu etkinleştir.",
+        "help_title": "Harita yardımı",
+        "help_location_status_label": "Konum durumu",
+        "help_location_searching": "Konumun aranıyor...",
+        "help_location_active": "Konumun bulundu",
+        "help_location_error": "Konum bulunamadı",
+        "help_location_missing": "Konum henüz etkin değil",
+        "help_controls": "Haritayı tek parmakla sürükle. İki parmakla yakınlaştırıp uzaklaştır. Tuvaleti seçmek için bir işaretçiye dokun.",
+        "help_consistency": "Navigasyon ve OSM’de Aç seçenekleri konum ister. Devre dışıysa önce Konumum’a dokun.",
+        "help_stuck_title": "Harita takılmış gibi olursa",
+        "help_stuck_body": "Önce Konumum’a dokun, sonra biraz uzaklaştırıp tekrar sürükle. Hâlâ yanıt vermiyorsa filtreleri kapatıp sayfayı yenile.",
+        "status_map_density": "Daha yoğun harita detayları için yakınlaştır",
         "distance_away": "{distance} uzakta",
         "next_maneuver": "Sonraki manevra",
         "step_of": "{current} / {total} Adımı",
