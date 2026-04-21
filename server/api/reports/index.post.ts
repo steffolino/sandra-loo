@@ -18,11 +18,26 @@ export default defineEventHandler(async (event) => {
   if (!body.toilet_id || typeof body.toilet_id !== 'string') {
     throw createError({ statusCode: 400, message: 'toilet_id is required' })
   }
-  if (!body.type || !VALID_TYPES.includes(body.type)) {
+  if (body.toilet_id.length > 128) {
+    throw createError({ statusCode: 400, message: 'toilet_id is too long' })
+  }
+  if (!body.type || typeof body.type !== 'string' || !VALID_TYPES.includes(body.type)) {
     throw createError({
       statusCode: 400,
       message: `type must be one of: ${VALID_TYPES.join(', ')}`,
     })
+  }
+  if (body.user_id !== undefined && typeof body.user_id !== 'string') {
+    throw createError({ statusCode: 400, message: 'user_id must be a string' })
+  }
+  if (typeof body.user_id === 'string' && body.user_id.length > 64) {
+    throw createError({ statusCode: 400, message: 'user_id is too long' })
+  }
+  if (body.description !== undefined && body.description !== null && typeof body.description !== 'string') {
+    throw createError({ statusCode: 400, message: 'description must be a string' })
+  }
+  if (typeof body.description === 'string' && body.description.length > 500) {
+    throw createError({ statusCode: 400, message: 'description is too long' })
   }
 
   const report: Report = {

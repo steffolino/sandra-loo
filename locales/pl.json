@@ -4,7 +4,8 @@
     },
     "nav": {
         "map_view": "Widok mapy",
-        "play": "Grać"
+        "play": "Grać",
+        "about": "O projekcie"
     },
     "footer": {
         "tagline": "Sandra Loo - gra polegająca na wyszukiwaniu toalet obywatelskich i zwiększaniu świadomości",
@@ -36,7 +37,9 @@
         "hide_full_steps": "Ukryj pełne kroki",
         "close": "Zamknąć",
         "language": "Język",
-        "select_language": "Wybierz język"
+        "select_language": "Wybierz język",
+        "emergency_call": "Alarm 110",
+        "emergency_call_aria": "Zadzwoń na niemiecki numer alarmowy policji 110"
     },
     "home": {
         "tagline": "Znajdź sprawdzone toalety publiczne w Niemczech i sprawdź swoje umiejętności przetrwania w naszej grze uświadamiającej.",
@@ -56,6 +59,18 @@
             "community_reviews_desc": "Oceń czystość, oświetlenie i dostępność papieru. Zgłaszaj problemy. Potwierdzaj status toalety dla innych odwiedzających.",
             "awareness_game_desc": "Stylizowana gra survivalowa oparta na biegu z kobiecej perspektywy. Zarządzaj wskaźnikiem pęcherza i unikaj strefy igitt."
         }
+    },
+    "about": {
+        "title": "O projekcie",
+        "subtitle": "Sandra Loo to projekt mapowy tworzony dla społeczności, aby łatwiej i szybciej znajdować toalety.",
+        "non_profit_title": "Projekt non-profit",
+        "non_profit_body": "Ta aplikacja jest tworzona jako projekt non-profit i dla dobra publicznego. Naszym celem jest praktyczna pomoc na co dzień.",
+        "validate_title": "Jak weryfikujemy dane",
+        "status_title": "Dlaczego status toalety może szybko się zmieniać",
+        "engage_title": "Jak możesz się zaangażować",
+        "engage_body": "Możesz pomóc przez zgłaszanie problemów, propozycje zmian i udział w projekcie na GitHubie.",
+        "github_repo": "Otwórz repozytorium GitHub",
+        "github_issues": "Zgłoś problem"
     },
     "toilets": {
         "title": "Znajdź toaletę",
@@ -78,7 +93,10 @@
         "building_route": "Budowa trasy...",
         "navigate": "Nawigować",
         "clear_route": "Wyczyść trasę",
-        "open_in_osm": "Otwarte w kierunkach OSM",
+        "open_in_osm": "Otwórz w nawigacji OSM",
+        "context_menu_aria": "Więcej opcji",
+        "not_available_yet": "wkrótce dostępne",
+        "help_button_aria": "Pomoc mapy",
         "route_summary": "Podsumowanie trasy",
         "about_minutes": "około {minutes} min spaceru",
         "continue_straight": "Jedź dalej prosto",
@@ -105,6 +123,32 @@
         "routing_unavailable": "Usługa wyznaczania tras jest obecnie niedostępna. Spróbuj ponownie za chwilę.",
         "page_of": "Strona {current} z {total}",
         "mobile_marker_limit_note": "Wyświetlam {count} pobliskie znaczniki na telefonie komórkowym w celu szybszego ładowania.",
+        "show_status_notes": "Pokaż szczegóły",
+        "hide_status_notes": "Ukryj szczegóły",
+        "show_notes_short": "Szczegóły",
+        "hide_notes_short": "Ukryj",
+        "show_map_legend": "Pokaż legendę mapy",
+        "hide_map_legend": "Ukryj legendę mapy",
+        "status_loading_data": "Wczytuję dane mapy",
+        "status_data_error": "Dane mapy są niedostępne",
+        "status_location_error": "Lokalizacja niedostępna",
+        "status_location_ready": "Lokalizacja aktywna",
+        "status_location_idle": "Lokalizacja wyłączona",
+        "status_route_error": "Trasa niedostępna",
+        "status_route_ready": "Trasa gotowa",
+        "status_route_idle": "Trasa nieaktywna",
+        "navigation_help_location": "Aby nawigować, najpierw włącz swoją lokalizację.",
+        "help_title": "Pomoc mapy",
+        "help_location_status_label": "Status lokalizacji",
+        "help_location_searching": "Szukamy Twojej lokalizacji...",
+        "help_location_active": "Znaleziono Twoją lokalizację",
+        "help_location_error": "Nie udało się znaleźć lokalizacji",
+        "help_location_missing": "Lokalizacja nie jest jeszcze włączona",
+        "help_controls": "Przesuń mapę jednym palcem. Zbliżaj dwoma palcami. Dotknij pinezki, aby wybrać toaletę.",
+        "help_consistency": "Nawigacja i Otwórz w OSM wymagają lokalizacji. Jeśli opcja jest wyłączona, najpierw kliknij Moja lokalizacja.",
+        "help_stuck_title": "Gdy mapa wydaje się zablokowana",
+        "help_stuck_body": "Kliknij Moja lokalizacja, potem lekko oddal mapę i spróbuj przesunąć ponownie. Jeśli nadal nie działa, zamknij filtry i odśwież stronę.",
+        "status_map_density": "Zbliż mapę, aby zobaczyć więcej szczegółów",
         "distance_away": "{distance} daleko",
         "next_maneuver": "Następny manewr",
         "step_of": "Krok {current} z {total}",

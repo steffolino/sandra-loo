@@ -1,75 +1,12 @@
 <template>
   <div>
-    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-2 md:mb-3">
       <h1 class="text-2xl font-bold text-brand">
         {{ $t('toilets.title') }}
       </h1>
-      <button class="btn-secondary text-sm" @click="showTrustInfo = true">
-        {{ $t('toilets.trust_info_button') }}
-      </button>
     </div>
 
-    <div class="mb-4">
-      <div class="md:hidden mb-2">
-        <button class="btn-secondary w-full text-sm min-h-11" @click="showStatusAdvisory = !showStatusAdvisory">
-          {{ showStatusAdvisory ? tSafe('toilets.hide_status_notes', 'Hide notes') : tSafe('toilets.show_status_notes', 'Show notes') }}
-        </button>
-      </div>
-      <div
-        v-if="!isMobile || showStatusAdvisory"
-        class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
-      >
-        <p class="font-medium">
-          {{ $t('toilets.status_changes_fast') }}
-        </p>
-        <p class="mt-1">
-          {{ $t('toilets.status_changes_body') }}
-        </p>
-        <p class="mt-1">
-          {{ $t('toilets.status_changes_institutional') }}
-        </p>
-      </div>
-    </div>
-
-    <div v-if="showTrustInfo" class="fixed inset-0 z-[1300] bg-black/40 p-3" @click.self="showTrustInfo = false">
-      <div class="card p-5 max-w-lg mx-auto mt-10">
-        <h2 class="text-lg font-semibold text-brand mb-2">
-          {{ $t('toilets.trust_info_title') }}
-        </h2>
-        <p class="text-sm text-gray-600">
-          {{ $t('toilets.trust_info.why_details') }}
-        </p>
-        <p class="text-sm text-gray-600 mt-2">
-          {{ $t('toilets.trust_info.freshness') }}
-        </p>
-        <p class="text-sm text-gray-600 mt-2">
-          {{ $t('toilets.trust_info.source_reliability') }}
-        </p>
-        <p class="text-sm text-gray-600 mt-2">
-          {{ $t('toilets.trust_info.reports_help') }}
-        </p>
-        <p class="text-sm text-gray-600 mt-2">
-          {{ $t('toilets.trust_info.institutional_note') }}
-        </p>
-        <div class="mt-4">
-          <button class="btn-primary text-sm" @click="showTrustInfo = false"> {{ $t('common.close') }} </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="md:hidden grid grid-cols-3 gap-2 mb-3">
-      <button class="btn-secondary w-full" :disabled="locating" @click="locateUser">
-        {{ locating ? $t('common.locating') : $t('toilets.my_location') }}
-      </button>
-      <button class="btn-secondary w-full" @click="showFilters = !showFilters">
-        {{ showFilters ? $t('common.hide_filters') : $t('common.show_filters') }}
-      </button>
-      <button class="btn-secondary w-full" @click="showStatusAdvisory = !showStatusAdvisory">
-        {{ showStatusAdvisory ? tSafe('toilets.hide_notes_short', 'Hide') : tSafe('toilets.show_notes_short', 'Notes') }}
-      </button>
-    </div>
-
-    <div class="mb-3 flex flex-wrap gap-2 text-xs">
+    <div v-if="!isMobile || viewMode !== 'map'" class="mb-2 flex flex-wrap gap-2 text-xs">
       <button
         type="button"
         class="rounded-full bg-slate-100 text-slate-700 px-2.5 py-1 transition-colors hover:bg-slate-200"
@@ -331,7 +268,7 @@
     </div>
 
     <div class="flex items-center justify-between mb-4">
-      <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden">
+      <div v-if="!isMobile" class="inline-flex rounded-lg border border-gray-200 overflow-hidden">
         <button
           class="px-4 py-2 text-sm min-h-11"
           :class="viewMode === 'map' ? 'bg-brand-accent text-white' : 'bg-white text-gray-700'"
@@ -352,15 +289,14 @@
       </p>
     </div>
 
-    <div v-if="viewMode === 'map'" class="mb-4 text-xs">
+    <div v-if="viewMode === 'map' && !isMobile" class="mb-4 text-xs">
       <button
-        v-if="isMobile"
         class="btn-secondary w-full text-sm min-h-11 mb-2"
         @click="showMapLegend = !showMapLegend"
       >
         {{ showMapLegend ? tSafe('toilets.hide_map_legend', 'Hide map legend') : tSafe('toilets.show_map_legend', 'Show map legend') }}
       </button>
-      <div v-if="!isMobile || showMapLegend" class="flex flex-wrap gap-2">
+      <div v-if="showMapLegend" class="flex flex-wrap gap-2">
         <span
           v-for="legend in placeTypeLegend"
           :key="legend.type"
@@ -406,13 +342,57 @@
 
     <div v-else>
       <div v-show="viewMode === 'map'" class="space-y-4">
+        <div v-if="isMobile" class="flex items-center gap-2">
+          <button class="btn-secondary flex-1 min-h-11" @click="showFilters = !showFilters">
+            {{ showFilters ? $t('common.hide_filters') : $t('common.show_filters') }}
+          </button>
+        </div>
         <ClientOnly>
-          <div class="card overflow-hidden">
+          <div class="card overflow-hidden relative">
             <div
               ref="mapContainer"
-              class="w-full"
+              class="w-full map-surface"
               :class="isMobile ? 'h-[82svh] min-h-[460px]' : 'h-[58vh] min-h-[420px]'"
             />
+            <button
+              type="button"
+              class="btn-secondary absolute top-3 left-3 z-[1200] text-xs min-h-9 px-3 py-1.5 shadow-md"
+              :disabled="locating"
+              @click="handleLocationStatusAction"
+            >
+              {{ locating ? $t('common.locating') : $t('toilets.my_location') }}
+            </button>
+            <button
+              type="button"
+              class="btn-secondary absolute top-3 right-14 z-[1200] h-9 w-9 min-h-9 px-0 py-0 text-sm shadow-md"
+              :aria-expanded="showMapHelp ? 'true' : 'false'"
+              :aria-label="tSafe('toilets.help_button_aria', 'Map help')"
+              @click="showMapHelp = !showMapHelp"
+            >
+              ?
+            </button>
+            <div
+              v-if="showMapHelp"
+              class="absolute top-14 right-3 z-[1200] w-[min(18rem,calc(100%-1.5rem))] rounded-lg border border-slate-200 bg-white/95 backdrop-blur-sm p-3 shadow-lg text-xs text-slate-700 space-y-2"
+            >
+              <p class="font-semibold text-brand">
+                {{ tSafe('toilets.help_title', 'Map help') }}
+              </p>
+              <p>
+                <strong>{{ tSafe('toilets.help_location_status_label', 'Location status') }}:</strong>
+                {{ mapHelpLocationStatus }}
+              </p>
+              <p class="text-slate-600">
+                {{ tSafe('toilets.help_controls', 'Drag with one finger to move the map. Pinch with two fingers to zoom. Tap a marker to select a toilet.') }}
+              </p>
+              <p class="text-slate-600">
+                {{ tSafe('toilets.help_consistency', 'Navigate and Open in OSM require location. If disabled, tap My location first.') }}
+              </p>
+              <p class="text-slate-600">
+                <strong>{{ tSafe('toilets.help_stuck_title', 'If the map feels stuck') }}:</strong>
+                {{ tSafe('toilets.help_stuck_body', 'Try tapping My location, then zoom out and drag again. If it still does not respond, close the filter panel and reload the page.') }}
+              </p>
+            </div>
           </div>
         </ClientOnly>
         <p
@@ -445,8 +425,25 @@
         <div
           v-if="selectedToilet"
           class="card p-4"
-          :class="isMobile ? 'sticky bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] z-[1080] shadow-lg max-h-[34svh] overflow-y-auto overscroll-contain' : ''"
+          :class="isMobile
+            ? `sticky bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] z-[1080] shadow-lg overscroll-contain overflow-hidden transition-[max-height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${mobileToiletSheetExpanded ? 'max-h-[62svh]' : 'max-h-[18svh]'}`
+            : ''"
         >
+          <div
+            v-if="isMobile"
+            class="mb-2 flex justify-center"
+            @touchstart.passive="onMobileSheetTouchStart"
+            @touchend.passive="onMobileSheetTouchEnd"
+          >
+            <button
+              type="button"
+              class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] text-slate-600"
+              @click="mobileToiletSheetExpanded = !mobileToiletSheetExpanded"
+            >
+              <span class="inline-block h-1.5 w-8 rounded-full bg-slate-400"></span>
+              <span>{{ mobileToiletSheetExpanded ? $t('common.hide_full_steps') : $t('common.show_full_steps') }}</span>
+            </button>
+          </div>
           <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
             <div>
               <h2 class="text-lg font-semibold text-brand">
@@ -454,71 +451,51 @@
               </h2>
               <p class="text-sm text-gray-500">
                 {{ selectedToilet.address ?? selectedToilet.city }}
-                    </p>
+              </p>
             </div>
             <div class="flex items-center gap-2">
-              <NuxtLink :to="toiletDetailHref(selectedToilet.id)" class="btn-secondary text-sm">
-                {{ $t('toilets.open_details') }}
-              </NuxtLink>
+              <button class="btn-primary text-sm min-h-11" :disabled="!canStartNavigation" @click="startNavigation(selectedToilet)">
+                {{ routing ? $t('toilets.building_route') : $t('toilets.navigate') }}
+              </button>
             </div>
           </div>
 
-            <button
-            v-if="isMobile"
-            type="button"
-            class="w-full mb-2 rounded-lg border border-gray-200 bg-[var(--cube-base-card)] px-3 py-2 text-sm font-medium text-brand flex items-center justify-between"
-            :aria-expanded="showSelectedToiletDetails ? 'true' : 'false'"
-            @click="showSelectedToiletDetails = !showSelectedToiletDetails"
-          >
-            <span>{{ $t('toilets.toilet_details') }}</span>
-            <span
-              aria-hidden="true"
-              class="inline-block text-base leading-none transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              :class="showSelectedToiletDetails ? 'rotate-180' : 'rotate-0'"
-            >v</span>
-          </button>
-
-          <div
-            class="overflow-hidden will-change-[max-height,opacity,transform] transition-[max-height,opacity,transform,margin] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
-            :class="!isMobile || showSelectedToiletDetails ? 'max-h-[60svh] opacity-100 translate-y-0 mt-0 pointer-events-auto' : 'max-h-0 opacity-0 -translate-y-1 mt-0 pointer-events-none'"
-          >
-          <div class="flex flex-wrap gap-2 mb-3 text-xs">
-            <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">{{ toiletTypeLabel(selectedToilet.type) }}</span>
-            <span class="px-2 py-1 rounded-full" :class="selectedToilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
-              {{ selectedToilet.is_free ? $t('toilet.free') : $t('toilet.paid') }}
-            </span>
-            <span v-if="selectedToilet.is_accessible" class="px-2 py-1 rounded-full bg-blue-100 text-blue-700">{{ $t('toilet.accessible') }}</span>
-            <span v-if="selectedToilet.opening_hours" class="px-2 py-1 rounded-full bg-violet-100 text-violet-700">{{ $t('toilet.hours_shown') }}</span>
-            <span v-if="selectedToilet.avg_rating !== null" class="px-2 py-1 rounded-full bg-amber-100 text-amber-700">{{ $t('toilet.rating', { rating: selectedToilet.avg_rating }) }}</span>
-            <span v-if="selectedToilet.distance_km !== undefined" class="px-2 py-1 rounded-full bg-slate-100 text-slate-700">
-              {{ $t('toilets.distance_away', { distance: formatDistance(selectedToilet.distance_km) }) }}
-            </span>
-            <span
-              v-if="selectedToilet.freshness_label"
-              class="px-2 py-1 rounded-full"
-              :class="freshnessClass(selectedToilet.freshness_label)"
-            >
-              {{ freshnessText(selectedToilet.freshness_label, selectedToilet.freshness_days) }}
-            </span>
-            <span class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">
-              {{ $t('toilet.recent_confirmations', selectedToilet.recent_confirmation_count, { count: selectedToilet.recent_confirmation_count }) }}
-            </span>
-            <span
-              class="px-2 py-1 rounded-full"
-              :class="confidenceClass(selectedToilet.source_confidence_level)"
-            >
-              {{ $t('toilet.source_reliability', { score: selectedToilet.source_confidence_score }) }}
-            </span>
+          <div v-if="!isMobile || mobileToiletSheetExpanded">
+            <div class="flex flex-wrap gap-2 mb-3 text-xs">
+              <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">{{ toiletTypeLabel(selectedToilet.type) }}</span>
+              <span class="px-2 py-1 rounded-full" :class="selectedToilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
+                {{ selectedToilet.is_free ? $t('toilet.free') : $t('toilet.paid') }}
+              </span>
+              <span v-if="selectedToilet.is_accessible" class="px-2 py-1 rounded-full bg-blue-100 text-blue-700">{{ $t('toilet.accessible') }}</span>
+              <span v-if="selectedToilet.avg_rating !== null" class="px-2 py-1 rounded-full bg-amber-100 text-amber-700">{{ $t('toilet.rating', { rating: selectedToilet.avg_rating }) }}</span>
+              <span v-if="selectedToilet.distance_km !== undefined" class="px-2 py-1 rounded-full bg-slate-100 text-slate-700">
+                {{ $t('toilets.distance_away', { distance: formatDistance(selectedToilet.distance_km) }) }}
+              </span>
+              <span
+                v-if="selectedToilet.freshness_label"
+                class="px-2 py-1 rounded-full"
+                :class="freshnessClass(selectedToilet.freshness_label)"
+              >
+                {{ freshnessText(selectedToilet.freshness_label, selectedToilet.freshness_days) }}
+              </span>
+              <span class="px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">
+                {{ $t('toilet.recent_confirmations', selectedToilet.recent_confirmation_count, { count: selectedToilet.recent_confirmation_count }) }}
+              </span>
+              <span
+                class="px-2 py-1 rounded-full"
+                :class="confidenceClass(selectedToilet.source_confidence_level)"
+              >
+                {{ $t('toilet.source_reliability', { score: selectedToilet.source_confidence_score }) }}
+              </span>
             </div>
-
-            <div class="flex flex-wrap gap-2">
-                <button class="btn-primary text-sm min-h-11" :disabled="routing" @click="startNavigation(selectedToilet)">
-                {{ routing ? $t('toilets.building_route') : $t('toilets.navigate') }}
-              </button>
-              <button class="btn-secondary text-sm min-h-11" @click="clearRoute">
+            <p v-if="selectedToilet.opening_hours" class="text-xs text-gray-600 mb-3">
+              <strong>{{ $t('toilet.opening_hours_label') }}</strong> {{ selectedToilet.opening_hours }}
+            </p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <button v-if="routeInfo" class="btn-secondary text-sm min-h-11" @click="clearRoute">
                 {{ $t('toilets.clear_route') }}
               </button>
-                <a
+              <a
                 v-if="userLocation"
                 class="btn-secondary text-sm min-h-11"
                 :href="externalRouteUrl(selectedToilet)"
@@ -527,12 +504,48 @@
               >
                 {{ $t('toilets.open_in_osm') }}
               </a>
+              <button
+                v-else
+                type="button"
+                class="btn-secondary text-sm min-h-11 opacity-60 cursor-not-allowed"
+                :title="tSafe('toilets.navigation_help_location', 'Location is required. Use My location first.')"
+                disabled
+              >
+                {{ $t('toilets.open_in_osm') }}
+              </button>
+              <div class="relative ml-auto">
+                <button
+                  type="button"
+                  class="btn-secondary min-h-11 px-3"
+                  :aria-label="tSafe('toilets.context_menu_aria', 'More actions')"
+                  @click="mobileContextMenuOpen = !mobileContextMenuOpen"
+                >
+                  <span aria-hidden="true" class="text-lg leading-none">⋯</span>
+                </button>
+                <div
+                  v-if="mobileContextMenuOpen"
+                  class="absolute right-0 bottom-full mb-2 w-64 rounded-lg border border-gray-200 bg-white p-2 text-sm space-y-1.5 shadow-lg z-20"
+                >
+                  <NuxtLink :to="toiletDetailHref(selectedToilet.id)" class="block rounded-md px-2.5 py-2 hover:bg-slate-50" @click="mobileContextMenuOpen = false">
+                    {{ $t('toilets.open_details') }}
+                  </NuxtLink>
+                  <button type="button" class="block w-full text-left rounded-md px-2.5 py-2 text-gray-400 bg-gray-50 cursor-not-allowed" disabled>
+                    {{ $t('review.title') }} ({{ tSafe('toilets.not_available_yet', 'not available yet') }})
+                  </button>
+                  <button type="button" class="block w-full text-left rounded-md px-2.5 py-2 text-gray-400 bg-gray-50 cursor-not-allowed" disabled>
+                    {{ $t('report.title') }} ({{ tSafe('toilets.not_available_yet', 'not available yet') }})
+                  </button>
+                </div>
+              </div>
             </div>
-
-            <p v-if="routingError" class="text-sm text-red-600 mt-2">
-              {{ routingError }}
-            </p>
           </div>
+
+          <p v-if="!userLocation && locationError" class="text-xs text-amber-700 mt-2">
+            {{ tSafe('toilets.navigation_help_location', 'Location is required. Use My location first.') }}
+          </p>
+          <p v-if="routingError" class="text-sm text-red-600 mt-2">
+            {{ routingError }}
+          </p>
         </div>
 
         <div v-if="routeInfo" class="card p-4">
@@ -657,88 +670,6 @@
           </div>
         </div>
 
-        <div
-          v-if="isMobile && toilets.length > 0"
-          class="sticky bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] z-[1120]"
-        >
-          <div class="card p-2 shadow-xl bg-white/95 backdrop-blur-sm">
-            <button
-              class="btn-secondary w-full text-sm min-h-11"
-              @click="toggleMobileToiletList"
-            >
-              {{ showMobileToiletList ? $t('toilets.hide_public_list', { count: toilets.length }) : $t('toilets.show_public_list', { count: toilets.length }) }}
-            </button>
-
-            <div
-              v-if="showMobileToiletList"
-              class="mt-2 max-h-[45svh] overflow-y-auto overscroll-contain rounded-lg border border-gray-200 bg-white p-2"
-            >
-              <div v-if="mobileMapListTotalPages > 1" class="mb-2 flex items-center justify-between gap-2">
-                <p class="text-[11px] text-gray-500">
-                  {{ $t('toilets.page_of', { current: mobileMapListPage, total: mobileMapListTotalPages }) }}
-                </p>
-                <div class="flex gap-1.5">
-                  <button
-                    class="btn-secondary text-xs px-2 py-1.5 min-h-8"
-                    :disabled="mobileMapListPage <= 1"
-                    @click.stop="mobileMapListPage -= 1"
-                  >
-                    {{ $t('common.previous') }}
-                  </button>
-                  <button
-                    class="btn-primary text-xs px-2 py-1.5 min-h-8"
-                    :disabled="mobileMapListPage >= mobileMapListTotalPages"
-                    @click.stop="mobileMapListPage += 1"
-                  >
-                    {{ $t('common.next') }}
-                  </button>
-                </div>
-              </div>
-              <div class="space-y-1.5">
-                <div
-                  v-for="toilet in paginatedMobileMapList"
-                  :key="`mobile-bottom-${toilet.id}`"
-                  role="button"
-                  tabindex="0"
-                  class="w-full text-left rounded-lg border px-2.5 py-2.5 transition-colors"
-                  :class="selectedToilet?.id === toilet.id ? 'border-brand-accent bg-brand-accent/10' : 'border-gray-200 bg-white hover:bg-[var(--cube-base-card)]'"
-                  @click="focusToiletFromList(toilet)"
-                  @keydown.enter.prevent="focusToiletFromList(toilet)"
-                >
-                  <div class="flex items-center justify-between gap-2">
-                    <div class="min-w-0">
-                      <p class="text-sm font-semibold text-brand truncate">
-                        {{ toilet.name ?? $t('toilet.public') }}
-                      </p>
-                      <p class="text-[11px] text-gray-500 truncate">
-                        {{ toilet.address ?? toilet.city }}
-                      </p>
-                      <div class="mt-1 flex flex-wrap items-center gap-1 text-[11px]">
-                        <span class="rounded-full bg-gray-100 text-gray-700 px-1.5 py-0.5">{{ toiletTypeLabel(toilet.type) }}</span>
-                        <span class="rounded-full px-1.5 py-0.5" :class="toilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
-                          {{ toilet.is_free ? $t('toilet.free') : $t('toilet.paid') }}
-                        </span>
-                        <span v-if="toilet.opening_hours" class="rounded-full bg-violet-100 text-violet-700 px-1.5 py-0.5">
-                          {{ $t('toilet.hours_shown') }}
-                        </span>
-                        <span v-if="toilet.distance_km !== undefined" class="rounded-full bg-slate-100 text-slate-700 px-1.5 py-0.5">
-                          {{ formatDistance(toilet.distance_km) }}
-                        </span>
-                      </div>
-                    </div>
-                    <NuxtLink
-                      :to="toiletDetailHref(toilet.id)"
-                      class="btn-secondary text-xs px-2 py-1.5"
-                      @click.stop
-                    >
-                      {{ $t('common.details') }}
-                    </NuxtLink>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div v-show="viewMode === 'list'" class="space-y-3">
@@ -765,6 +696,13 @@ interface ToiletsResponse {
 interface UserLocation {
   lat: number
   lng: number
+}
+
+interface ViewportWindow {
+  south: number
+  west: number
+  north: number
+  east: number
 }
 
 interface RouteInfo {
@@ -799,14 +737,18 @@ interface OsrmResponse {
 type SortMode = 'nearest' | 'rating' | 'updated'
 type ReportedFilter = 'any' | 'true' | 'false'
 type FilterKey = 'city' | 'types' | 'is_free' | 'is_accessible' | 'has_opening_hours' | 'reported' | 'min_rating' | 'radius'
-const MOBILE_MARKER_LIMIT = 250
-const MOBILE_LOW_ZOOM_MARKER_LIMIT = 160
-const MOBILE_MID_ZOOM_MARKER_LIMIT = 220
+const MOBILE_MARKER_LIMIT = 110
+const MOBILE_LOW_ZOOM_MARKER_LIMIT = 70
+const MOBILE_MID_ZOOM_MARKER_LIMIT = 95
 const MAP_LIST_PAGE_SIZE = 12
-const MOBILE_MAP_LIST_PAGE_SIZE = 10
 const FILTERS_STORAGE_KEY = 'toilets.filters.v1'
 const MAP_HINT_STORAGE_KEY = 'toilets.map.hint.dismissed.v1'
 const MOBILE_FILTER_DEBOUNCE_MS = 380
+const MAP_VIEWPORT_PADDING_FACTOR = 0.28
+const MARKER_REFRESH_DEBOUNCE_MS = 32
+const OSRM_WALKING_PROFILE = 'walking'
+const OSM_FOOT_ENGINE = 'fossgis_osrm_foot'
+const ROUTE_CACHE_MAX_ENTRIES = 24
 
 const route = useRoute()
 const router = useRouter()
@@ -1120,24 +1062,14 @@ const toilets = computed(() => {
 })
 
 const mapListPage = ref(1)
-const mobileMapListPage = ref(1)
 
 const mapListTotalPages = computed(() => (
   Math.max(1, Math.ceil(toilets.value.length / MAP_LIST_PAGE_SIZE))
 ))
 
-const mobileMapListTotalPages = computed(() => (
-  Math.max(1, Math.ceil(toilets.value.length / MOBILE_MAP_LIST_PAGE_SIZE))
-))
-
 const paginatedMapList = computed(() => {
   const start = (mapListPage.value - 1) * MAP_LIST_PAGE_SIZE
   return toilets.value.slice(start, start + MAP_LIST_PAGE_SIZE)
-})
-
-const paginatedMobileMapList = computed(() => {
-  const start = (mobileMapListPage.value - 1) * MOBILE_MAP_LIST_PAGE_SIZE
-  return toilets.value.slice(start, start + MOBILE_MAP_LIST_PAGE_SIZE)
 })
 
 function effectiveMobileMarkerLimit(): number {
@@ -1147,7 +1079,17 @@ function effectiveMobileMarkerLimit(): number {
 }
 
 const mapToilets = computed(() => {
-  const base = toilets.value
+  let base = toilets.value
+
+  if (mapViewportWindow.value) {
+    const { south, west, north, east } = mapViewportWindow.value
+    base = base.filter(toilet => (
+      toilet.lat >= south
+      && toilet.lat <= north
+      && toilet.lng >= west
+      && toilet.lng <= east
+    ))
+  }
 
   if (!isMobile.value) {
     return base
@@ -1210,13 +1152,14 @@ watch(
 const viewMode = ref<'map' | 'list'>('map')
 const isMobile = ref(false)
 const showFilters = ref(false)
-const showMobileToiletList = ref(false)
-const showTrustInfo = ref(false)
-const showStatusAdvisory = ref(true)
 const showMapLegend = ref(false)
-const showSelectedToiletDetails = ref(true)
 const showMapGestureHint = ref(false)
+const showMapHelp = ref(false)
 const mapZoom = ref(12)
+const mapViewportWindow = ref<ViewportWindow | null>(null)
+const mobileToiletSheetExpanded = ref(false)
+const mobileSheetTouchStartY = ref<number | null>(null)
+const mobileContextMenuOpen = ref(false)
 
 const locating = ref(false)
 const locationError = ref('')
@@ -1233,19 +1176,24 @@ let leaflet: typeof import('leaflet') | null = null
 let map: import('leaflet').Map | null = null
 let tileLayer: import('leaflet').TileLayer | null = null
 let toiletsLayer: import('leaflet').LayerGroup | null = null
-let userMarker: import('leaflet').CircleMarker | null = null
+let userMarker: import('leaflet').Marker | null = null
 let routeLayer: import('leaflet').Polyline | null = null
 let userAccuracyCircle: import('leaflet').Circle | null = null
+const navigationTargetToiletId = ref<string | null>(null)
 let hasAutoFitted = false
 let userPositionWatchId: number | null = null
 let markerByToiletId = new Map<string, import('leaflet').Marker>()
+let markerRenderSignatureById = new Map<string, string>()
 let selectedMarkerId: string | null = null
+let navigationTargetMarkerId: string | null = null
+const routeCache = new Map<string, OsrmRoute>()
 
 const mapContainer = ref<HTMLElement | null>(null)
 const nextManeuverCard = ref<HTMLElement | null>(null)
 let mediaQuery: MediaQueryList | null = null
 let mobileFilterApplyTimeout: ReturnType<typeof setTimeout> | null = null
 let geoRefreshTimeout: ReturnType<typeof setTimeout> | null = null
+let markerRefreshTimeout: ReturnType<typeof setTimeout> | null = null
 
 const dataStatusText = computed(() => {
   if (activePending.value) {
@@ -1271,6 +1219,12 @@ const locationStatusClass = computed(() => {
   return 'bg-gray-100 text-gray-700'
 })
 
+const canStartNavigation = computed(() => {
+  if (routing.value || locating.value) return false
+  if (!userLocation.value && Boolean(locationError.value)) return false
+  return true
+})
+
 const routeStatusText = computed(() => {
   if (routing.value) return t('toilets.building_route')
   if (routingError.value) return tSafe('toilets.status_route_error', 'Route unavailable')
@@ -1283,6 +1237,13 @@ const routeStatusClass = computed(() => {
   if (routingError.value) return 'bg-rose-100 text-rose-700'
   if (routeInfo.value) return 'bg-teal-100 text-teal-700'
   return 'bg-gray-100 text-gray-700'
+})
+
+const mapHelpLocationStatus = computed(() => {
+  if (locating.value) return tSafe('toilets.help_location_searching', 'Searching location...')
+  if (userLocation.value) return tSafe('toilets.help_location_active', 'Current location found')
+  if (locationError.value) return tSafe('toilets.help_location_error', 'Current location not found')
+  return tSafe('toilets.help_location_missing', 'Location not active yet')
 })
 
 const mapCoverageStatusText = computed(() => {
@@ -1313,10 +1274,6 @@ function handleDataStatusAction() {
   }
 
   if (viewMode.value === 'map') {
-    if (isMobile.value) {
-      toggleMobileToiletList()
-      return
-    }
     viewMode.value = 'list'
     return
   }
@@ -1352,27 +1309,24 @@ function handleRouteStatusAction() {
 watch(toilets, (next) => {
   if (!next.length) {
     selectedToilet.value = null
+    navigationTargetToiletId.value = null
     mapListPage.value = 1
-    mobileMapListPage.value = 1
     return
   }
 
   if (!selectedToilet.value || !next.some(t => t.id === selectedToilet.value?.id)) {
     selectedToilet.value = next[0]
   }
+  if (navigationTargetToiletId.value && !next.some(t => t.id === navigationTargetToiletId.value)) {
+    navigationTargetToiletId.value = null
+  }
 
-  refreshMapMarkers()
+  scheduleMapMarkerRefresh()
 })
 
 watch([toilets, mapListTotalPages], () => {
   if (mapListPage.value > mapListTotalPages.value) {
     mapListPage.value = mapListTotalPages.value
-  }
-})
-
-watch([toilets, mobileMapListTotalPages], () => {
-  if (mobileMapListPage.value > mobileMapListTotalPages.value) {
-    mobileMapListPage.value = mobileMapListTotalPages.value
   }
 })
 
@@ -1384,19 +1338,24 @@ watch(activePending, (isPending) => {
 
 watch(selectedToilet, () => {
   if (isMobile.value) {
-    showSelectedToiletDetails.value = true
+    mobileToiletSheetExpanded.value = false
   }
-  refreshMapMarkers()
+  mobileContextMenuOpen.value = false
+  scheduleMapMarkerRefresh()
+})
+
+watch(navigationTargetToiletId, () => {
+  scheduleMapMarkerRefresh()
 })
 
 watch(mapToilets, () => {
-  refreshMapMarkers()
+  scheduleMapMarkerRefresh()
 })
 
 watch(viewMode, (mode) => {
   if (mode !== 'map') {
-    showMobileToiletList.value = false
     showMapGestureHint.value = false
+    showMapHelp.value = false
     return
   }
 
@@ -1445,7 +1404,10 @@ onBeforeUnmount(() => {
   if (map) {
     map.remove()
     map = null
+    mapViewportWindow.value = null
   }
+  markerByToiletId.clear()
+  markerRenderSignatureById.clear()
 
   stopUserPositionWatch()
 
@@ -1457,6 +1419,10 @@ onBeforeUnmount(() => {
     clearTimeout(geoRefreshTimeout)
     geoRefreshTimeout = null
   }
+  if (markerRefreshTimeout) {
+    clearTimeout(markerRefreshTimeout)
+    markerRefreshTimeout = null
+  }
 })
 
 watch(
@@ -1465,18 +1431,26 @@ watch(
     if (isPending || !container || mode !== 'map') return
 
     if (map && map.getContainer() !== container) {
+      if (markerRefreshTimeout) {
+        clearTimeout(markerRefreshTimeout)
+        markerRefreshTimeout = null
+      }
       map.remove()
       map = null
+      mapViewportWindow.value = null
       tileLayer = null
       toiletsLayer = null
       userMarker = null
       routeLayer = null
       hasAutoFitted = false
+      navigationTargetMarkerId = null
+      markerByToiletId.clear()
+      markerRenderSignatureById.clear()
     }
 
     await nextTick()
     await initMap()
-    refreshMapMarkers()
+    scheduleMapMarkerRefresh()
     renderUserLocationMarker()
     if (userLocation.value) {
       focusMapOnUserLocation()
@@ -1484,6 +1458,7 @@ watch(
 
     if (map) {
       map.invalidateSize()
+      updateMapViewportWindow()
     }
   },
   { immediate: true },
@@ -1503,19 +1478,20 @@ function updateMobileMode() {
   isMobile.value = mediaQuery.matches
   if (!isMobile.value) {
     showFilters.value = true
-    showMobileToiletList.value = false
     showMapLegend.value = true
-    showStatusAdvisory.value = true
-    showSelectedToiletDetails.value = true
     showMapGestureHint.value = false
+    mobileToiletSheetExpanded.value = true
+    showMapHelp.value = false
   }
   else {
+    viewMode.value = 'map'
     showMapLegend.value = false
-    showStatusAdvisory.value = false
-    showSelectedToiletDetails.value = false
     if (viewMode.value === 'map' && !isMapHintDismissed()) {
       showMapGestureHint.value = true
     }
+    mobileToiletSheetExpanded.value = false
+    mobileContextMenuOpen.value = false
+    showMapHelp.value = false
   }
 }
 
@@ -1528,12 +1504,21 @@ async function initMap() {
     zoomControl: false,
     attributionControl: false,
     preferCanvas: true,
+    zoomAnimation: !isMobile.value,
+    markerZoomAnimation: false,
+    fadeAnimation: false,
+    zoomAnimationThreshold: 8,
+    inertia: !isMobile.value,
+    tapTolerance: 20,
   }).setView([51.34, 12.37], 12)
   mapZoom.value = map.getZoom()
 
   tileLayer = leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; OpenStreetMap contributors',
+    updateWhenIdle: true,
+    updateWhenZooming: false,
+    keepBuffer: 8,
   })
 
   tileLayer.addTo(map)
@@ -1547,32 +1532,44 @@ async function initMap() {
   map.on('zoomend', () => {
     if (!map) return
     mapZoom.value = map.getZoom()
+    updateMapViewportWindow()
+  })
+
+  map.on('moveend', () => {
+    updateMapViewportWindow()
   })
 
   map.on('movestart', () => {
     if (!isMobile.value) return
 
-    if (showMobileToiletList.value) {
-      showMobileToiletList.value = false
+    if (mobileToiletSheetExpanded.value) {
+      mobileToiletSheetExpanded.value = false
     }
-    if (showSelectedToiletDetails.value) {
-      showSelectedToiletDetails.value = false
+    if (mobileContextMenuOpen.value) {
+      mobileContextMenuOpen.value = false
+    }
+    if (showMapHelp.value) {
+      showMapHelp.value = false
     }
     if (showMapGestureHint.value) {
       dismissMapGestureHint()
     }
   })
+
+  updateMapViewportWindow()
 }
 
 function refreshMapMarkers() {
   if (!map || !leaflet || !toiletsLayer) return
 
   const nextById = new Map(mapToilets.value.map(toilet => [toilet.id, toilet]))
+  const navigationFocusActive = Boolean(navigationTargetToiletId.value)
 
   for (const [toiletId, marker] of markerByToiletId.entries()) {
     if (nextById.has(toiletId)) continue
     toiletsLayer.removeLayer(marker)
     markerByToiletId.delete(toiletId)
+    markerRenderSignatureById.delete(toiletId)
     if (selectedMarkerId === toiletId) {
       selectedMarkerId = null
     }
@@ -1580,33 +1577,49 @@ function refreshMapMarkers() {
 
   for (const toilet of mapToilets.value) {
     const shouldBeSelected = selectedToilet.value?.id === toilet.id
+    const isNavigationTarget = navigationTargetToiletId.value === toilet.id
+    const shouldBeSubdued = navigationFocusActive && !isNavigationTarget
     const marker = markerByToiletId.get(toilet.id)
 
     if (!marker) {
-      const created = createToiletMarker(toilet, shouldBeSelected)
+      const created = createToiletMarker(toilet, shouldBeSelected, isNavigationTarget, shouldBeSubdued)
+      created.setOpacity(shouldBeSubdued ? 0.38 : 1)
       markerByToiletId.set(toilet.id, created)
+      markerRenderSignatureById.set(toilet.id, markerRenderSignature(toilet, shouldBeSelected, isNavigationTarget, shouldBeSubdued))
       toiletsLayer.addLayer(created)
       continue
     }
 
-    marker.setPopupContent(buildMarkerPopup(toilet))
-    marker.setLatLng([toilet.lat, toilet.lng])
-    marker.options.title = `${describeUserMarker(toilet)}: ${toilet.name ?? t('toilet.public')}`
+    const nextSignature = markerRenderSignature(toilet, shouldBeSelected, isNavigationTarget, shouldBeSubdued)
+    const prevSignature = markerRenderSignatureById.get(toilet.id)
+    if (nextSignature !== prevSignature) {
+      marker.setPopupContent(buildMarkerPopup(toilet))
+      const currentPosition = marker.getLatLng()
+      if (Math.abs(currentPosition.lat - toilet.lat) > 0.000001 || Math.abs(currentPosition.lng - toilet.lng) > 0.000001) {
+        marker.setLatLng([toilet.lat, toilet.lng])
+      }
+      marker.options.title = `${describeUserMarker(toilet)}: ${toilet.name ?? t('toilet.public')}`
 
-    if (!isMobile.value) {
-      marker.bindTooltip(toilet.name ?? t('toilet.public'))
-    }
-    else {
-      marker.unbindTooltip()
+      if (!isMobile.value) {
+        marker.bindTooltip(toilet.name ?? t('toilet.public'))
+      }
+      else {
+        marker.unbindTooltip()
+      }
+      markerRenderSignatureById.set(toilet.id, nextSignature)
     }
 
     const wasSelected = selectedMarkerId === toilet.id
-    if (wasSelected !== shouldBeSelected) {
-      marker.setIcon(createToiletMarkerIcon(toilet, shouldBeSelected))
+    const wasNavigationTarget = navigationTargetMarkerId === toilet.id
+    const wasSubdued = (marker.options.opacity ?? 1) < 0.99
+    if (wasSelected !== shouldBeSelected || wasNavigationTarget !== isNavigationTarget || wasSubdued !== shouldBeSubdued) {
+      marker.setIcon(createToiletMarkerIcon(toilet, shouldBeSelected, isNavigationTarget, shouldBeSubdued))
     }
+    marker.setOpacity(shouldBeSubdued ? 0.38 : 1)
   }
 
   selectedMarkerId = selectedToilet.value?.id ?? null
+  navigationTargetMarkerId = navigationTargetToiletId.value
 
   if (!hasAutoFitted && mapToilets.value.length > 0) {
     const bounds = leaflet.latLngBounds(mapToilets.value.map(t => [t.lat, t.lng] as [number, number]))
@@ -1616,31 +1629,56 @@ function refreshMapMarkers() {
 
 }
 
-function createToiletMarker(toilet: ToiletListItem, selected: boolean): import('leaflet').Marker {
+function scheduleMapMarkerRefresh() {
+  if (!import.meta.client) {
+    refreshMapMarkers()
+    return
+  }
+  if (markerRefreshTimeout) return
+  markerRefreshTimeout = setTimeout(() => {
+    markerRefreshTimeout = null
+    refreshMapMarkers()
+  }, MARKER_REFRESH_DEBOUNCE_MS)
+}
+
+function createToiletMarker(
+  toilet: ToiletListItem,
+  selected: boolean,
+  navigationTarget: boolean,
+  subdued: boolean,
+): import('leaflet').Marker {
   const marker = leaflet!.marker([toilet.lat, toilet.lng], {
-    icon: createToiletMarkerIcon(toilet, selected),
+    icon: createToiletMarkerIcon(toilet, selected, navigationTarget, subdued),
     riseOnHover: true,
+    riseOffset: navigationTarget ? 350 : 250,
     keyboard: false,
     title: `${describeUserMarker(toilet)}: ${toilet.name ?? t('toilet.public')}`,
   })
 
   marker.bindPopup(buildMarkerPopup(toilet), {
-    closeButton: false,
+    closeButton: true,
     autoPanPadding: [24, 24],
     className: 'toilet-marker-popup',
     maxWidth: 260,
   })
 
   marker.on('click', () => {
+    if (navigationTargetToiletId.value === toilet.id) {
+      clearRoute()
+      map?.closePopup()
+      return
+    }
+
     const selectedItem = mapToilets.value.find(item => item.id === toilet.id)
     selectedToilet.value = selectedItem ?? toilet
-    if (isMobile.value) {
-      showSelectedToiletDetails.value = true
-      showMobileToiletList.value = false
-    }
     if (map) {
       const targetZoom = Math.max(map.getZoom(), 16)
-      map.flyTo([toilet.lat, toilet.lng], targetZoom, { animate: true, duration: 0.35 })
+      if (isMobile.value) {
+        map.setView([toilet.lat, toilet.lng], targetZoom, { animate: false })
+      }
+      else {
+        map.flyTo([toilet.lat, toilet.lng], targetZoom, { animate: true, duration: 0.35 })
+      }
     }
     marker.openPopup()
   })
@@ -1655,9 +1693,19 @@ function createToiletMarker(toilet: ToiletListItem, selected: boolean): import('
 function createToiletMarkerIcon(
   toilet: ToiletListItem,
   selected: boolean,
+  navigationTarget: boolean,
+  subdued: boolean,
 ): import('leaflet').DivIcon {
-  const { iconHtml, background, foreground } = markerStyleForToilet(toilet, selected)
-  const size = selected ? 34 : 30
+  const { iconHtml, background, foreground } = markerStyleForToilet(toilet, selected, navigationTarget, subdued)
+  const size = navigationTarget ? 38 : selected ? 34 : 30
+  const borderColor = navigationTarget ? '#0f766e' : 'rgba(255,255,255,0.95)'
+  const borderWidth = navigationTarget ? 3 : 2
+  const boxShadow = isMobile.value
+    ? (navigationTarget ? '0 0 0 2px rgba(15, 118, 110, 0.22)' : 'none')
+    : (navigationTarget
+        ? '0 0 0 4px rgba(15, 118, 110, 0.22), 0 12px 24px rgba(15, 23, 42, 0.3)'
+        : '0 10px 22px rgba(15, 23, 42, 0.26)')
+  const filter = subdued ? (isMobile.value ? 'grayscale(1)' : 'grayscale(1) saturate(0.15)') : 'none'
   return leaflet!.divIcon({
     className: 'toilet-map-marker',
     iconSize: [size, size],
@@ -1676,9 +1724,10 @@ function createToiletMarkerIcon(
         line-height:1;
         color:${foreground};
         background:${background};
-        border:2px solid rgba(255,255,255,0.95);
-        box-shadow:0 10px 22px rgba(15, 23, 42, 0.26);
-        transform:translateY(-2px);
+        border:${borderWidth}px solid ${borderColor};
+        box-shadow:${boxShadow};
+        transform:${isMobile.value ? 'none' : 'translateY(-2px)'};
+        filter:${filter};
       ">${iconHtml}</div>
     `,
   })
@@ -1687,12 +1736,37 @@ function createToiletMarkerIcon(
 function markerStyleForToilet(
   toilet: ToiletListItem,
   selected: boolean,
+  navigationTarget: boolean,
+  subdued: boolean,
 ): { iconHtml: string, background: string, foreground: string } {
   const meta = toiletTypeMeta(toilet.type)
-  const shade = selected ? 0.88 : 1
-  return selected
+  if (subdued) {
+    return { iconHtml: toiletTypeIconHtml(toilet.type, 15), background: '#d1d5db', foreground: '#475569' }
+  }
+  const shade = selected || navigationTarget ? 0.86 : 1
+  return selected || navigationTarget
     ? { iconHtml: toiletTypeIconHtml(toilet.type, 15), background: meta.background, foreground: meta.foreground }
     : { iconHtml: toiletTypeIconHtml(toilet.type, 15), background: tintColor(meta.background, shade), foreground: meta.foreground }
+}
+
+function markerRenderSignature(
+  toilet: ToiletListItem,
+  selected: boolean,
+  navigationTarget: boolean,
+  subdued: boolean,
+): string {
+  return [
+    toilet.id,
+    toilet.lat.toFixed(6),
+    toilet.lng.toFixed(6),
+    toilet.name ?? '',
+    toilet.address ?? '',
+    toilet.city,
+    toilet.type,
+    selected ? '1' : '0',
+    navigationTarget ? '1' : '0',
+    subdued ? '1' : '0',
+  ].join('|')
 }
 
 function describeUserMarker(toilet: ToiletListItem): string {
@@ -1707,19 +1781,25 @@ function buildMarkerPopup(toilet: ToiletListItem): string {
   const typeLabel = escapeHtml(toiletTypeLabel(toilet.type))
   const name = escapeHtml(toilet.name ?? t('toilet.public'))
   const address = escapeHtml(toilet.address ?? toilet.city)
-  const freeLabel = toilet.is_free ? t('toilet.free') : t('toilet.paid')
-  const accessLabel = toilet.is_accessible
-    ? t('toilet.accessible')
-    : tSafe('toilets.not_marked_accessible', 'Not marked accessible')
-  const hoursLabel = toilet.opening_hours
-    ? escapeHtml(toilet.opening_hours)
-    : tSafe('toilets.hours_not_shown', 'Hours not shown')
-  const ratingLabel = toilet.avg_rating !== null && toilet.avg_rating !== undefined
-    ? t('toilet.rating', { rating: toilet.avg_rating })
-    : tSafe('toilets.no_rating_yet', 'No rating yet')
+  const detailHref = `/toilets/${encodeURIComponent(toilet.id)}/`
+  const openDetailsLabel = escapeHtml(t('toilets.open_details'))
+  const reviewLabel = escapeHtml(t('review.title'))
+  const reportLabel = escapeHtml(t('report.title'))
+  const contextMenuAria = escapeHtml(tSafe('toilets.context_menu_aria', 'More actions'))
+  const notAvailableYet = escapeHtml(tSafe('toilets.not_available_yet', 'not available yet'))
 
   return `
-    <div class="space-y-2 text-sm text-slate-700 min-w-[220px]">
+    <div class="relative space-y-2 text-sm text-slate-700 min-w-[220px] pb-7">
+      <details class="absolute bottom-0 right-0 toilet-popup-menu">
+        <summary aria-label="${contextMenuAria}" class="inline-flex h-6 w-6 items-center justify-center rounded-md border border-slate-200 bg-white text-xs font-medium text-slate-700 cursor-pointer list-none">
+          <span aria-hidden="true" class="text-base leading-none">⋯</span>
+        </summary>
+        <div class="absolute right-0 bottom-full mb-1 w-52 rounded-md border border-slate-200 bg-white p-1.5 text-xs space-y-1 shadow-lg">
+          <a href="${detailHref}" class="block rounded px-2 py-1.5 hover:bg-slate-50">${openDetailsLabel}</a>
+          <button type="button" disabled class="block w-full text-left rounded px-2 py-1.5 bg-slate-50 text-slate-400 cursor-not-allowed">${reviewLabel} (${notAvailableYet})</button>
+          <button type="button" disabled class="block w-full text-left rounded px-2 py-1.5 bg-slate-50 text-slate-400 cursor-not-allowed">${reportLabel} (${notAvailableYet})</button>
+        </div>
+      </details>
       <div class="flex items-start gap-2">
         <div class="shrink-0 mt-0.5 text-[var(--brand-accent)]">${toiletTypeIconHtml(toilet.type, 16)}</div>
         <div class="min-w-0">
@@ -1728,14 +1808,6 @@ function buildMarkerPopup(toilet: ToiletListItem): string {
         </div>
       </div>
       <div class="text-xs text-slate-500">${address}</div>
-      <div class="flex flex-wrap gap-1.5 text-xs">
-        <span class="rounded-full ${toilet.is_free ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'} px-2 py-0.5">${escapeHtml(freeLabel)}</span>
-        <span class="rounded-full ${toilet.is_accessible ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-500'} px-2 py-0.5">${escapeHtml(accessLabel)}</span>
-      </div>
-      <div class="flex flex-wrap gap-1.5 text-xs">
-        <span class="rounded-full bg-violet-100 text-violet-700 px-2 py-0.5">${escapeHtml(hoursLabel)}</span>
-        <span class="rounded-full bg-amber-100 text-amber-700 px-2 py-0.5">${escapeHtml(ratingLabel)}</span>
-      </div>
     </div>
   `
 }
@@ -1764,6 +1836,18 @@ function tintColor(hex: string, blend: number): string {
   return `rgb(${mix(r)}, ${mix(g)}, ${mix(b)})`
 }
 
+function createUserLocationIcon(): import('leaflet').DivIcon {
+  return leaflet!.divIcon({
+    className: 'user-location-marker',
+    iconSize: [28, 28],
+    iconAnchor: [14, 14],
+    html: `
+      <span class="user-location-pulse"></span>
+      <span class="user-location-dot"></span>
+    `,
+  })
+}
+
 function renderUserLocationMarker() {
   if (!map || !leaflet || !userLocation.value) return
 
@@ -1777,20 +1861,19 @@ function renderUserLocationMarker() {
     userAccuracyCircle = null
   }
 
-  userMarker = leaflet.circleMarker([userLocation.value.lat, userLocation.value.lng], {
-    radius: 7,
-    color: '#3e6a79',
-    fillColor: '#4e8397',
-    fillOpacity: 0.95,
-    weight: 2,
+  userMarker = leaflet.marker([userLocation.value.lat, userLocation.value.lng], {
+    icon: createUserLocationIcon(),
+    title: tSafe('toilets.my_location', 'My location'),
+    zIndexOffset: 3000,
+    keyboard: false,
   }).addTo(map)
 
   userAccuracyCircle = leaflet.circle([userLocation.value.lat, userLocation.value.lng], {
-    radius: 35,
-    color: '#4e8397',
-    fillColor: '#4e8397',
-    fillOpacity: 0.14,
-    weight: 1,
+    radius: 55,
+    color: '#0f8ba5',
+    fillColor: '#0f8ba5',
+    fillOpacity: 0.16,
+    weight: 2,
     interactive: false,
   }).addTo(map)
 }
@@ -1845,16 +1928,16 @@ function stopUserPositionWatch() {
 function focusMapOnUserLocation() {
   if (!map || !userLocation.value) return
   const targetZoom = Math.max(map.getZoom(), 15)
-  map.flyTo([userLocation.value.lat, userLocation.value.lng], targetZoom, {
-    animate: true,
-    duration: 0.45,
-  })
+  if (isMobile.value) {
+    map.setView([userLocation.value.lat, userLocation.value.lng], targetZoom, { animate: false })
+    return
+  }
+  map.flyTo([userLocation.value.lat, userLocation.value.lng], targetZoom, { animate: true, duration: 0.45 })
 }
 
 function applyFilters(options: { closeOnMobile?: boolean } = {}) {
   const { closeOnMobile = true } = options
   mapListPage.value = 1
-  mobileMapListPage.value = 1
   router.replace({ query: buildRouteQuery() })
   if (!useStaticApiMode.value) {
     refresh()
@@ -1866,7 +1949,6 @@ function applyFilters(options: { closeOnMobile?: boolean } = {}) {
 
 function resetFilters() {
   mapListPage.value = 1
-  mobileMapListPage.value = 1
   filters.value = {
     city: '',
     types: [],
@@ -1952,7 +2034,16 @@ async function locateUser(): Promise<boolean> {
 }
 
 async function startNavigation(toilet: ToiletListItem) {
+  if (locating.value || (!userLocation.value && locationError.value)) {
+    routingError.value = locationError.value || t('toilets.route_requires_location')
+    return
+  }
+
   routingError.value = ''
+  navigationTargetToiletId.value = toilet.id
+  selectedToilet.value = toilet
+  mobileContextMenuOpen.value = false
+  map?.closePopup()
 
   // Always trigger a fresh geolocation request before navigation.
   const hasLocation = await locateUser()
@@ -1967,15 +2058,27 @@ async function startNavigation(toilet: ToiletListItem) {
   try {
     const from = `${userLocation.value.lng},${userLocation.value.lat}`
     const to = `${toilet.lng},${toilet.lat}`
-    const url = `https://router.project-osrm.org/route/v1/walking/${from};${to}?overview=full&geometries=geojson&steps=true`
-    const response = await fetch(url)
-    const payload = await response.json() as OsrmResponse
+    const cacheKey = routeCacheKey(userLocation.value, toilet)
+    let route = routeCache.get(cacheKey)
 
-    if (!payload.routes?.length) {
-      throw new Error('No route found')
+    if (!route) {
+      const url = `https://router.project-osrm.org/route/v1/${OSRM_WALKING_PROFILE}/${from};${to}?overview=full&geometries=geojson&steps=true`
+      const response = await fetch(url, { cache: 'force-cache' })
+      const payload = await response.json() as OsrmResponse
+
+      if (!payload.routes?.length) {
+        throw new Error('No route found')
+      }
+
+      route = payload.routes[0]
+      routeCache.set(cacheKey, route)
+      if (routeCache.size > ROUTE_CACHE_MAX_ENTRIES) {
+        const oldest = routeCache.keys().next().value
+        if (oldest) {
+          routeCache.delete(oldest)
+        }
+      }
     }
-
-    const route = payload.routes[0]
     const steps = route.legs?.[0]?.steps ?? []
 
     routeInfo.value = {
@@ -1998,8 +2101,11 @@ async function startNavigation(toilet: ToiletListItem) {
       weight: 5,
       opacity: 0.85,
     }).addTo(map)
+    routeLayer.on('click', () => {
+      clearRoute()
+    })
 
-    map.fitBounds(routeLayer.getBounds().pad(0.2))
+    map.fitBounds(routeLayer.getBounds().pad(0.2), { animate: !isMobile.value })
     focusNextManeuverCard()
   }
   catch {
@@ -2015,6 +2121,7 @@ function clearRoute() {
   activeStepIndex.value = 0
   showAllSteps.value = false
   routingError.value = ''
+  navigationTargetToiletId.value = null
 
   if (routeLayer) {
     routeLayer.remove()
@@ -2075,29 +2182,50 @@ function formatStepInstruction(step: OsrmStep): string {
 function externalRouteUrl(toilet: ToiletListItem): string {
   if (!userLocation.value) return '#'
 
-  return `https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot&route=${userLocation.value.lat}%2C${userLocation.value.lng}%3B${toilet.lat}%2C${toilet.lng}`
+  return `https://www.openstreetmap.org/directions?engine=${OSM_FOOT_ENGINE}&route=${userLocation.value.lat}%2C${userLocation.value.lng}%3B${toilet.lat}%2C${toilet.lng}`
 }
 
 function focusToiletFromList(toilet: ToiletListItem) {
   selectedToilet.value = toilet
   viewMode.value = 'map'
   if (isMobile.value) {
-    showMobileToiletList.value = false
-    showSelectedToiletDetails.value = true
+    mobileToiletSheetExpanded.value = false
   }
 
   if (map) {
     const targetZoom = Math.max(map.getZoom(), 16)
-    map.flyTo([toilet.lat, toilet.lng], targetZoom, { animate: true, duration: 0.35 })
+    if (isMobile.value) {
+      map.setView([toilet.lat, toilet.lng], targetZoom, { animate: false })
+    }
+    else {
+      map.flyTo([toilet.lat, toilet.lng], targetZoom, { animate: true, duration: 0.35 })
+    }
   }
 }
 
-function toggleMobileToiletList() {
-  const next = !showMobileToiletList.value
-  showMobileToiletList.value = next
-  if (isMobile.value && next) {
-    showSelectedToiletDetails.value = false
+function onMobileSheetTouchStart(event: TouchEvent) {
+  if (!isMobile.value) return
+  mobileSheetTouchStartY.value = event.touches[0]?.clientY ?? null
+}
+
+function onMobileSheetTouchEnd(event: TouchEvent) {
+  if (!isMobile.value || mobileSheetTouchStartY.value === null) return
+
+  const endY = event.changedTouches[0]?.clientY
+  if (typeof endY !== 'number') {
+    mobileSheetTouchStartY.value = null
+    return
   }
+
+  const delta = mobileSheetTouchStartY.value - endY
+  if (delta > 36) {
+    mobileToiletSheetExpanded.value = true
+  }
+  else if (delta < -36) {
+    mobileToiletSheetExpanded.value = false
+  }
+
+  mobileSheetTouchStartY.value = null
 }
 
 function toiletDetailHref(id: string): string {
@@ -2149,5 +2277,20 @@ function haversineKm(
 
 function toRad(deg: number): number {
   return (deg * Math.PI) / 180
+}
+
+function updateMapViewportWindow() {
+  if (!map) return
+  const bounds = map.getBounds().pad(MAP_VIEWPORT_PADDING_FACTOR)
+  mapViewportWindow.value = {
+    south: bounds.getSouth(),
+    west: bounds.getWest(),
+    north: bounds.getNorth(),
+    east: bounds.getEast(),
+  }
+}
+
+function routeCacheKey(from: UserLocation, to: Pick<ToiletListItem, 'lat' | 'lng'>): string {
+  return `${from.lat.toFixed(5)},${from.lng.toFixed(5)}->${to.lat.toFixed(5)},${to.lng.toFixed(5)}`
 }
 </script>

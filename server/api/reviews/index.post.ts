@@ -16,11 +16,26 @@ export default defineEventHandler(async (event) => {
   if (!body.toilet_id || typeof body.toilet_id !== 'string') {
     throw createError({ statusCode: 400, message: 'toilet_id is required' })
   }
+  if (body.toilet_id.length > 128) {
+    throw createError({ statusCode: 400, message: 'toilet_id is too long' })
+  }
   if (!inRange(body.cleanliness, 1, 5)) {
-    throw createError({ statusCode: 400, message: 'cleanliness must be 1–5' })
+    throw createError({ statusCode: 400, message: 'cleanliness must be 1-5' })
   }
   if (!inRange(body.lighting, 1, 5)) {
-    throw createError({ statusCode: 400, message: 'lighting must be 1–5' })
+    throw createError({ statusCode: 400, message: 'lighting must be 1-5' })
+  }
+  if (body.user_id !== undefined && typeof body.user_id !== 'string') {
+    throw createError({ statusCode: 400, message: 'user_id must be a string' })
+  }
+  if (typeof body.user_id === 'string' && body.user_id.length > 64) {
+    throw createError({ statusCode: 400, message: 'user_id is too long' })
+  }
+  if (body.comment !== undefined && body.comment !== null && typeof body.comment !== 'string') {
+    throw createError({ statusCode: 400, message: 'comment must be a string' })
+  }
+  if (typeof body.comment === 'string' && body.comment.length > 500) {
+    throw createError({ statusCode: 400, message: 'comment is too long' })
   }
 
   const review: Review = {
