@@ -346,13 +346,24 @@
           <button class="btn-secondary flex-1 min-h-11" @click="showFilters = !showFilters">
             {{ showFilters ? $t('common.hide_filters') : $t('common.show_filters') }}
           </button>
+          <button class="btn-secondary min-h-11 px-3" @click="toggleMobileMapFullscreen">
+            {{ mobileMapFullscreen ? tSafe('toilets.fullscreen_map_exit', 'Exit fullscreen') : tSafe('toilets.fullscreen_map_enter', 'Fullscreen map') }}
+          </button>
         </div>
         <ClientOnly>
-          <div class="card overflow-hidden relative">
+          <div
+            class="card overflow-hidden relative"
+            :class="isMobile && mobileMapFullscreen ? 'fixed inset-0 z-[1250] !rounded-none !border-0 !shadow-none' : ''"
+          >
             <div
               ref="mapContainer"
               class="w-full map-surface"
-              :class="isMobile ? 'h-[82svh] min-h-[460px]' : 'h-[58vh] min-h-[420px]'"
+              :class="isMobile
+                ? (mobileMapFullscreen ? 'h-[100svh] min-h-[100svh]' : 'h-[82svh] min-h-[460px]')
+                : 'h-[58vh] min-h-[420px]'"
+              @touchstart.passive="onMapSurfaceTouchStart"
+              @touchend.passive="onMapSurfaceTouchEnd"
+              @touchcancel.passive="onMapSurfaceTouchEnd"
             />
             <button
               type="button"
@@ -371,6 +382,15 @@
             >
               ?
             </button>
+            <button
+              v-if="isMobile"
+              type="button"
+              class="btn-secondary absolute top-3 right-3 z-[1200] h-9 min-h-9 px-2 text-xs shadow-md"
+              :aria-label="mobileMapFullscreen ? tSafe('toilets.fullscreen_map_exit', 'Exit fullscreen') : tSafe('toilets.fullscreen_map_enter', 'Fullscreen map')"
+              @click="toggleMobileMapFullscreen"
+            >
+              {{ mobileMapFullscreen ? tSafe('common.close', 'Close') : tSafe('toilets.fullscreen_map_enter', 'Fullscreen map') }}
+            </button>
             <div
               v-if="showMapHelp"
               class="absolute top-14 right-3 z-[1200] w-[min(18rem,calc(100%-1.5rem))] rounded-lg border border-slate-200 bg-white/95 backdrop-blur-sm p-3 shadow-lg text-xs text-slate-700 space-y-2"
@@ -383,7 +403,7 @@
                 {{ mapHelpLocationStatus }}
               </p>
               <p class="text-slate-600">
-                {{ tSafe('toilets.help_controls', 'Drag with one finger to move the map. Pinch with two fingers to zoom. Tap a marker to select a toilet.') }}
+                {{ mapHelpControlsText }}
               </p>
               <p class="text-slate-600">
                 {{ tSafe('toilets.help_consistency', 'Navigate and Open in OSM require location. If disabled, tap My location first.') }}
@@ -396,14 +416,14 @@
           </div>
         </ClientOnly>
         <p
-          v-if="isMapMarkerLimited"
+          v-if="isMapMarkerLimited && !(isMobile && mobileMapFullscreen)"
           class="text-xs text-gray-500 px-1"
         >
           {{ $t('toilets.mobile_marker_limit_note', { count: mapToilets.length }) }}
         </p>
 
         <div
-          v-if="isMobile && showMapGestureHint"
+          v-if="isMobile && showMapGestureHint && !mobileMapFullscreen"
           class="rounded-xl border border-cyan-200 bg-cyan-50 px-3 py-2 text-xs text-cyan-900"
         >
           <p class="font-medium">
@@ -423,7 +443,7 @@
         </div>
 
         <div
-          v-if="selectedToilet"
+          v-if="selectedToilet && !(isMobile && mobileMapFullscreen)"
           class="card p-4"
           :class="isMobile
             ? `sticky bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] z-[1080] shadow-lg overscroll-contain overflow-hidden transition-[max-height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${mobileToiletSheetExpanded ? 'max-h-[62svh]' : 'max-h-[18svh]'}`
@@ -1155,6 +1175,8 @@ const showFilters = ref(false)
 const showMapLegend = ref(false)
 const showMapGestureHint = ref(false)
 const showMapHelp = ref(false)
+const mobileMapFullscreen = ref(false)
+const mapTouchActive = ref(false)
 const mapZoom = ref(12)
 const mapViewportWindow = ref<ViewportWindow | null>(null)
 const mobileToiletSheetExpanded = ref(false)
@@ -1244,6 +1266,13 @@ const mapHelpLocationStatus = computed(() => {
   if (userLocation.value) return tSafe('toilets.help_location_active', 'Current location found')
   if (locationError.value) return tSafe('toilets.help_location_error', 'Current location not found')
   return tSafe('toilets.help_location_missing', 'Location not active yet')
+})
+
+const mapHelpControlsText = computed(() => {
+  if (!isMobile.value) {
+    return tSafe('toilets.help_controls', 'Drag with one finger to move the map. Pinch with two fingers to zoom. Tap a marker to select a toilet.')
+  }
+  return tSafe('toilets.help_controls_mobile', 'Use two fingers to move or zoom the map. Use one finger to scroll the page. Tap a marker with one finger to select a toilet.')
 })
 
 const mapCoverageStatusText = computed(() => {
@@ -1356,6 +1385,9 @@ watch(viewMode, (mode) => {
   if (mode !== 'map') {
     showMapGestureHint.value = false
     showMapHelp.value = false
+    mobileMapFullscreen.value = false
+    mapTouchActive.value = false
+    syncMapScrollLock()
     return
   }
 
@@ -1423,6 +1455,9 @@ onBeforeUnmount(() => {
     clearTimeout(markerRefreshTimeout)
     markerRefreshTimeout = null
   }
+
+  mapTouchActive.value = false
+  setMapScrollLock(false)
 })
 
 watch(
@@ -1482,6 +1517,13 @@ function updateMobileMode() {
     showMapGestureHint.value = false
     mobileToiletSheetExpanded.value = true
     showMapHelp.value = false
+    mobileMapFullscreen.value = false
+    mapTouchActive.value = false
+    syncMapScrollLock()
+    if (map) {
+      map.dragging.enable()
+      map.touchZoom.enable()
+    }
   }
   else {
     viewMode.value = 'map'
@@ -1492,7 +1534,68 @@ function updateMobileMode() {
     mobileToiletSheetExpanded.value = false
     mobileContextMenuOpen.value = false
     showMapHelp.value = false
+    mapTouchActive.value = false
+    syncMapScrollLock()
+    setMobileGestureMode(false)
   }
+}
+
+function onMapSurfaceTouchStart(event: TouchEvent) {
+  if (!isMobile.value || viewMode.value !== 'map') return
+  const touchCount = event.touches?.length ?? 0
+  const twoFingerGesture = touchCount >= 2
+  setMobileGestureMode(twoFingerGesture)
+  mapTouchActive.value = mobileMapFullscreen.value || twoFingerGesture
+  syncMapScrollLock()
+}
+
+function onMapSurfaceTouchEnd(event: TouchEvent) {
+  const touchCount = event.touches?.length ?? 0
+  const twoFingerGesture = touchCount >= 2
+  setMobileGestureMode(twoFingerGesture)
+  mapTouchActive.value = mobileMapFullscreen.value || twoFingerGesture
+  syncMapScrollLock()
+}
+
+function toggleMobileMapFullscreen() {
+  if (!isMobile.value) return
+  mobileMapFullscreen.value = !mobileMapFullscreen.value
+  mapTouchActive.value = false
+  setMobileGestureMode(false)
+  if (mobileMapFullscreen.value) {
+    showFilters.value = false
+    showMapHelp.value = false
+    mobileContextMenuOpen.value = false
+    mobileToiletSheetExpanded.value = false
+  }
+  syncMapScrollLock()
+  nextTick(() => {
+    if (map) {
+      map.invalidateSize()
+      updateMapViewportWindow()
+    }
+  })
+}
+
+function syncMapScrollLock() {
+  const shouldLock = isMobile.value && viewMode.value === 'map' && (mobileMapFullscreen.value || mapTouchActive.value)
+  setMapScrollLock(shouldLock)
+}
+
+function setMapScrollLock(locked: boolean) {
+  if (!import.meta.client) return
+  document.body.classList.toggle('map-scroll-locked', locked)
+}
+
+function setMobileGestureMode(twoFingerGesture: boolean) {
+  if (!map || !isMobile.value) return
+  if (twoFingerGesture) {
+    map.dragging.enable()
+    map.touchZoom.enable()
+    return
+  }
+  map.dragging.disable()
+  map.touchZoom.disable()
 }
 
 async function initMap() {
@@ -1512,6 +1615,10 @@ async function initMap() {
     tapTolerance: 20,
   }).setView([51.34, 12.37], 12)
   mapZoom.value = map.getZoom()
+
+  if (isMobile.value) {
+    setMobileGestureMode(false)
+  }
 
   tileLayer = leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,

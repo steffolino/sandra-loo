@@ -59,6 +59,11 @@
   touch-action: pan-x pan-y;
 }
 
+body.map-scroll-locked {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 .leaflet-popup-close-button {
   font-size: 20px;
   font-weight: 700;

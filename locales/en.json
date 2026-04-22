@@ -149,6 +149,8 @@
         "help_stuck_title": "If the map feels stuck",
         "help_stuck_body": "Try tapping My location, then zoom out and drag again. If it still does not respond, close the filter panel and reload the page.",
         "status_map_density": "Tap to zoom in for denser map details",
+        "fullscreen_map_enter": "Fullscreen map",
+        "fullscreen_map_exit": "Exit fullscreen",
         "map_hint_title": "Map quick tip",
         "map_hint_body": "Drag the map to explore nearby toilets. The details card collapses while moving so navigation stays focused.",
         "map_hint_close": "Got it",

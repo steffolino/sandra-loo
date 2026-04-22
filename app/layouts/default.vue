@@ -45,7 +45,7 @@
 
     <a
       href="tel:110"
-      class="fixed bottom-4 right-4 z-[1400] inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-lg ring-1 ring-red-700/60 transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300"
+      class="fixed bottom-4 left-4 z-[1400] inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-lg ring-1 ring-red-700/60 transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 sm:left-auto sm:right-4"
       :aria-label="$t('common.emergency_call_aria')"
     >
       {{ $t('common.emergency_call') }}
