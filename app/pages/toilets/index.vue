@@ -346,9 +346,6 @@
           <button class="btn-secondary flex-1 min-h-11" @click="showFilters = !showFilters">
             {{ showFilters ? $t('common.hide_filters') : $t('common.show_filters') }}
           </button>
-          <button class="btn-secondary min-h-11 px-3" @click="toggleMobileMapFullscreen">
-            {{ mobileMapFullscreen ? tSafe('toilets.fullscreen_map_exit', 'Exit fullscreen') : tSafe('toilets.fullscreen_map_enter', 'Fullscreen map') }}
-          </button>
         </div>
         <ClientOnly>
           <div
@@ -385,11 +382,11 @@
             <button
               v-if="isMobile"
               type="button"
-              class="btn-secondary absolute top-3 right-3 z-[1200] h-9 min-h-9 px-2 text-xs shadow-md"
+              class="btn-secondary absolute top-14 left-3 z-[1200] h-9 w-9 min-h-9 px-0 py-0 text-base leading-none shadow-md"
               :aria-label="mobileMapFullscreen ? tSafe('toilets.fullscreen_map_exit', 'Exit fullscreen') : tSafe('toilets.fullscreen_map_enter', 'Fullscreen map')"
               @click="toggleMobileMapFullscreen"
             >
-              {{ mobileMapFullscreen ? tSafe('common.close', 'Close') : tSafe('toilets.fullscreen_map_enter', 'Fullscreen map') }}
+              <span aria-hidden="true">{{ mobileMapFullscreen ? '×' : '⛶' }}</span>
             </button>
             <div
               v-if="showMapHelp"
@@ -769,6 +766,9 @@ const MARKER_REFRESH_DEBOUNCE_MS = 32
 const OSRM_WALKING_PROFILE = 'walking'
 const OSM_FOOT_ENGINE = 'fossgis_osrm_foot'
 const ROUTE_CACHE_MAX_ENTRIES = 24
+const ROUTE_MAX_POINTS_MOBILE = 220
+const ROUTE_MAX_POINTS_DESKTOP = 850
+const USER_LOCATION_STALE_AFTER_MS = 90_000
 
 const route = useRoute()
 const router = useRouter()
@@ -867,6 +867,7 @@ const initialFilters = hasExplicitRouteFilters() || !savedFilters
 const filters = ref(initialFilters)
 
 const userLocation = ref<UserLocation | null>(null)
+let userLocationUpdatedAt = 0
 
 const queryParams = computed(() => {
   const p: Record<string, string> = {}
@@ -1111,6 +1112,11 @@ const mapToilets = computed(() => {
     ))
   }
 
+  if (isMobile.value && navigationTargetToiletId.value) {
+    const target = base.find(toilet => toilet.id === navigationTargetToiletId.value)
+    return target ? [target] : []
+  }
+
   if (!isMobile.value) {
     return base
   }
@@ -1209,6 +1215,7 @@ let markerRenderSignatureById = new Map<string, string>()
 let selectedMarkerId: string | null = null
 let navigationTargetMarkerId: string | null = null
 const routeCache = new Map<string, OsrmRoute>()
+let activeRouteRequest: AbortController | null = null
 
 const mapContainer = ref<HTMLElement | null>(null)
 const nextManeuverCard = ref<HTMLElement | null>(null)
@@ -1442,6 +1449,10 @@ onBeforeUnmount(() => {
   markerRenderSignatureById.clear()
 
   stopUserPositionWatch()
+  if (activeRouteRequest) {
+    activeRouteRequest.abort()
+    activeRouteRequest = null
+  }
 
   if (mobileFilterApplyTimeout) {
     clearTimeout(mobileFilterApplyTimeout)
@@ -1623,16 +1634,18 @@ async function initMap() {
   tileLayer = leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; OpenStreetMap contributors',
-    updateWhenIdle: true,
+    updateWhenIdle: isMobile.value,
     updateWhenZooming: false,
-    keepBuffer: 8,
+    keepBuffer: isMobile.value ? 2 : 6,
+    updateInterval: isMobile.value ? 200 : 120,
+    detectRetina: false,
   })
 
   tileLayer.addTo(map)
   toiletsLayer = leaflet.layerGroup().addTo(map)
   leaflet.control.zoom({ position: 'topright' }).addTo(map)
   leaflet.control.attribution({
-    position: 'topleft',
+    position: 'bottomright',
     prefix: false,
   }).addTo(map)
 
@@ -1999,6 +2012,7 @@ function startUserPositionWatch() {
         || haversineKm(userLocation.value.lat, userLocation.value.lng, nextPosition.lat, nextPosition.lng) >= 0.05
 
       userLocation.value = nextPosition
+      userLocationUpdatedAt = Date.now()
       renderUserLocationMarker()
 
       if (!hasMeaningfulMove) return
@@ -2090,6 +2104,22 @@ function buildRouteQuery(): Record<string, string | undefined> {
 }
 
 async function locateUser(): Promise<boolean> {
+  return locateUserWithOptions()
+}
+
+async function locateUserWithOptions(options: {
+  refreshData?: boolean
+  syncQuery?: boolean
+  focusMap?: boolean
+  maximumAgeMs?: number
+} = {}): Promise<boolean> {
+  const {
+    refreshData = true,
+    syncQuery = true,
+    focusMap = true,
+    maximumAgeMs = 0,
+  } = options
+
   if (!import.meta.client || !navigator.geolocation) {
     locationError.value = t('toilets.geolocation_not_supported')
     return false
@@ -2103,7 +2133,7 @@ async function locateUser(): Promise<boolean> {
       navigator.geolocation.getCurrentPosition(resolve, reject, {
         enableHighAccuracy: true,
         timeout: 12000,
-        maximumAge: 0,
+        maximumAge: maximumAgeMs,
       })
     })
 
@@ -2111,22 +2141,25 @@ async function locateUser(): Promise<boolean> {
       lat: position.coords.latitude,
       lng: position.coords.longitude,
     }
+    userLocationUpdatedAt = Date.now()
     startUserPositionWatch()
 
     filters.value.sort = 'nearest'
     renderUserLocationMarker()
 
-    if (map) {
+    if (focusMap && map) {
       focusMapOnUserLocation()
     }
 
-    router.replace({ query: buildRouteQuery() })
-    if (!useStaticApiMode.value) {
+    if (syncQuery) {
+      router.replace({ query: buildRouteQuery() })
+    }
+    if (refreshData && !useStaticApiMode.value) {
       await refresh()
     }
 
     // Keep map focus on the device position even after data refresh updates markers.
-    if (map) {
+    if (focusMap && map) {
       focusMapOnUserLocation()
     }
     return true
@@ -2152,25 +2185,47 @@ async function startNavigation(toilet: ToiletListItem) {
   mobileContextMenuOpen.value = false
   map?.closePopup()
 
-  // Always trigger a fresh geolocation request before navigation.
-  const hasLocation = await locateUser()
+  const hasFreshLocation = Boolean(userLocation.value) && (Date.now() - userLocationUpdatedAt) <= USER_LOCATION_STALE_AFTER_MS
+  if (!hasFreshLocation) {
+    const hasLocation = await locateUserWithOptions({
+      refreshData: false,
+      syncQuery: false,
+      focusMap: false,
+      maximumAgeMs: 45_000,
+    })
+    if (!hasLocation) {
+      routingError.value = t('toilets.route_requires_location')
+      return
+    }
+  }
 
-  if (!hasLocation || !userLocation.value || !leaflet || !map) {
+  if (!userLocation.value || !leaflet || !map) {
     routingError.value = t('toilets.route_requires_location')
     return
   }
 
   routing.value = true
+  let routeRequestController: AbortController | null = null
 
   try {
+    if (activeRouteRequest) {
+      activeRouteRequest.abort()
+    }
+    routeRequestController = new AbortController()
+    activeRouteRequest = routeRequestController
+
     const from = `${userLocation.value.lng},${userLocation.value.lat}`
     const to = `${toilet.lng},${toilet.lat}`
     const cacheKey = routeCacheKey(userLocation.value, toilet)
     let route = routeCache.get(cacheKey)
 
     if (!route) {
-      const url = `https://router.project-osrm.org/route/v1/${OSRM_WALKING_PROFILE}/${from};${to}?overview=full&geometries=geojson&steps=true`
-      const response = await fetch(url, { cache: 'force-cache' })
+      const overviewMode = isMobile.value ? 'simplified' : 'full'
+      const url = `https://router.project-osrm.org/route/v1/${OSRM_WALKING_PROFILE}/${from};${to}?overview=${overviewMode}&geometries=geojson&steps=true&alternatives=false`
+      const response = await fetch(url, {
+        cache: 'force-cache',
+        signal: routeRequestController.signal,
+      })
       const payload = await response.json() as OsrmResponse
 
       if (!payload.routes?.length) {
@@ -2196,7 +2251,12 @@ async function startNavigation(toilet: ToiletListItem) {
     activeStepIndex.value = 0
     showAllSteps.value = false
 
-    const points = route.geometry.coordinates.map((point) => [point[1], point[0]] as [number, number])
+    const rawPoints = route.geometry.coordinates.map((point) => [point[1], point[0]] as [number, number])
+    const points = simplifyRoutePoints(
+      rawPoints,
+      isMobile.value ? ROUTE_MAX_POINTS_MOBILE : ROUTE_MAX_POINTS_DESKTOP,
+      isMobile.value ? 16 : 8,
+    )
 
     if (routeLayer) {
       routeLayer.remove()
@@ -2205,8 +2265,10 @@ async function startNavigation(toilet: ToiletListItem) {
 
     routeLayer = leaflet.polyline(points, {
       color: '#0f766e',
-      weight: 5,
+      weight: isMobile.value ? 4 : 5,
       opacity: 0.85,
+      smoothFactor: isMobile.value ? 1.4 : 1.1,
+      noClip: true,
     }).addTo(map)
     routeLayer.on('click', () => {
       clearRoute()
@@ -2215,15 +2277,26 @@ async function startNavigation(toilet: ToiletListItem) {
     map.fitBounds(routeLayer.getBounds().pad(0.2), { animate: !isMobile.value })
     focusNextManeuverCard()
   }
-  catch {
+  catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      return
+    }
     routingError.value = t('toilets.routing_unavailable')
   }
   finally {
+    if (activeRouteRequest === routeRequestController) {
+      activeRouteRequest = null
+    }
     routing.value = false
   }
 }
 
 function clearRoute() {
+  if (activeRouteRequest) {
+    activeRouteRequest.abort()
+    activeRouteRequest = null
+  }
+
   routeInfo.value = null
   activeStepIndex.value = 0
   showAllSteps.value = false
@@ -2398,6 +2471,45 @@ function updateMapViewportWindow() {
 }
 
 function routeCacheKey(from: UserLocation, to: Pick<ToiletListItem, 'lat' | 'lng'>): string {
-  return `${from.lat.toFixed(5)},${from.lng.toFixed(5)}->${to.lat.toFixed(5)},${to.lng.toFixed(5)}`
+  return `${from.lat.toFixed(4)},${from.lng.toFixed(4)}->${to.lat.toFixed(5)},${to.lng.toFixed(5)}`
+}
+
+function simplifyRoutePoints(
+  points: [number, number][],
+  maxPoints: number,
+  minDistanceMeters: number,
+): [number, number][] {
+  if (points.length <= 2) return points
+
+  const simplified: [number, number][] = [points[0]]
+  let last = points[0]
+
+  for (let index = 1; index < points.length - 1; index += 1) {
+    const next = points[index]
+    const distanceKm = haversineKm(last[0], last[1], next[0], next[1])
+    if ((distanceKm * 1000) >= minDistanceMeters) {
+      simplified.push(next)
+      last = next
+    }
+  }
+
+  const finalPoint = points[points.length - 1]
+  simplified.push(finalPoint)
+
+  if (simplified.length <= maxPoints) {
+    return simplified
+  }
+
+  const stride = Math.ceil(simplified.length / maxPoints)
+  const downsampled: [number, number][] = []
+  for (let index = 0; index < simplified.length; index += stride) {
+    downsampled.push(simplified[index])
+  }
+  const lastPoint = simplified[simplified.length - 1]
+  if (downsampled[downsampled.length - 1] !== lastPoint) {
+    downsampled.push(lastPoint)
+  }
+
+  return downsampled
 }
 </script>
