@@ -149,6 +149,8 @@
         "help_stuck_title": "إذا بدت الخريطة عالقة",
         "help_stuck_body": "جرّب الضغط على موقعي، ثم التصغير قليلًا وتحريك الخريطة من جديد. إذا استمرت المشكلة، أغلق الفلاتر وأعد تحميل الصفحة.",
         "status_map_density": "قرّب الخريطة لرؤية تفاصيل أكثر",
+        "fullscreen_map_enter": "خريطة بملء الشاشة",
+        "fullscreen_map_exit": "إنهاء ملء الشاشة",
         "distance_away": "{distance} بعيدًا",
         "next_maneuver": "المناورة القادمة",
         "step_of": "الخطوة {current} من {total}",

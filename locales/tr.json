@@ -149,6 +149,8 @@
         "help_stuck_title": "Harita takılmış gibi olursa",
         "help_stuck_body": "Önce Konumum’a dokun, sonra biraz uzaklaştırıp tekrar sürükle. Hâlâ yanıt vermiyorsa filtreleri kapatıp sayfayı yenile.",
         "status_map_density": "Daha yoğun harita detayları için yakınlaştır",
+        "fullscreen_map_enter": "Tam ekran harita",
+        "fullscreen_map_exit": "Tam ekrandan çık",
         "distance_away": "{distance} uzakta",
         "next_maneuver": "Sonraki manevra",
         "step_of": "{current} / {total} Adımı",

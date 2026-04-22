@@ -149,6 +149,8 @@
         "help_stuck_title": "Wenn die Karte festhängt",
         "help_stuck_body": "Tippe auf Mein Standort, zoome dann etwas heraus und ziehe erneut. Wenn es weiter nicht reagiert, schließe das Filterpanel und lade die Seite neu.",
         "status_map_density": "Zum Hineinzoomen tippen, um mehr Kartendetails zu sehen",
+        "fullscreen_map_enter": "Vollbildkarte",
+        "fullscreen_map_exit": "Vollbild beenden",
         "distance_away": "{distance} entfernt",
         "next_maneuver": "Nächstes Manöver",
         "step_of": "Schritt {current} von {total}",

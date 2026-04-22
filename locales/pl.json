@@ -149,6 +149,8 @@
         "help_stuck_title": "Gdy mapa wydaje się zablokowana",
         "help_stuck_body": "Kliknij Moja lokalizacja, potem lekko oddal mapę i spróbuj przesunąć ponownie. Jeśli nadal nie działa, zamknij filtry i odśwież stronę.",
         "status_map_density": "Zbliż mapę, aby zobaczyć więcej szczegółów",
+        "fullscreen_map_enter": "Mapa pełnoekranowa",
+        "fullscreen_map_exit": "Zamknij pełny ekran",
         "distance_away": "{distance} daleko",
         "next_maneuver": "Następny manewr",
         "step_of": "Krok {current} z {total}",
