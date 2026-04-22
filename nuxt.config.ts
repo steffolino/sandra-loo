@@ -114,6 +114,36 @@ export default defineNuxtConfig({
     workbox: {
       navigateFallback: baseURL,
       globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+      runtimeCaching: [
+        {
+          urlPattern: /\/api\/toilets(?:\/.*)?(?:\?.*)?$/i,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'toilets-api-cache',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 60,
+              maxAgeSeconds: 60 * 10,
+            },
+          },
+        },
+        {
+          urlPattern: /^https:\/\/router\.project-osrm\.org\/route\/v1\/walking\/.*/i,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'osrm-route-cache',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 80,
+              maxAgeSeconds: 60 * 30,
+            },
+          },
+        },
+      ],
     },
     devOptions: {
       enabled: false,
